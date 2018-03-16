@@ -1,0 +1,52 @@
+
+<!--
+Design: Sendya
+Date: 2017/01/01
+-->
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+
+    <meta charset="utf-8">
+    <title>MPlayer</title>
+    <link rel="stylesheet" type="text/css" media="all" href="./dist/MPlayer.css"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="HandheldFriendly" content="true">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="theme-color" content="#F26D93"/>
+    <style>
+        .container {
+            width: 900px;
+            height: auto;
+            margin: 50px auto 0;
+        }
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container" id="container">
+	<div id="video1">
+        <video class="mplayer-video"></video>
+    </div>
+</div>
+<script type="text/javascript" src="./dist/MPlayer.js"></script>
+<script type="text/javascript">
+
+    var player = new MPlayer({
+        el: document.getElementById('video1'),
+        video: {
+            pic: 'video.jpg',
+            src: 'video2.mp4'
+        },
+        volume: 60
+    });
+</script>
+</body>
+</html>
