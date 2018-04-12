@@ -1,16 +1,17 @@
-const path = require('path');
-const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const path = require('path'),
+    webpack = require('webpack'),
+    htmlWebpackPlugin = require('html-withimg-loader'),
+    extractTextPlugin = require('extract-text-webpack-plugin');
 
 const options = {
     entry: {
-        'MPlayer': './src/ayaya.js'
+        'MPlayer': './src/player.js'
     },
     module: {
         rules: [
             {
                 test: /\.(sa|sc|c)ss$/,
-                use: ExtractTextPlugin.extract({
+                use: extractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [
                         "css-loader",
@@ -18,7 +19,7 @@ const options = {
                             loader: "postcss-loader",
                             options: {
                                 plugins: [
-                                    require("autoprefixer")({ browsers: ["ie >= 9", "> 2%", "last 1 version"] })
+                                    require("autoprefixer")({browsers: ["ie >= 9", "> 2%", "last 1 version"]})
                                 ]
                             }
                         },
@@ -30,12 +31,17 @@ const options = {
                 exclude: /(node_modules|bower_components)/,
                 loader: "babel-loader",
                 options: {
-                    cacheDirectory: true,
-                    presets: ['env']
+                    presets: ["es2015"]
                 }
             }, {
-                test: /\.svg$/,
-                loader: 'svg-inline-loader'
+                test: /\.(png|jpg|gif|jpeg)$/,
+                loader: 'file-loader',
+                query: {
+                    name: 'assets/images/[name].[ext]'
+                }
+            }, {
+                test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
+                use: ['file-loader?name=/assets/fonts/[name].[ext]&']
             }
         ]
     },
@@ -44,30 +50,26 @@ const options = {
         extensions: ['.js', '.scss']
     },
     output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: '[name].[chunkhash:8].js',
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'js/[name].[chunkhash:8].js',
         library: '[name]',
         libraryTarget: 'umd',
-        libraryExport: 'default',
         umdNamedDefine: true,
+        libraryExport: "default",
         publicPath: '/'
     },
     plugins: [
-        new ExtractTextPlugin("[name].[contenthash:8].css")
+        new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
+        contentBase: path.join(__dirname, 'dist/'),
         compress: true,
-        contentBase: path.resolve(__dirname, '..', 'demo'),
-        clientLogLevel: 'none',
-        quiet: false,
+        port: 9000,
+        hot: true,
         open: true,
-        historyApiFallback: {
-            disableDotRule: true
-        },
-        watchOptions: {
-            ignored: /node_modules/
-        }
-    },
+        inline:true,
+        progress:true,
+    }
 };
 
 module.exports = function (env) {
