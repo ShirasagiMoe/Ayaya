@@ -20,14 +20,6 @@ Date: 2017/01/01
 
     <video id="video1" controls></video>
 
-    <div class="controls">
-        <button class="btn btn-2x-speed">2x速</button>
-        <button class="btn btn-1x-speed">1x速</button>
-        <button class="btn btn-Seek">Seek</button>
-        <input id="seek" value="0"/>
-        <button class="btn btn-buffer-check"></button>
-    </div>
-
     <div class="logger-wrap">
         <textarea id="logger" rows="10" readonly="readonly"></textarea>
     </div>
@@ -35,12 +27,13 @@ Date: 2017/01/01
 <script type="text/javascript" src="MPlayer.js"></script>
 <script type="text/javascript">
     var player = new MPlayer({
-        el: document.getElementById('video1'),
+        element: document.getElementById('video1'),
+        type: 'dash',
         video: {
-            poster: 'v-fragmented-poster.jpg',
-            src: 'v-fragmented.jpg'
+            poster: '',
+            src: '//demo.loacg.com/assets/v3/v.mpd'
         },
-        volume: 60
+        volume: 10
     });
 </script>
 </body>

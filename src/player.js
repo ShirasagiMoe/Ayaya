@@ -1,5 +1,9 @@
 import './styles/player.scss'
 
+import { MediaPlayer } from 'dashjs'
+import PLAYER_TYPE from './js/player-type'
+
+
 import 'whatwg-fetch'
 import logger from './js/logger'
 
@@ -16,144 +20,132 @@ class MPlayer {
     constructor (options) {
         logger('DEBUG', 'init');
         this.options = {};
-        this.options.totalSegments = 20;
-        this.options.segmentLength = 0;
-        this.options.segmentDuration = 0;
-        this.options.bytesFetched = 0;
-        this.options.requestedSegments = [];
+        this.type = options.type;
 
-        this.status = document.querySelector('.btn-buffer-check');
-
-        this.video = options.el;
+        this.video = options.element;
 
         this.media = {};
         this.media.url = options.video.src;
         this.media.poster = options.video.poster;
-        this.media.mimeCodec = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"';
-        this.media.source = null;
-        this.media.buffer = null;
-        this.media.bufferQueue = null;
 
-
-        this.loading = false;
-
-        for (let i = 0; i < this.options.totalSegments; ++i) {
-            this.options.requestedSegments[i] = false;
-        }
-
-        if ('MediaSource' in window && MediaSource.isTypeSupported(this.media.mimeCodec)) {
-            this.media.source = new MediaSource();
-            this.video.src = URL.createObjectURL(this.media.source);
-            // URL.revokeObjectURL(this.video.src)
-            logger('DEBUG', 'Media Source: ', this.video.src);
-            this.media.source.addEventListener('sourceopen', this.sourceOpen.bind(this));
-        } else {
-            logger('ERROR', 'Unsupported MIME type or codec: ', this.media.mimeCodec);
-            return null;
-        }
-
-        this.btnsListener();
+        this.init(this.video, PLAYER_TYPE.NativeDash, this.media.url);
 
         logger('DEBUG', 'inited');
         index++;
     }
 
-    btnsListener () {
-        var btn2x = document.querySelector('.btn-2x-speed');
-        var btn1x = document.querySelector('.btn-2x-speed');
-        var btnSeek = document.querySelector('.btn-Seek');
-
-        var that = this;
-        btn2x.addEventListener('click', (that) => {
-            that.video.playbackRate = 2;
-        });
-        btn1x.addEventListener('click', (that) => {
-            that.video.playbackRate = 1;
-        });
-        btnSeek.addEventListener('click', (that) => {
-            var value = document.getElementById('seek').value;
-            if (value != null && value > 0) {
-                // this.video.currentTime = value;
-                logger('ERROR', '暂不可用');
+    /**
+     * @private init player
+     *
+     * @param element
+     * @param type
+     * @param source
+     */
+    init (element, type, source) {
+        this.type = type;
+        if (!this.type || this.type === 'auto') {
+            if (/.mpd(#|\?|\$)/i.exec(source)) {
+                this.type = PLAYER_TYPE.NativeDash;
+            } else if (/.flv(#|\?|\$)/i.exec(source)) {
+                this.type = PLAYER_TYPE.NativeFlv;
+            } else if (/.m3u8(#|\?|\$)/i.exec(source)) {
+                this.type = PLAYER_TYPE.NativeHls;
+            } else {
+                this.type = PLAYER_TYPE.HtmlMediaElement;
             }
-        })
-    }
-
-    sourceOpen () {
-        logger('DEBUG', 'source open.');
-        this.media.buffer = this.media.source.addSourceBuffer(this.media.mimeCodec);
-
-        this.getMediaLength(this.media.url).then(res => {
-            let len = res.headers.get('Content-Length');
-
-            logger('DEBUG', 'Media size:', len);
-
-            this.options.segmentLength = Math.round(len / this.options.totalSegments);
-
-            logger('DEBUG', 'Media block length:', this.options.segmentLength);
-
-            this.fetchRange(this.media.url, 0, this.options.segmentLength, this.appendBuffer.bind(this));
-            this.options.requestedSegments[0] = true;
-            this.video.addEventListener('timeupdate', this.checkBuffer.bind(this));
-            this.video.addEventListener('canplay', () => {
-                this.video.play();
-            });
-        });
-
-    }
-
-    getMediaLength (url) {
-        return fetch(url, {
-            method: 'HEAD'
-        });
-    }
-
-    fetchRange (url, start, end, callback) {
-        return fetch(url, {
-            method: 'GET',
-            headers: {
-                range: 'bytes=' + start + '-' + end
-            }
-        })
-        .then(response => response.arrayBuffer())
-        .then(res => {
-            this.options.bytesFetched += end - start + 1;
-            logger('DEBUG', 'fetched bytes:', start, '-', end);
-            this.loading = false;
-            callback(res);
-        });
-    }
-
-    appendBuffer (chunk) {
-        logger('DEBUG', 'Buffer append');
-        // if buffer appending , chunk append to queue
-        let buffer = new Uint8Array(chunk);
-        if (this.media.buffer.updating) {
-            // this.media.bufferQueue.push(buffer);
         }
 
-        this.media.buffer.appendBuffer(buffer);
-        this.status.innerHTML = 'Buffer appended';
-        console.info(this.media.source);
-    }
+        logger('DEBUG', 'create player:', this.type, ' el:', element.id);
 
-    checkBuffer () {
-        // logger('DEBUG', 'Checking buffer');
-        this.status.innerHTML = 'Checking buffer';
+        switch (this.type) {
+            case PLAYER_TYPE.NativeDash:
+                MediaPlayer().create().initialize(element, source, false);
+                break;
+            case PLAYER_TYPE.NativeFlv:
 
-        let percentage = this.video.buffered.length ? this.video.buffered.end(this.video.buffered.length - 1) / this.video.duration : 0;
-        let loadTime = percentage * this.video.duration;
-        let playedTime = this.video.currentTime + 20;
-        logger('DEBUG', 'percentage:', (percentage * 100).toFixed(2) + "%", 'loadTime:', loadTime, 'playedTime:', playedTime);
+                break;
+            case PLAYER_TYPE.NativeHls:
 
-        if (playedTime >= loadTime && !this.loading) {
-            this.loading = true;
-            this.fetchRange(this.media.url, this.options.bytesFetched, this.options.bytesFetched + this.options.segmentLength, this.appendBuffer.bind(this));
+                break;
+
+            case PLAYER_TYPE.HtmlMediaElement:
+            default:
+               break;
         }
     }
 
+    /**
+     * 播放
+     */
+    play () {
+        this.video.play();
+    }
 
+    /**
+     * 暂停
+     */
+    pause () {
+        this.video.pause();
+    }
 
+    /**
+     * 跳转到指定播放时间
+     */
+    seek (time) {
+        this.video.currentTime = Math.max(time, 0);
+    }
+
+    /**
+     * 触发 播放/暂停
+     */
+    toggle () {
+
+    }
+
+    /**
+     * 声音调整
+     */
+    volume (volume) {
+        this.video.volume = (volume/100).toFixed(2);
+    }
+
+    /**
+     * 切换视频源
+     */
+    switchSource () {
+
+    }
+
+    /**
+     * 播放速度
+     * @param value
+     */
+    playbackRate (value) {
+        this.video.playbackRate = value;
+        logger('DEBUG', 'setting playback rate:', value);
+    }
+
+    /**
+     * 弹出消息
+     */
+    notice () {
+
+    }
+
+    /**
+     * 播放器全屏
+     * type: web | screen
+     */
+    fullScreen (type) {
+
+    }
+
+    /**
+     * 销毁播放器
+     */
+    destroy () {
+
+    }
 
 }
 

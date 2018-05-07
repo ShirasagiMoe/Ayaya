@@ -1,7 +1,7 @@
 {
-  "name": "ayaya",
-  "version": "0.0.1",
-  "description": "A simple SRSG website template.",
+  "name": "Ayaya",
+  "version": "1.0.1",
+  "description": "A simple SRSG Media Player.",
   "author": "Sendya <18x@loacg.com>",
   "license": "MIT",
   "main": "dist/app.js",
@@ -28,6 +28,6 @@
     "build": "webpack --env=prod --progress --colors --hide-modules"
   },
   "dependencies": {
-    "whatwg-fetch": "^2.0.4"
+    "dashjs": "^2.6.8"
   }
 }

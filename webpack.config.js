@@ -29,9 +29,11 @@ const options = {
             }, {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: "babel-loader",
-                options: {
-                    presets: ["es2015"]
+                loader: require.resolve('babel-loader'),
+                query: {
+                    presets: [
+                        'es2015'
+                    ]
                 }
             }, {
                 test: /\.(png|jpg|gif|jpeg)$/,
@@ -51,7 +53,7 @@ const options = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'js/[name].[chunkhash:8].js',
+        filename: '[name].[chunkhash:8].js',
         library: '[name]',
         libraryTarget: 'umd',
         umdNamedDefine: true,
@@ -59,7 +61,7 @@ const options = {
         publicPath: '/'
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
     ],
     devServer: {
         contentBase: path.join(__dirname, 'dist/'),

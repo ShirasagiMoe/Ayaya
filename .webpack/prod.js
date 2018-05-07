@@ -1,7 +1,11 @@
 // env: node
 var webpack = require("webpack");
+const extractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = function (options) {
+    options.plugins = [
+        new extractTextPlugin("[name].[contenthash:8].css"),
+    ];
     options.plugins.unshift(new webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false
