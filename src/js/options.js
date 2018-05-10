@@ -3,14 +3,15 @@ export default (options) => {
     const isMobile = /mobile/i.test(window.navigator.userAgent);
 
     const defaultOption = {
-        el: options.el || document.getElementsByClassName('mplayer')[0],
+        element: options.element || document.getElementsByClassName('mplayer')[0],
+        type: options.type || 'html5',
         preload: 'auto',
         mobile: false,
         hotkey: false,
         autoplay: false,
         loop: false,
         blob: false,
-        volume: 70
+        volume: 40
     }
 
     if (isMobile) {

@@ -42,9 +42,12 @@ const options = {
                     name: 'assets/images/[name].[ext]'
                 }
             }, {
-                test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
+                test: /\.(woff|woff2s|eot|ttf)\??.*$/,
                 use: ['file-loader?name=/assets/fonts/[name].[ext]&']
-            }
+            }, {
+                test: /\.svg$/,
+                loader: 'svg-inline-loader'
+            },
         ]
     },
     resolve: {

@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+}
+
+.container {
+  width: 900px;
+  height: auto;
+  margin: 50px auto 0;
+}
+
+#player {
+  width: 900px;
+  height: 506px;
+}
+
+video {
+  width: 100%;
+  height: auto;
+  box-shadow: 0px 0px 2px #ccc;
+}
+
+#logger {
+  width: 900px;
+  height: 200px;
+  padding: 2px 5px;
+  font-size: 0.75rem;
+  box-shadow: 0px 0px 2px #ccc;
+  box-sizing: border-box;
+  margin-top: 20px;
+  overflow-y: auto;
+}
+
+@media screen and (max-width: 768px) {
+
+  .container {
+    width: 100%;
+  }
+
+}
+
+*:not([class*="icon"]):not(i) {
+  font-family: "XHei Microsoft" !important;
+  text-shadow: 0.01em 0.01em 0.01em #999999 !important;
+}

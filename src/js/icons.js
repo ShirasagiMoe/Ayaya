@@ -13,6 +13,7 @@ import volume2 from '../assets/icons/volume2.svg';
 import volume3 from '../assets/icons/volume3.svg';
 import decrease from '../assets/icons/volume-decrease.svg';
 import increase from '../assets/icons/volume-increase.svg';
+import setting from '../assets/icons/settings.svg';
 
 const Icons = {
     comment: comment,
@@ -29,7 +30,8 @@ const Icons = {
     volume2: volume2,
     volume3: volume3,
     decrease: decrease,
-    increase: increase
+    increase: increase,
+    setting: setting,
 };
 
 export default Icons;

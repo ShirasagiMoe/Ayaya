@@ -18,21 +18,21 @@ Date: 2017/01/01
 
 <div class="container" id="container">
 
-    <video id="video1" controls></video>
+    <div id="player">
 
-    <div class="logger-wrap">
-        <textarea id="logger" rows="10" readonly="readonly"></textarea>
+    </div>
+
+    <div id="logger" contenteditable="true">
     </div>
 </div>
 <script type="text/javascript" src="/assets/MPlayer.js"></script>
 <script type="text/javascript">
     var player = new MPlayer({
-        element: document.getElementById('video1'),
+        element: document.getElementById('player'),
         type: 'hls',
         video: {
             poster: '',
-            // src: '//demo.loacg.com/assets/v3/v.mpd'
-            src: '/dist/playlist.m3u8'
+            src: '/dist/video/playlist.m3u8'
         },
         volume: 10
     });
