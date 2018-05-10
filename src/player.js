@@ -1,10 +1,11 @@
 import './styles/player.scss'
 
-import { MediaPlayer } from 'dashjs'
+// import { MediaPlayer } from 'dashjs'
+import Hls from 'hls.js'
+import flv from 'flv.js'
+
 import PLAYER_TYPE from './js/player-type'
 
-
-import 'whatwg-fetch'
 import logger from './js/logger'
 
 
@@ -28,7 +29,7 @@ class MPlayer {
         this.media.url = options.video.src;
         this.media.poster = options.video.poster;
 
-        this.init(this.video, PLAYER_TYPE.NativeDash, this.media.url);
+        this.init(this.video, this.type, this.media.url);
 
         logger('DEBUG', 'inited');
         index++;
@@ -59,15 +60,27 @@ class MPlayer {
 
         switch (this.type) {
             case PLAYER_TYPE.NativeDash:
-                MediaPlayer().create().initialize(element, source, false);
+                if (dashjs && MediaPlayer) {
+                    MediaPlayer().create().initialize(element, source, false);
+                }
                 break;
             case PLAYER_TYPE.NativeFlv:
-
+                if (flv && flv.isSupported()) {
+                    var player = flv.createPlayer({
+                        type: 'flv',
+                        url: source
+                    });
+                    player.attachMediaElement(element);
+                    player.load();
+                }
                 break;
             case PLAYER_TYPE.NativeHls:
-
+                if (Hls.isSupported()) {
+                    var hls = new Hls();
+                    hls.loadSource(source);
+                    hls.attachMedia(element);
+                }
                 break;
-
             case PLAYER_TYPE.HtmlMediaElement:
             default:
                break;

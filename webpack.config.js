@@ -52,7 +52,7 @@ const options = {
         extensions: ['.js', '.scss']
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, ''),
         filename: '[name].[chunkhash:8].js',
         library: '[name]',
         libraryTarget: 'umd',
@@ -64,13 +64,22 @@ const options = {
         new webpack.HotModuleReplacementPlugin(),
     ],
     devServer: {
-        contentBase: path.join(__dirname, 'dist/'),
+        contentBase: path.join(__dirname, ''),
         compress: true,
         port: 9000,
         hot: true,
         open: true,
-        inline:true,
-        progress:true,
+        inline: true,
+        progress: true,
+        // It's a required option.
+        publicPath: "/assets",
+        watchOptions: {
+            aggregateTimeout: 300,
+            poll: 1000,
+        },
+        stats: {
+            colors: true
+        },
     }
 };
 
