@@ -527,6 +527,46 @@
         }
       }
     }
+
+    .info-panel {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 10px;
+      color: #fff;
+      font-size: 0.75rem;
+      width: 380px;
+      height: 200px;
+      background: rgba(0,0,0,0.4);
+      box-sizing: border-box;
+      border-radius: 3px;
+
+      .name {
+        width: 6.875rem; /* 110/16 */;
+        text-align: right;
+        display: inline-block;
+      }
+
+      .v {
+        width: 14.625rem;
+        display: inline-block;
+
+        &.right {
+          text-align: right;
+        }  
+      }
+      
+      .close {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+
+        &:hover {
+          color: #999;
+        }
+      }
+
+    }
   }
   
   @keyframes ripple {

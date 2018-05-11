@@ -3,7 +3,7 @@ import './styles/player.scss'
 
 // import { MediaPlayer } from 'dashjs'
 import Hls from 'hls.js'
-import flv from 'flv.js'
+// import flv from 'flv.js'
 
 import PLAYER_TYPE from './js/player-type'
 import Icons from './js/icons'
@@ -113,7 +113,7 @@ class MPlayer {
             this.element.addEventListener('mousemove', videoProceedDragAndDrop);
             this.element.addEventListener('mouseup', videoStopDragAndDrop);
             e.preventDefault();
-            e.stopPropagation();
+            // e.stopPropagation();
             return false;
         };
 
@@ -143,8 +143,8 @@ class MPlayer {
             bar.playedBar.style.width = `${(value * 100).toFixed(2)}%`;
             this.seek(parseFloat(value) * this.video.duration);
             e.preventDefault()
-            e.stopPropagation()
-            return
+            // e.stopPropagation()
+            return false
         });
         bar.loadBar.addEventListener('mousemove', (e) => {
             if (!this.video.duration || this.video.duration <= 0) return;

@@ -6,6 +6,47 @@ const template = {
             <div class="video-box">
                 <video class="mplayer-video mplayer-index${index}" src=""></video>
             </div>
+            <div class="info-panel">
+                <a class="close">[x]</a>
+                <ul class="items">
+                    <li>
+                        <span class="name">Player:</span>
+                        <span class="v">MPlayer @build.20180511-r2</span>
+                    </li>
+                    <li>
+                        <span class="name">Support Mode:</span>
+                        <span class="v">Html5, Flv, Hls, M(PEG)-Dash</span>
+                    </li>
+                    <li>
+                        <span class="name">Current Mode:</span>
+                        <span class="v">Hls (m3u plist)</span>
+                    </li>
+                    <li>
+                        <span class="name">Video ID:</span>
+                        <span class="v">v10001</span>
+                    </li>
+                    <li>
+                        <span class="name">Viewport:</span>
+                        <span class="v">900x506</span>
+                    </li>
+                    <li>
+                        <span class="name">Volume:</span>
+                        <span class="v">40 / 5.7dB</span>
+                    </li>
+                    <li>
+                        <span class="name">Codecs:</span>
+                        <span class="v">video/mp4;codecs="avc1.640028"</span>
+                    </li>
+                    <li>
+                        <span class="name">Host:</span>
+                        <span class="v">video-s1.shirasagi.moe</span>
+                    </li>
+                    <li>
+                        <span class="name">Connection Speed:</span>
+                        <span class="v right">479Kb/s</span>
+                    </li>
+                </ul>
+            </div>
             <!--
             <div class="video-mask">
                 <div class="icon">${Icons.play}</div>
