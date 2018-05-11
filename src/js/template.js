@@ -80,6 +80,17 @@ const template = {
             
             <div class="control-mask"></div>
             <div class="controls">
+            <div class="control-bar">
+                <div class="seek-timer-label">00:00</div>
+                    <div class="bar-player-time hidden">00:00</div>
+                    <div class="load-bar">
+                        <div class="loaded" style="width: 0"></div>
+                        <div class="played" style="width: 0">
+                            <span class="after"></span>                        
+                        </div>
+                        <div class="hover" style="width: 0"></div>
+                    </div>
+                </div>
                 <div class="control left">
                     <button class="icon button-play">
                         ${Icons.play}
@@ -124,24 +135,10 @@ const template = {
                         </ul>                
                     </div>
                     <div class="full-screen-group">
-                        <button class="icon button-web-full-screen">
-                            ${Icons.fullExit}    
-                        </button>  
-                        <button class="icon button-full-screen">${Icons.full}</button>
-                                          
+                        <button class="icon button-web-full-screen">${Icons.fullExit}</button>  
+                        <button class="icon button-full-screen">${Icons.full}</button>           
                     </div>
                     
-                </div>
-                <div class="control-bar">
-                    <div class="seek-timer-label">00:00</div>
-                    <div class="bar-player-time hidden">00:00</div>
-                    <div class="load-bar">
-                        <div class="loaded" style="width: 0"></div>
-                        <div class="played" style="width: 0">
-                            <span class="after"></span>                        
-                        </div>
-                        <div class="hover" style="width: 0"></div>
-                    </div>
                 </div>
             </div>
             `;

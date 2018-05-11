@@ -12,7 +12,7 @@ import options from './js/options'
 import template from './js/template'
 import Menu from './js/context-menu'
 import InfoPanel from './js/info-panel'
-import util from './js/utils'
+import Controller from './js/controller'
 
 
 let index = 0;
@@ -38,15 +38,13 @@ class MPlayer {
         this.element.classList.add('player-wrap')
         this.element.innerHTML = template.build(this.index, this.options)
 
-        this.status = 'stop';
         this.nowPlayer = `mplayer-index${this.index}`
         
         this.video = this.element.getElementsByClassName(this.nowPlayer)[0]
         this.video.poster = this.options.video.poster
+        this.muted = false
 
         this.infoPanel = new InfoPanel({element: this.element});
-        this.volume(40);
-
 
         this.menu = new Menu({
             element: this.video,
@@ -80,121 +78,11 @@ class MPlayer {
         this.media.url = option.video.src
         this.media.poster = option.video.poster
 
+        this.controller = new Controller(this)
+
+        this.setVolume(this.options.volume)
+
         this.init(this.video, this.options.type, this.media.url)
-
-        // control buttons
-        this.button = {}
-        this.button.play = this.element.querySelector('.button-play')
-        this.button.volume = this.element.querySelector('.button-volume')
-        this.button.fullScreen = this.element.querySelector('.button-full-screen')
-
-        const play = () => {
-            logger.debug(`[Event] Status: ${this.status}`)
-            if (this.status === 'play') {
-                this.pause()
-            } else {
-                this.play()
-            }
-        }
-
-        this.button.play.addEventListener('click', () => play())
-
-        const bar = {}
-        bar.loadBar = this.element.querySelector('.player-wrap .control-bar') // .load-bar
-        bar.loadedBar = this.element.querySelector(".player-wrap .load-bar .loaded")
-        bar.playedBar = this.element.querySelector(".player-wrap .load-bar .played")
-        bar.playCurrent = this.element.querySelector('.player-wrap .play-time .play-current')
-        bar.playDuration = this.element.querySelector('.player-wrap .play-time .play-duration')
-        bar.hoverBar = bar.loadBar.querySelector('.hover')
-        bar.seekTimerLabel = this.element.querySelector('.player-wrap .control-bar .seek-timer-label')
-
-        this.syncVideoTime = (type) => {
-            if (type) {
-                setVideoLoadingBar();
-            } else {
-                clearVideoLoadingBar();
-            }
-        };
-
-        const updateTimeLabel = (event) => {
-            bar.playCurrent.innerText = util.formatTime(this.video.currentTime)
-        }
-
-        const setVideoLoadingBar = () => {
-            this.progressFlag = setInterval(() => {
-                let percent = this.video.currentTime / this.video.duration;
-                let percentage = this.video.buffered.length ? this.video.buffered.end(this.video.buffered.length - 1) / this.video.duration : 0;
-                let str = (percent * 100).toFixed(2) + "%";
-                let percentageWidth = (percentage * 100).toFixed(2) + "%";
-
-                this.video.addEventListener('timeupdate', updateTimeLabel);
-
-                bar.playDuration.innerText = util.formatTime(this.video.duration);
-                bar.loadedBar.style.width = percentageWidth;
-                bar.playedBar.style.width = str;
-            }, 100);
-        };
-
-        const clearVideoLoadingBar = () => {
-            clearInterval(this.progressFlag);
-            this.video.removeEventListener('timeupdate', updateTimeLabel);
-        };
-
-        const videoStopDragAndDrop = (e) => {
-            this.element.removeEventListener('mousemove', videoProceedDragAndDrop);
-            this.element.removeEventListener('mouseup', videoStopDragAndDrop);
-        };
-
-        const videoStartDragAndDrop = (e) => {
-            this.element.addEventListener('mousemove', videoProceedDragAndDrop);
-            this.element.addEventListener('mouseup', videoStopDragAndDrop);
-            e.preventDefault();
-            // e.stopPropagation();
-            return false;
-        };
-
-        const videoProceedDragAndDrop = (e) => {
-            if (!this.video.duration || this.video.duration <= 0) return;
-
-            let percentage = (e.clientX - bar.loadBar.getBoundingClientRect().left) / bar.loadBar.offsetWidth;
-            percentage = percentage > 0 ? percentage : 0;
-            percentage = percentage < 1 ? percentage : 1;
-            bar.playedBar.style.width = `${(percentage * 100).toFixed(2)}%`;
-            this.seek(parseFloat(percentage) * this.video.duration);
-        };
-
-
-        bar.playedBar.addEventListener('mousedown', videoStartDragAndDrop);
-        bar.loadBar.addEventListener('mousedown', (e) => {
-            console.log('loadbar clicked')
-            let offsetX = e.offsetX;
-            let target = e.target;
-            while (target !== bar.loadBar) {
-                offsetX += target.offsetLeft;
-                target = target.parentNode;
-            }
-            let value = offsetX / bar.loadBar.offsetWidth;
-            value = value > 0 ? value : 0;
-            value = value < 1 ? value : 1;
-            bar.playedBar.style.width = `${(value * 100).toFixed(2)}%`;
-            this.seek(parseFloat(value) * this.video.duration);
-            e.preventDefault()
-            // e.stopPropagation()
-            return false
-        });
-        bar.loadBar.addEventListener('mousemove', (e) => {
-            if (!this.video.duration || this.video.duration <= 0) return;
-            let percentage = (e.clientX - bar.loadBar.getBoundingClientRect().left) / bar.loadBar.offsetWidth;
-            percentage = percentage > 0 ? percentage : 0;
-            percentage = percentage < 1 ? percentage : 1;
-            let timer = util.formatTime(parseFloat(percentage) * this.video.duration);
-
-            bar.seekTimerLabel.style.left = `${(percentage * 100) }%`;
-            bar.seekTimerLabel.innerText = timer;
-            bar.hoverBar.style.width = `${(percentage * 100) }%`;
-        });
-
-        // this.syncVideoTime(true);
 
         logger.debug('Player inited.')
 
@@ -361,20 +249,15 @@ class MPlayer {
      * 播放
      */
     play () {
-        this.status = 'play'
-        this.button.play.innerHTML = Icons.pause
-        this.syncVideoTime(true)
+        this.controller.button.play.innerHTML = Icons.pause
         this.video.play()
-
     }
 
     /**
      * 暂停
      */
     pause () {
-        this.status = 'pause'
-        this.button.play.innerHTML = Icons.play
-        this.syncVideoTime(false)
+        this.controller.button.play.innerHTML = Icons.play
         this.video.pause()
     }
 
@@ -396,8 +279,9 @@ class MPlayer {
     /**
      * 声音调整
      */
-    volume (volume) {
-        this.video.volume = (volume/100).toFixed(2);
+    setVolume (volume) {
+        this.volume = volume;
+        this.controller.setVolume(this.volume)
         this.infoPanel.setVolumeText(volume);
     }
 
