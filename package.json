@@ -6,6 +6,7 @@
   "license": "MIT",
   "main": "dist/app.js",
   "devDependencies": {
+    "@types/hls.js": "^0.8.1",
     "autoprefixer": "^6.7.2",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
@@ -29,6 +30,7 @@
     "build": "webpack --env=prod --progress --colors --hide-modules"
   },
   "dependencies": {
+    "clipboard": "^2.0.1",
     "dashjs": "^2.6.8",
     "flv.js": "^1.4.2",
     "hls.js": "^0.9.1"

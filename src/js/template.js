@@ -7,7 +7,7 @@ const template = {
                 <video class="mplayer-video mplayer-index${index}" src=""></video>
             </div>
             <div class="info-panel">
-                <a class="close">[x]</a>
+                <a class="close" title="关闭">[x]</a>
                 <ul class="items">
                     <li>
                         <span class="name">Player:</span>
@@ -19,34 +19,48 @@ const template = {
                     </li>
                     <li>
                         <span class="name">Current Mode:</span>
-                        <span class="v">Hls (m3u plist)</span>
+                        <span class="v player-mode">Hls (m3u plist)</span>
                     </li>
                     <li>
                         <span class="name">Video ID:</span>
-                        <span class="v">v10001</span>
+                        <span class="v vid">v10001</span>
                     </li>
                     <li>
                         <span class="name">Viewport:</span>
-                        <span class="v">900x506</span>
+                        <span class="v viewport">900x506</span>
                     </li>
                     <li>
                         <span class="name">Volume:</span>
-                        <span class="v">40 / 5.7dB</span>
+                        <span class="v volume">40 / 5.7dB</span>
                     </li>
                     <li>
                         <span class="name">Codecs:</span>
-                        <span class="v">video/mp4;codecs="avc1.640028"</span>
+                        <span class="v codecs">video/mp4;codecs="avc1.640028"</span>
                     </li>
                     <li>
                         <span class="name">Host:</span>
-                        <span class="v">video-s1.shirasagi.moe</span>
+                        <span class="v host">video-s1.shirasagi.moe</span>
                     </li>
                     <li>
                         <span class="name">Connection Speed:</span>
-                        <span class="v right">479Kb/s</span>
+                        <span class="v right connection-speed">479Kb/s</span>
+                    </li>
+                    <li>
+                        <span class="name">Dropped frames:</span>
+                        <span class="v dropped-frames">0</span>
                     </li>
                 </ul>
             </div>
+            <div class="context-menu">
+                <ul>
+                    <li>复制视频网址</li>   
+                    <li>复制嵌入代码</li>
+                    <li>循环播放</li>
+                    <li>无法播放反馈</li>
+                    <li>详细统计信息</li>             
+                </ul>            
+            </div>
+            
             <!--
             <div class="video-mask">
                 <div class="icon">${Icons.play}</div>

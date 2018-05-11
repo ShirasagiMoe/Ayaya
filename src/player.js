@@ -10,6 +10,8 @@ import Icons from './js/icons'
 import logger from './js/logger'
 import options from './js/options'
 import template from './js/template'
+import Menu from './js/context-menu'
+import InfoPanel from './js/info-panel'
 import util from './js/utils'
 
 
@@ -24,6 +26,7 @@ class MPlayer {
      */
     constructor (option) {
 
+        var that = this
         this.index = index
     
         logger.debug('Player initialize.')
@@ -39,7 +42,40 @@ class MPlayer {
         this.nowPlayer = `mplayer-index${this.index}`
         
         this.video = this.element.getElementsByClassName(this.nowPlayer)[0]
-        
+        this.video.poster = this.options.video.poster
+
+        this.infoPanel = new InfoPanel({element: this.element});
+        this.volume(40);
+
+
+        this.menu = new Menu({
+            element: this.video,
+            menus: [
+                {
+                    name: '复制视频网址',
+                    func: function () {}
+                },
+                {
+                    name: '复制嵌入代码',
+                    func: function () {}
+                },
+                {
+                    name: '循环播放',
+                    func: function () {}
+                },
+                {
+                    name: '无法播放反馈',
+                    func: function () {}
+                },
+                {
+                    name: '详细统计信息',
+                    func: function () {
+                        that.infoPanel.open()
+                    }
+                }
+            ]
+        })
+
         this.media = {};
         this.media.url = option.video.src
         this.media.poster = option.video.poster
@@ -53,7 +89,7 @@ class MPlayer {
         this.button.fullScreen = this.element.querySelector('.button-full-screen')
 
         const play = () => {
-            logger.debug(`[Envent] Status: ${this.status}`)
+            logger.debug(`[Event] Status: ${this.status}`)
             if (this.status === 'play') {
                 this.pause()
             } else {
@@ -173,6 +209,7 @@ class MPlayer {
      * @param source
      */
     init (element, type, source) {
+        var that = this;
         this.type = type;
         if (!this.type || this.type === 'auto') {
             if (/.mpd(#|\?|\$)/i.exec(source)) {
@@ -209,6 +246,109 @@ class MPlayer {
                     var hls = new Hls();
                     hls.loadSource(source);
                     hls.attachMedia(element);
+
+                    let stats = {};
+                    let events = {
+                        url    : source,
+                        t0     : performance.now(),
+                        load   : [],
+                        buffer : [],
+                        video  : [],
+                        level  : [],
+                        bitrate: []
+                    };
+
+                    hls.on(Hls.Events.MANIFEST_PARSED, function(event, data) {
+                        stats = {
+                            levelNb    : data.levels.length,
+                            levelParsed: 0
+                        };
+                    });
+                    hls.on(Hls.Events.LEVEL_LOADED, function(event, data) {
+                        var event = {
+                            type    : 'level',
+                            id      : data.level,
+                            start   : data.details.startSN,
+                            end     : data.details.endSN,
+                            time    : data.stats.trequest - events.t0,
+                            latency : data.stats.tfirst - data.stats.trequest,
+                            load    : data.stats.tload - data.stats.tfirst,
+                            parsing : data.stats.tparsed - data.stats.tload,
+                            duration: data.stats.tload - data.stats.tfirst
+                        };
+                        const parsingDuration = data.stats.tparsed - data.stats.tload;
+                        if (stats.levelParsed)
+                        {this.sumLevelParsingMs += parsingDuration;}
+                        else
+                        {this.sumLevelParsingMs = parsingDuration;}
+
+                        stats.levelParsed++;
+                        stats.levelParsingUs = Math.round(1000*this.sumLevelParsingMs / stats.levelParsed);
+                        events.load.push(event);
+                    });
+
+                    hls.on(Hls.Events.FRAG_BUFFERED, function(event, data) {
+                        let latency = data.stats.tfirst - data.stats.trequest,
+                            parsing = data.stats.tparsed - data.stats.tload,
+                            process = data.stats.tbuffered - data.stats.trequest,
+                            bitrate = Math.round(8 * data.stats.length / (data.stats.tbuffered - data.stats.tfirst));
+                        if (stats.fragBuffered) {
+                            stats.fragMinLatency = Math.min(stats.fragMinLatency, latency);
+                            stats.fragMaxLatency = Math.max(stats.fragMaxLatency, latency);
+                            stats.fragMinProcess = Math.min(stats.fragMinProcess, process);
+                            stats.fragMaxProcess = Math.max(stats.fragMaxProcess, process);
+                            stats.fragMinKbps = Math.min(stats.fragMinKbps, bitrate);
+                            stats.fragMaxKbps = Math.max(stats.fragMaxKbps, bitrate);
+                            stats.autoLevelCappingMin = Math.min(stats.autoLevelCappingMin, hls.autoLevelCapping);
+                            stats.autoLevelCappingMax = Math.max(stats.autoLevelCappingMax, hls.autoLevelCapping);
+                            stats.fragBuffered++;
+                        } else {
+                            stats.fragMinLatency = stats.fragMaxLatency = latency;
+                            stats.fragMinProcess = stats.fragMaxProcess = process;
+                            stats.fragMinKbps = stats.fragMaxKbps = bitrate;
+                            stats.fragBuffered = 1;
+                            stats.fragBufferedBytes = 0;
+                            stats.autoLevelCappingMin = stats.autoLevelCappingMax = hls.autoLevelCapping;
+                            this.sumLatency = 0;
+                            this.sumKbps = 0;
+                            this.sumProcess = 0;
+                            this.sumParsing = 0;
+                        }
+                        stats.fraglastLatency = latency;
+                        this.sumLatency += latency;
+                        stats.fragAvgLatency = Math.round(this.sumLatency / stats.fragBuffered);
+                        stats.fragLastProcess = process;
+                        this.sumProcess += process;
+                        this.sumParsing += parsing;
+                        stats.fragAvgProcess = Math.round(this.sumProcess / stats.fragBuffered);
+                        stats.fragLastKbps = bitrate;
+                        this.sumKbps += bitrate;
+                        stats.fragAvgKbps = Math.round(this.sumKbps / stats.fragBuffered);
+                        stats.fragBufferedBytes += data.stats.total;
+                        stats.fragparsingKbps = Math.round(8*stats.fragBufferedBytes / this.sumParsing);
+                        stats.fragparsingMs = Math.round(this.sumParsing);
+                        stats.autoLevelCappingLast = hls.autoLevelCapping;
+
+                        // console.log(stats);
+                        // this.infoPanel
+                    });
+
+
+                    hls.on(Hls.Events.FRAG_LOAD_PROGRESS, function (event, data) {
+
+                        const videoPlaybackQuality = element.getVideoPlaybackQuality;
+                        if(videoPlaybackQuality && typeof (videoPlaybackQuality) === typeof (Function)) {
+                            stats.droppedFrames = element.getVideoPlaybackQuality().droppedVideoFrames
+                        } else if(element.webkitDroppedFrameCount) {
+                            stats.droppedFrames = element.webkitDroppedFrameCount
+                        } else {
+                            stats.droppedFrames = 0
+                        }
+
+                        that.infoPanel.trigger(stats);
+                    });
+
+                    this.hls = hls;
                 }
                 break;
             case PLAYER_TYPE.HtmlMediaElement:
@@ -225,6 +365,7 @@ class MPlayer {
         this.button.play.innerHTML = Icons.pause
         this.syncVideoTime(true)
         this.video.play()
+
     }
 
     /**
@@ -257,6 +398,7 @@ class MPlayer {
      */
     volume (volume) {
         this.video.volume = (volume/100).toFixed(2);
+        this.infoPanel.setVolumeText(volume);
     }
 
     /**

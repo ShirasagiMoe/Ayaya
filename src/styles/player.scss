@@ -529,6 +529,7 @@
     }
 
     .info-panel {
+      display: none;
       position: absolute;
       top: 10px;
       left: 10px;
@@ -566,6 +567,33 @@
         }
       }
 
+    }
+
+    .context-menu {
+      display: none;
+      position: absolute;
+      width: 150px;
+      top: 100px;
+      right: 100px;
+      color: #FFF;
+      font-size: 0.875rem;
+      box-sizing: border-box;
+      padding: 6px 0;
+      border-radius: 3px;
+      background: rgba(0,0,0,0.4);
+
+      ul {
+
+
+        li {
+          padding: 5px 10px;
+          cursor: pointer;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.13);
+          }
+        }
+      }
     }
   }
   
