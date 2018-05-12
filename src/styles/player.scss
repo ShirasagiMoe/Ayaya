@@ -15,7 +15,6 @@
       z-index: 200;
     }
   
-  
     // control
     &.hide-control {
       .controls, .control-mask {
@@ -30,22 +29,22 @@
       height: 42px;
       position: absolute;
       padding: 0 20px;
-      z-index: 100;
+      z-index: 105;
   
       .control {
         bottom: 0;
-        height: 38px;
+        height: 34px;
         position: absolute;
-        z-index: 100;
+        z-index: 200;
   
         &.left {
-          left: 8px;
+          left: 10px;
   
           .play-time {
             color: #eee;
             padding: 0 5px;
             font-size: 0.825em;
-            line-height: 38px;
+            line-height: 32px;
             display: inline-block;
           }
   
@@ -56,6 +55,7 @@
             position: relative;
             display: inline-block;
             transition: all 0.3s ease;
+            vertical-align: top;
   
             &:hover {
               width: auto;
@@ -122,7 +122,7 @@
         }
   
         &.right {
-          right: 12px;
+          right: 16px;
   
           .control-settings {
             display: none;
@@ -180,6 +180,7 @@
           .button-settings {
             transform: rotate(0deg);
             transition: transform .5s;
+            padding: 0 4px 4px;
           }
   
           .button-settings-checkbox + .control-settings {
@@ -205,10 +206,11 @@
   
   
           .full-screen-group {
-            width: 38px;
+            width: 34px;
             height: 100%;
             position: relative;
             display: inline-block;
+            vertical-align: top;
 
             .button-full-screen {
             }
@@ -372,8 +374,14 @@
       z-index: 99;
     }
   
+    button.icon {
+      width: 34px;
+      height: 34px;
+      padding: 0 4px 4px;
+      vertical-align: top;
+    }
+
     // video
-  
     .video-box {
       font-size: 0;
       width: 100%;
@@ -548,6 +556,7 @@
       background: rgba(0,0,0,0.4);
       box-sizing: border-box;
       border-radius: 3px;
+      z-index: 200;
 
       .name {
         width: 6.875rem; /* 110/16 */;
@@ -588,6 +597,7 @@
       padding: 6px 0;
       border-radius: 3px;
       background: rgba(0,0,0,0.4);
+      z-index: 299;
 
       ul {
 

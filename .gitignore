@@ -28,6 +28,7 @@ Package/**/*
 !composer.lock
 
 # Data folder
+.DS_Store
 Data/**/*
 !Data/Config.php
 

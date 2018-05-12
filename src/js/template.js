@@ -135,7 +135,7 @@ const template = {
                         </ul>                
                     </div>
                     <div class="full-screen-group">
-                        <button class="icon button-web-full-screen">${Icons.fullExit}</button>  
+                        <button class="icon button-web-full-screen">${Icons.fullWeb}</button>  
                         <button class="icon button-full-screen">${Icons.full}</button>           
                     </div>
                     

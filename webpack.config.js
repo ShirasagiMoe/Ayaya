@@ -55,7 +55,7 @@ const options = {
         extensions: ['.js', '.scss']
     },
     output: {
-        path: path.resolve(__dirname, ''),
+        path: path.resolve(__dirname, 'dist'),
         filename: '[name].[chunkhash:8].js',
         library: '[name]',
         libraryTarget: 'umd',

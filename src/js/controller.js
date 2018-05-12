@@ -176,7 +176,7 @@ class Controller {
                     this.button.volume.innerHTML = Icons.volume3
                 }
             }
-
+            this.player.infoPanel.setVolumeText(val);
         };
 
         const handler = (event) => {

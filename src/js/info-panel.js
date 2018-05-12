@@ -24,8 +24,8 @@ class InfoPanel {
         this.panel.style.display = 'none'
     }
 
-    setVolumeText(volue) {
-        this.events.volume.innerText = volue;
+    setVolumeText(volume) {
+        this.events.volume.innerText = volume;
     }
 
     trigger(stats) {
