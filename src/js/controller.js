@@ -21,6 +21,9 @@ class Controller {
         this.autoHideBar = 0
 
         this.status = PLAY_STATUS.LOADING
+        this.speed = 1
+        this.mirror = false
+        this.hotkey = false
 
         this.events = [];
 
@@ -28,6 +31,7 @@ class Controller {
         this.initLoadBar();
         this.initPlayTimer();
         this.initVolumeBar();
+        this.initSettingGroup();
 
         this.eventFunc = () => {
 
@@ -45,7 +49,7 @@ class Controller {
         this.button.volume = this.element.querySelector('.button-volume')
         this.button.fullScreen = this.element.querySelector('.button-full-screen')
 
-        const play = () => {
+        this.play = () => {
             logger.info(`Play Status: ${this.status}`)
             if (this.status === PLAY_STATUS.PLAY) {
                 this.player.pause()
@@ -58,7 +62,7 @@ class Controller {
             }
         };
 
-        this.button.play.addEventListener('click', () => play())
+        this.button.play.addEventListener('click', () => this.play())
         this.button.volume.addEventListener('click', () => {
             if (this.video.muted) {
                 this.setVolume(this.video.volume * 100)
@@ -179,6 +183,10 @@ class Controller {
             this.player.infoPanel.setVolumeText(val);
         };
 
+        this.getVolume = () => {
+            return this.video.volume
+        };
+
         const handler = (event) => {
             let progressBarLeft = this.volumeBar.bar.getBoundingClientRect().left
             let val = ((event.clientX - progressBarLeft) / this.volumeBar.bar.offsetWidth) * 100
@@ -222,6 +230,103 @@ class Controller {
         }
         this.events.push(this.updateTimer)
     }
+
+    initSettingGroup () {
+        this.settings = {}
+        let settingGroup = this.element.querySelector('.setting-group')
+        this.playSpeedBox = this.element.querySelector('.play-speed-box')
+        this.settings.playSpeed = settingGroup.querySelector('.play-speed')
+        this.settings.mirror = settingGroup.querySelector('.mirror')
+        this.settings.hotkey = settingGroup.querySelector('.hotkey')
+        this.settings.loop = settingGroup.querySelector('.loop')
+
+
+        const activeElement = (el) => {
+            let li = el.getElementsByTagName('li')
+            for (let i = 0; i < li.length; i++) {
+                li[i].classList.remove('active')
+            }
+        };
+
+        this.settings.playSpeed.addEventListener('click', (e) => {
+            settingGroup.classList.add('hidden');
+            this.playSpeedBox.classList.remove('hidden');
+        });
+
+        this.playSpeedBox.addEventListener('click', (event) => {
+            let target = event.target || event.srcElement
+            if (target.tagName.toLowerCase() === 'li') {
+                this.player.playbackRate(target.dataset.spd)
+                activeElement(this.playSpeedBox)
+                target.classList.add('active')
+            }
+            this.playSpeedBox.classList.add('hidden')
+            settingGroup.classList.remove('hidden')
+        });
+
+        this.settings.mirror.addEventListener('click', (e) => {
+            if (this.mirror) {
+                this.video.style.transform = 'scaleX(1)'
+                this.settings.mirror.querySelector('.text').innerText = '关'
+            } else {
+                this.video.style.transform = 'scaleX(-1)'
+                this.settings.mirror.querySelector('.text').innerText = '开'
+            }
+            this.mirror = !this.mirror
+        });
+
+        this.settings.loop.addEventListener('click', (e) => {
+            if (this.video.loop) {
+                this.video.loop = false
+                this.settings.loop.querySelector('.text').innerText = '关闭'
+            } else {
+                this.video.loop = true
+                this.settings.loop.querySelector('.text').innerText = '开启'
+            }
+        });
+
+        const hotKey = () => {
+            if (this.hotkey) {
+                this.settings.hotkey.querySelector('.text').innerText = '关闭'
+                window.removeEventListener('keyup', bindHotKey)
+            } else {
+                this.settings.hotkey.querySelector('.text').innerText = '开启'
+                window.addEventListener('keyup', bindHotKey)
+            }
+            this.hotkey = !this.hotkey
+        };
+
+        const bindHotKey = (event) => {
+            switch (event.keyCode) {
+                case 37: // 键盘左键
+                case 74: // J 快退
+                    this.player.seek( this.player.seek() -5);
+                    break;
+                case 39: // 键盘右键
+                case 76: // L 快退
+                    this.player.seek( this.player.seek() +5);
+                    break;
+                case 38: // 上键
+                    this.player.setVolume(this.player.volume +5)
+                    break;
+                case 40: // 下键
+                    this.player.setVolume(this.player.volume -5)
+                    break;
+                case 75:
+                    this.play();
+                    break;
+            }
+        };
+
+        this.settings.hotkey.addEventListener('click', (e) => {
+            hotKey()
+        });
+
+
+        hotKey()
+    }
+
+
 
 }
 

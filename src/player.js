@@ -28,7 +28,8 @@ class MPlayer {
 
         var that = this
         this.index = index
-    
+
+        logger.setType(1)
         logger.debug('Player initialize.')
 
         this.options = {}
@@ -265,8 +266,10 @@ class MPlayer {
      * 跳转到指定播放时间
      */
     seek (time) {
+        if (time === undefined) return this.video.currentTime;
         logger.debug(`Seek to ${Math.max(time, 0)}`)
-        this.video.currentTime = Math.max(time, 0)
+        this.video.currentTime = time
+        return this
     }
 
     /**
@@ -298,6 +301,7 @@ class MPlayer {
      */
     playbackRate (value) {
         this.video.playbackRate = value
+        this.controller.settings.playSpeed.querySelector('.text').innerText = value + ' 倍'
         logger.info(`setting playback rate ${value}`)
     }
 

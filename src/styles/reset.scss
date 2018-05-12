@@ -14,10 +14,10 @@
     
       p {
         display: block;
-        -webkit-margin-before: 0;
-        -webkit-margin-after: 0;
-        -webkit-margin-start: 0;
-        -webkit-margin-end: 0;
+        -webkit-margin-before: 0 !important;
+        -webkit-margin-after: 0 !important;
+        -webkit-margin-start: 0 !important;
+        -webkit-margin-end: 0 !important;
       }
     
       ul {
@@ -25,6 +25,13 @@
         margin: 0;
         padding: 0;
         border: 0;
+      }
+
+      li {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        line-height: 100%;
       }
     
       svg:not(:root) {
@@ -46,8 +53,8 @@
       }
     
       a {
-        background-color: transparent; /* 1 */
-        -webkit-text-decoration-skip: objects; /* 2 */
+        background-color: transparent !important; /* 1 */
+        -webkit-text-decoration-skip: objects !important; /* 2 */
       }
     
       a:active,
