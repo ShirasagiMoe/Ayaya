@@ -18,7 +18,7 @@ class Controller {
         this.element = option.element
         this.video = option.video
 
-        this.autoHideBar = 0
+        this.autoHideControls = 0
 
         this.status = PLAY_STATUS.LOADING
         this.speed = 1
@@ -42,12 +42,12 @@ class Controller {
 
     }
 
-
     initButton () {
         this.button = {}
         this.button.play = this.element.querySelector('.button-play')
         this.button.volume = this.element.querySelector('.button-volume')
         this.button.fullScreen = this.element.querySelector('.button-full-screen')
+        this.button.setting = this.element.querySelector('.button-settings-checkbox')
 
         this.play = () => {
             logger.info(`Play Status: ${this.status}`)
@@ -329,8 +329,27 @@ class Controller {
         hotKey()
     }
 
+    /**
+     * Auto hide controls
+     */
+    autoHide () {
+        this.show()
+        clearTimeout(this.autoHideControls)
+        this.autoHideControls = setTimeout(() => {
+            if (this.video.played.length && this.status != PLAY_STATUS.PAUSE) {
+                this.hide()
+            }
+        }, 3000)
+    }
 
+    show () {
+        this.player.element.classList.remove('player-hide-control')
+    }
 
+    hide () {
+        this.player.element.classList.add('player-hide-control')
+        this.button.setting.checked = false
+    }
 }
 
 export default Controller;
