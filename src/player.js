@@ -29,7 +29,7 @@ class MPlayer {
         var that = this
         this.index = index
 
-        logger.setType(1)
+        logger.setType(0)
         logger.debug('Player initialize.')
 
         this.options = {}
@@ -79,11 +79,10 @@ class MPlayer {
         this.media.url = option.video.src
         this.media.poster = option.video.poster
 
-        this.controller = new Controller(this)
-
-        this.setVolume(this.options.volume)
-
         this.init(this.video, this.options.type, this.media.url)
+
+        this.controller = new Controller(this)
+        this.setVolume(this.options.volume)
 
         logger.debug('Player inited.')
 

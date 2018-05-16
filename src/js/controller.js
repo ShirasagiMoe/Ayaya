@@ -225,8 +225,11 @@ class Controller {
         this.timer.current = this.element.querySelector('.play-time .play-current')
         this.timer.duration = this.element.querySelector('.play-time .play-duration')
 
+        // this.timer.duration.innerText = util.formatTime(this.video.duration)
+
         this.updateTimer = () => {
             this.timer.current.innerText = util.formatTime(this.video.currentTime)
+            this.timer.duration.innerText = util.formatTime(this.video.duration)
         }
         this.events.push(this.updateTimer)
     }

@@ -19,23 +19,23 @@ class Logger {
     }
 
     debug(...logs) {
-        this.print(LOGGER_LEVEL.DEBUG, logs);
+        this.print(LOGGER_LEVEL.DEBUG, ...logs);
     }
 
     info(...logs) {
-        this.print(LOGGER_LEVEL.INFO, logs);
+        this.print(LOGGER_LEVEL.INFO, ...logs);
     }
 
     warn(...logs) {
-        this.print(LOGGER_LEVEL.WARN, logs);
+        this.print(LOGGER_LEVEL.WARN, ...logs);
     }
 
     error(...logs) {
-        this.print(LOGGER_LEVEL.ERROR, logs);
+        this.print(LOGGER_LEVEL.ERROR, ...logs);
     }
 
     fatal(...logs) {
-        this.print(LOGGER_LEVEL.FATAL, logs);
+        this.print(LOGGER_LEVEL.FATAL, ...logs);
     }
 
     print(level, ...strs) {
