@@ -51,8 +51,14 @@ class Controller {
         this.button = {}
         this.button.play = this.element.querySelector('.button-play')
         this.button.volume = this.element.querySelector('.button-volume')
-        this.button.fullScreen = this.element.querySelector('.button-full-screen')
         this.button.setting = this.element.querySelector('.button-settings-checkbox')
+
+        const ended = () => {
+            this.player.pause()
+            this.status = PLAY_STATUS.PAUSE
+            this.video.removeEventListener('timeupdate', this.eventFunc);
+            this.video.removeEventListener('ended', ended)
+        }
 
         this.play = () => {
             logger.info(`Play Status: ${this.status}`)
@@ -60,13 +66,16 @@ class Controller {
                 this.player.pause()
                 this.status = PLAY_STATUS.PAUSE
                 this.video.removeEventListener('timeupdate', this.eventFunc);
+                this.video.removeEventListener('ended', ended)
             } else {
                 this.video.addEventListener('timeupdate', this.eventFunc);
+                this.video.addEventListener('ended', ended)
                 this.status = PLAY_STATUS.PLAY
                 this.player.play()
                 this.autoHide()
             }
         };
+
 
         this.button.play.addEventListener('click', () => this.play())
         this.button.volume.addEventListener('click', () => {
@@ -298,9 +307,11 @@ class Controller {
             if (this.hotkey) {
                 this.settings.hotkey.querySelector('.text').innerText = '关闭'
                 window.removeEventListener('keyup', bindHotKey)
+                logger.debug('Hotkey disable')
             } else {
                 this.settings.hotkey.querySelector('.text').innerText = '开启'
                 window.addEventListener('keyup', bindHotKey)
+                logger.debug('Hotkey enable')
             }
             this.hotkey = !this.hotkey
         };

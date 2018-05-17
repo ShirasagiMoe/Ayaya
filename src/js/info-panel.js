@@ -2,6 +2,7 @@
 class InfoPanel {
 
     constructor(option) {
+        this.player = option
         this.element = option.element
         this.panel = this.element.querySelector('.info-panel')
         this.events = {}
@@ -14,6 +15,22 @@ class InfoPanel {
             e.preventDefault()
             this.close()
         })
+/*
+        this.panelCid = setInterval(() => {
+            this.trigger()
+        }, 5000)
+        */
+
+        let cid = 0
+        const resize = () => {
+            clearTimeout(cid)
+            cid = setTimeout( () => {
+                this.trigger()
+            }, 1000)
+        }
+
+        this.element.addEventListener('resize', resize)
+
     }
 
     open() {
@@ -28,9 +45,14 @@ class InfoPanel {
         this.events.volume.innerText = volume;
     }
 
-    trigger(stats) {
-        this.events.droppedFrames.innerText = `${stats.droppedFrames}/${stats.totalFrames}`
-        this.events.connectionSpeed.innerText = ((stats.fragMaxLatency / 100).toFixed(2) * 1024 / 8) + 'Kb/s'
+    trigger() {
+
+        console.log(this.player.stats)
+        if (this.player.stats) {
+            this.events.droppedFrames.innerText = `${this.player.stats.droppedFrames}/${this.player.stats.totalFrames}`
+            this.events.connectionSpeed.innerText = ((this.player.stats.fragMaxLatency * 1024) / 8).toFixed(2) + 'Kb/s'
+
+        }
         this.events.viewport.innerText = this.element.offsetWidth + 'x' + this.element.offsetHeight
     }
 }

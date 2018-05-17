@@ -13,6 +13,7 @@ import template from './js/template'
 import Menu from './js/context-menu'
 import InfoPanel from './js/info-panel'
 import Controller from './js/controller'
+import FullScreen from "./js/fullscreen";
 
 
 let index = 0;
@@ -45,7 +46,7 @@ class MPlayer {
         this.video.poster = this.options.video.poster
         this.muted = false
 
-        this.infoPanel = new InfoPanel({element: this.element});
+        this.infoPanel = new InfoPanel(this);
 
         this.menu = new Menu({
             element: this.video,
@@ -82,6 +83,7 @@ class MPlayer {
         this.init(this.video, this.options.type, this.media.url)
 
         this.controller = new Controller(this)
+        this.fullScreen = new FullScreen(this)
         this.setVolume(this.options.volume)
 
         logger.debug('Player inited.')
@@ -135,7 +137,7 @@ class MPlayer {
                     hls.loadSource(source);
                     hls.attachMedia(element);
 
-                    let stats = {};
+                    that.stats = {};
                     let events = {
                         url    : source,
                         t0     : performance.now(),
@@ -147,7 +149,7 @@ class MPlayer {
                     };
 
                     hls.on(Hls.Events.MANIFEST_PARSED, function(event, data) {
-                        stats = {
+                        that.stats = {
                             levelNb    : data.levels.length,
                             levelParsed: 0
                         };
@@ -165,13 +167,13 @@ class MPlayer {
                             duration: data.stats.tload - data.stats.tfirst
                         };
                         const parsingDuration = data.stats.tparsed - data.stats.tload;
-                        if (stats.levelParsed)
-                        {this.sumLevelParsingMs += parsingDuration;}
+                        if (that.stats.levelParsed)
+                        {that.sumLevelParsingMs += parsingDuration;}
                         else
-                        {this.sumLevelParsingMs = parsingDuration;}
+                        {that.sumLevelParsingMs = parsingDuration;}
 
-                        stats.levelParsed++;
-                        stats.levelParsingUs = Math.round(1000*this.sumLevelParsingMs / stats.levelParsed);
+                        that.stats.levelParsed++;
+                        that.stats.levelParsingUs = Math.round(1000*that.sumLevelParsingMs / that.stats.levelParsed);
                         events.load.push(event);
                     });
 
@@ -180,66 +182,67 @@ class MPlayer {
                             parsing = data.stats.tparsed - data.stats.tload,
                             process = data.stats.tbuffered - data.stats.trequest,
                             bitrate = Math.round(8 * data.stats.length / (data.stats.tbuffered - data.stats.tfirst));
-                        if (stats.fragBuffered) {
-                            stats.fragMinLatency = Math.min(stats.fragMinLatency, latency);
-                            stats.fragMaxLatency = Math.max(stats.fragMaxLatency, latency);
-                            stats.fragMinProcess = Math.min(stats.fragMinProcess, process);
-                            stats.fragMaxProcess = Math.max(stats.fragMaxProcess, process);
-                            stats.fragMinKbps = Math.min(stats.fragMinKbps, bitrate);
-                            stats.fragMaxKbps = Math.max(stats.fragMaxKbps, bitrate);
-                            stats.autoLevelCappingMin = Math.min(stats.autoLevelCappingMin, hls.autoLevelCapping);
-                            stats.autoLevelCappingMax = Math.max(stats.autoLevelCappingMax, hls.autoLevelCapping);
-                            stats.fragBuffered++;
+                        if (that.stats.fragBuffered) {
+                            that.stats.fragMinLatency = Math.min(that.stats.fragMinLatency, latency);
+                            that.stats.fragMaxLatency = Math.max(that.stats.fragMaxLatency, latency);
+                            that.stats.fragMinProcess = Math.min(that.stats.fragMinProcess, process);
+                            that.stats.fragMaxProcess = Math.max(that.stats.fragMaxProcess, process);
+                            that.stats.fragMinKbps = Math.min(that.stats.fragMinKbps, bitrate);
+                            that.stats.fragMaxKbps = Math.max(that.stats.fragMaxKbps, bitrate);
+                            that.stats.autoLevelCappingMin = Math.min(that.stats.autoLevelCappingMin, hls.autoLevelCapping);
+                            that.stats.autoLevelCappingMax = Math.max(that.stats.autoLevelCappingMax, hls.autoLevelCapping);
+                            that.stats.fragBuffered++;
                         } else {
-                            stats.fragMinLatency = stats.fragMaxLatency = latency;
-                            stats.fragMinProcess = stats.fragMaxProcess = process;
-                            stats.fragMinKbps = stats.fragMaxKbps = bitrate;
-                            stats.fragBuffered = 1;
-                            stats.fragBufferedBytes = 0;
-                            stats.autoLevelCappingMin = stats.autoLevelCappingMax = hls.autoLevelCapping;
-                            this.sumLatency = 0;
-                            this.sumKbps = 0;
-                            this.sumProcess = 0;
-                            this.sumParsing = 0;
+                            that.stats.fragMinLatency = that.stats.fragMaxLatency = latency;
+                            that.stats.fragMinProcess = that.stats.fragMaxProcess = process;
+                            that.stats.fragMinKbps = that.stats.fragMaxKbps = bitrate;
+                            that.stats.fragBuffered = 1;
+                            that.stats.fragBufferedBytes = 0;
+                            that.stats.autoLevelCappingMin = that.stats.autoLevelCappingMax = hls.autoLevelCapping;
+                            that.sumLatency = 0;
+                            that.sumKbps = 0;
+                            that.sumProcess = 0;
+                            that.sumParsing = 0;
                         }
-                        stats.fraglastLatency = latency;
-                        this.sumLatency += latency;
-                        stats.fragAvgLatency = Math.round(this.sumLatency / stats.fragBuffered);
-                        stats.fragLastProcess = process;
-                        this.sumProcess += process;
-                        this.sumParsing += parsing;
-                        stats.fragAvgProcess = Math.round(this.sumProcess / stats.fragBuffered);
-                        stats.fragLastKbps = bitrate;
-                        this.sumKbps += bitrate;
-                        stats.fragAvgKbps = Math.round(this.sumKbps / stats.fragBuffered);
-                        stats.fragBufferedBytes += data.stats.total;
-                        stats.fragparsingKbps = Math.round(8*stats.fragBufferedBytes / this.sumParsing);
-                        stats.fragparsingMs = Math.round(this.sumParsing);
-                        stats.autoLevelCappingLast = hls.autoLevelCapping;
+                        that.stats.fraglastLatency = latency;
+                        that.sumLatency += latency;
+                        that.stats.fragAvgLatency = Math.round(that.sumLatency / that.stats.fragBuffered);
+                        that.stats.fragLastProcess = process;
+                        that.sumProcess += process;
+                        that.sumParsing += parsing;
+                        that.stats.fragAvgProcess = Math.round(that.sumProcess / that.stats.fragBuffered);
+                        that.stats.fragLastKbps = bitrate;
+                        that.sumKbps += bitrate;
+                        that.stats.fragAvgKbps = Math.round(that.sumKbps / that.stats.fragBuffered);
+                        that.stats.fragBufferedBytes += data.stats.total;
+                        that.stats.fragparsingKbps = Math.round(8*that.stats.fragBufferedBytes / that.sumParsing);
+                        that.stats.fragparsingMs = Math.round(that.sumParsing);
+                        that.stats.autoLevelCappingLast = hls.autoLevelCapping;
 
                         // console.log(stats);
                         // this.infoPanel
                     });
 
+                    hls.on(Hls.Events.FRAG_LOADING, (event, data) => {
+                        that.infoPanel.trigger(that.stats);
+                    });
 
                     hls.on(Hls.Events.FRAG_LOAD_PROGRESS, function (event, data) {
 
                         const quality = element.getVideoPlaybackQuality;
                         if(quality && typeof (quality) === typeof (Function)) {
-                            stats.droppedFrames = quality().droppedVideoFrames
-                            stats.totalFrames = quality().totalVideoFrames
+                            that.stats.droppedFrames = quality().droppedVideoFrames
+                            that.stats.totalFrames = quality().totalVideoFrames
                         } else if(element.webkitDroppedFrameCount) {
-                            stats.droppedFrames = element.webkitDroppedFrameCount
-                            stats.totalFrames = 0
+                            that.stats.droppedFrames = element.webkitDroppedFrameCount
+                            that.stats.totalFrames = 0
                         } else {
-                            stats.droppedFrames = 0
-                            stats.totalFrames = 0
+                            that.stats.droppedFrames = 0
+                            that.stats.totalFrames = 0
                         }
 
-                        that.infoPanel.trigger(stats);
+                        that.infoPanel.trigger(that.stats);
                     });
-
-                    this.hls = hls;
                 }
                 break;
             case PLAYER_TYPE.HtmlMediaElement:
@@ -262,6 +265,15 @@ class MPlayer {
     pause () {
         this.controller.button.play.innerHTML = Icons.play
         this.video.pause()
+    }
+
+    /**
+     * 停止
+     */
+    stop () {
+        this.controller.button.play.innerHTML = Icons.play
+        this.video.pause()
+        // this.seek(0)
     }
 
     /**
@@ -318,7 +330,7 @@ class MPlayer {
      * 播放器全屏
      * type: web | screen
      */
-    fullScreen (type) {
+    screenFull (type) {
 
     }
 
