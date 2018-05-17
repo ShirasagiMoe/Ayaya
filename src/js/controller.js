@@ -41,6 +41,10 @@ class Controller {
             }
         }
 
+        this.element.addEventListener('mousemove', () => {
+            this.autoHide()
+        })
+
     }
 
     initButton () {
@@ -60,6 +64,7 @@ class Controller {
                 this.video.addEventListener('timeupdate', this.eventFunc);
                 this.status = PLAY_STATUS.PLAY
                 this.player.play()
+                this.autoHide()
             }
         };
 
