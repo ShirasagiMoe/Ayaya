@@ -70,12 +70,14 @@ const template = {
                 <div class="icon play-status">${Icons.play}</div>
             </div>
             
-            
             <div class="video-message">
                 <span>10%</span>
             </div>
             <div class="video-notice">
                 ${Icons.play}
+            </div>
+            <div class="video-waiting">
+                ${Icons.loading}
             </div>
             
             <div class="control-mask"></div>
@@ -141,6 +143,7 @@ const template = {
                     
                 </div>
             </div>
+
             `;
         return html;
     }

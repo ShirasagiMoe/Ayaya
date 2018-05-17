@@ -32,6 +32,7 @@ class Controller {
         this.initPlayTimer();
         this.initVolumeBar();
         this.initSettingGroup();
+        this.initWatingWarp();
 
         this.eventFunc = () => {
 
@@ -327,6 +328,17 @@ class Controller {
 
 
         hotKey()
+    }
+
+    initWatingWarp () {
+
+        this.video.addEventListener('waiting', () => {
+            this.player.element.classList.add('player-waiting')
+        })
+
+        this.video.addEventListener('canplay', () => {
+            this.player.element.classList.remove('player-waiting')
+        })
     }
 
     /**

@@ -224,13 +224,16 @@ class MPlayer {
 
                     hls.on(Hls.Events.FRAG_LOAD_PROGRESS, function (event, data) {
 
-                        const videoPlaybackQuality = element.getVideoPlaybackQuality;
-                        if(videoPlaybackQuality && typeof (videoPlaybackQuality) === typeof (Function)) {
-                            stats.droppedFrames = element.getVideoPlaybackQuality().droppedVideoFrames
+                        const quality = element.getVideoPlaybackQuality;
+                        if(quality && typeof (quality) === typeof (Function)) {
+                            stats.droppedFrames = quality().droppedVideoFrames
+                            stats.totalFrames = quality().totalVideoFrames
                         } else if(element.webkitDroppedFrameCount) {
                             stats.droppedFrames = element.webkitDroppedFrameCount
+                            stats.totalFrames = 0
                         } else {
                             stats.droppedFrames = 0
+                            stats.totalFrames = 0
                         }
 
                         that.infoPanel.trigger(stats);

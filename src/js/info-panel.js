@@ -29,8 +29,8 @@ class InfoPanel {
     }
 
     trigger(stats) {
-        this.events.droppedFrames.innerText = stats.droppedFrames
-        this.events.connectionSpeed.innerText = (stats.fragparsingKbps/1024).toFixed(2) + 'Kb/s'
+        this.events.droppedFrames.innerText = `${stats.droppedFrames}/${stats.totalFrames}`
+        this.events.connectionSpeed.innerText = ((stats.fragMaxLatency / 100).toFixed(2) * 1024 / 8) + 'Kb/s'
         this.events.viewport.innerText = this.element.offsetWidth + 'x' + this.element.offsetHeight
     }
 }
