@@ -5,7 +5,7 @@ const path = require('path'),
 
 const options = {
     entry: {
-        'MPlayer': './src/player.js'
+        'mplayer': './src/player.js'
     },
     module: {
         rules: [
@@ -56,7 +56,7 @@ const options = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].[chunkhash:8].js',
+        filename: '[name].min.js',
         library: '[name]',
         libraryTarget: 'umd',
         umdNamedDefine: true,

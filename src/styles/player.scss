@@ -603,14 +603,15 @@
 
 
       .name {
-        width: 6.875rem; /* 110/16 */;
+        width: 7.5rem; /* 120/16 */;
         text-align: right;
         display: inline-block;
       }
 
       .v {
-        width: 14.625rem;
+        width: 14rem;
         display: inline-block;
+        text-indent: .25rem;
 
         &.right {
           text-align: right;
@@ -638,7 +639,7 @@
       right: 100px;
       color: #FFF;
       font-size: 0.875rem;
-      box-sizing: border-box;
+      /*box-sizing: border-box;*/
       padding: 6px 0;
       border-radius: 3px;
       background: rgba(0,0,0,0.4);

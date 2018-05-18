@@ -11,7 +11,8 @@ export default (options) => {
         autoplay: false,
         loop: false,
         blob: false,
-        volume: 40
+        volume: 40,
+        loggerType: options.loggerType || 1,
     }
 
     if (isMobile) {

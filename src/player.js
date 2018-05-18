@@ -1,4 +1,4 @@
-import './styles/demo.scss'
+// import './styles/demo.scss'
 import './styles/player.scss'
 
 // import { MediaPlayer } from 'dashjs'
@@ -29,13 +29,12 @@ class MPlayer {
 
         var that = this
         this.index = index
-
-        logger.setType(0)
-        logger.debug('Player initialize.')
-
         this.options = {}
         this.options = options(option)
-        
+
+        logger.setType(this.options.loggerType)
+        logger.debug('Player initialize.')
+
         this.element = this.options.element
         this.element.classList.add('player-wrap')
         this.element.innerHTML = template.build(this.index, this.options)
@@ -257,6 +256,10 @@ class MPlayer {
     play () {
         this.controller.button.play.innerHTML = Icons.pause
         this.video.play()
+
+        this.panelUpdated = setInterval(() => {
+            this.infoPanel.trigger()
+        }, 3000)
     }
 
     /**
@@ -265,6 +268,8 @@ class MPlayer {
     pause () {
         this.controller.button.play.innerHTML = Icons.play
         this.video.pause()
+
+        clearInterval(this.panelUpdated)
     }
 
     /**
