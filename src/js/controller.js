@@ -1,4 +1,4 @@
-import util from './utils'
+import { formatTime } from './utils'
 import logger from './logger'
 import Icons from './icons'
 
@@ -141,7 +141,7 @@ class Controller {
             let percentage = (e.clientX - this.bar.load.getBoundingClientRect().left) / this.bar.load.offsetWidth;
             percentage = percentage > 0 ? percentage : 0;
             percentage = percentage < 1 ? percentage : 1;
-            let timer = util.formatTime(parseFloat(percentage) * this.video.duration);
+            let timer = formatTime(parseFloat(percentage) * this.video.duration);
 
             this.bar.timerLabel.style.left = `${(percentage * 100) }%`;
             this.bar.timerLabel.innerText = timer;
@@ -240,11 +240,11 @@ class Controller {
         this.timer.current = this.element.querySelector('.play-time .play-current')
         this.timer.duration = this.element.querySelector('.play-time .play-duration')
 
-        // this.timer.duration.innerText = util.formatTime(this.video.duration)
+        // this.timer.duration.innerText = formatTime(this.video.duration)
 
         this.updateTimer = () => {
-            this.timer.current.innerText = util.formatTime(this.video.currentTime)
-            this.timer.duration.innerText = util.formatTime(this.video.duration)
+            this.timer.current.innerText = formatTime(this.video.currentTime)
+            this.timer.duration.innerText = formatTime(this.video.duration)
         }
         this.events.push(this.updateTimer)
     }
