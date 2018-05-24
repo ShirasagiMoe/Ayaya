@@ -1,9 +1,9 @@
 
 class InfoPanel {
 
-    constructor(option) {
-        this.player = option
-        this.element = option.element
+    constructor(player) {
+        this.player = player
+        this.element = player.element
         this.panel = this.element.querySelector('.info-panel')
         this.events = {}
         this.events.droppedFrames = this.panel.querySelector('.dropped-frames')

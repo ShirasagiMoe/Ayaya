@@ -4,7 +4,7 @@ const template = {
     build: (index, option) => {
         let html = `
             <div class="video-box">
-                <video class="mplayer-video mplayer-index${index}" src=""></video>
+                <video class="mplayer-video mplayer-video-index${index}" src=""></video>
             </div>
             <div class="info-panel">
                 <a class="close" title="关闭">[x]</a>

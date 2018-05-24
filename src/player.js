@@ -27,7 +27,6 @@ class MPlayer {
      */
     constructor (option) {
 
-        var that = this
         this.index = index
         this.options = {}
         this.options = options(option)
@@ -35,20 +34,23 @@ class MPlayer {
         logger.setType(this.options.loggerType)
         logger.debug('Player initialize.')
 
+        this.nowPlayer = `mplayer-index${this.index}`
+
         this.element = this.options.element
         this.element.classList.add('player-wrap')
+        this.element.classList.add(this.nowPlayer)
         this.element.innerHTML = template.build(this.index, this.options)
 
-        this.nowPlayer = `mplayer-index${this.index}`
-        
-        this.video = this.element.getElementsByClassName(this.nowPlayer)[0]
+        this.video = this.element.getElementsByClassName('mplayer-video')[0]
         this.video.poster = this.options.video.poster
         this.muted = false
 
         this.infoPanel = new InfoPanel(this);
 
+        let that = this
+
         this.menu = new Menu({
-            element: this.video,
+            player: this,
             menus: [
                 {
                     name: '复制视频网址',

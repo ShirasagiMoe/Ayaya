@@ -3,7 +3,7 @@ class Menu {
 
     constructor(option) {
 
-        var menu = document.querySelector('.context-menu')
+        var menu = option.player.element.querySelector('.context-menu')
 
 
         var ul = menu.querySelector('ul')
@@ -12,7 +12,7 @@ class Menu {
 
         this.init(ul, option.menus)
 
-        option.element.oncontextmenu = (e) => {
+        option.player.element.oncontextmenu = (e) => {
             e.preventDefault()
 
             menu.style.left = e.offsetX + 'px'
@@ -20,7 +20,7 @@ class Menu {
             menu.style.display = 'block'
         }
 
-        window.onclick = (e) => {
+        option.player.element.onclick = (e) => {
             menu.style.display = 'none'
         }
     }
