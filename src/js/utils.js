@@ -81,7 +81,7 @@ export function seekToSeconds(last, now) {
     seconds = parseInt( now - last )
     return seconds
 }
-k
+
 export function now() {
     if (window.performance && window.performance .now)
         return performance.now()
