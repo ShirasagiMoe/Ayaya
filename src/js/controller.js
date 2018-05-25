@@ -157,7 +157,15 @@ class Controller {
             this.bar.loaded.style.width = percentageWidth
             this.bar.played.style.width = playedWidth
         };
+/*
 
+        this.hlsStats = () => {
+            logger.debug(this.player.stats)
+            this.player.infoPanel.trigger()
+        };
+*/
+
+        // this.events.push(this.hlsStats)
         this.events.push(this.updateLoadBar)
     }
 

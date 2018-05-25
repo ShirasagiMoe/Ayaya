@@ -124,6 +124,7 @@ class MPlayer {
     init (element, type, source) {
         let that = this;
         this.options.type = this.type = type;
+        const el = element
         if (!this.type || this.type === 'auto') {
             if (/.mpd(#|\?|\$)/i.exec(source)) {
                 this.type = PLAYER_TYPE.NativeDash;
@@ -161,6 +162,8 @@ class MPlayer {
                     hls.attachMedia(element);
 
                     that.stats = {};
+                    that.stats.droppedFrames = 0
+                    that.stats.totalFrames = 0
                     let events = {
                         url    : source,
                         t0     : performance.now(),
@@ -176,6 +179,10 @@ class MPlayer {
                             levelNb    : data.levels.length,
                             levelParsed: 0
                         };
+                    });
+                    //  fired when we know about the codecs that we need buffers for to push into
+                    hls.on(Hls.Events.BUFFER_CODECS, function (event, data) {
+                        that.stats.codec = data && data.video && data.video.container + ';codecs="' + data.video.codec + '"'
                     });
                     hls.on(Hls.Events.LEVEL_LOADED, function(event, data) {
                         var event = {
@@ -201,10 +208,40 @@ class MPlayer {
                     });
 
                     hls.on(Hls.Events.FRAG_BUFFERED, function(event, data) {
+                        var event = {
+                            type: data.frag.type + ' fragment',
+                            id: data.frag.level,
+                            id2: data.frag.sn,
+                            time: data.stats.trequest - events.t0,
+                            latency: data.stats.tfirst - data.stats.trequest,
+                            load: data.stats.tload - data.stats.tfirst,
+                            parsing: data.stats.tparsed - data.stats.tload,
+                            buffer: data.stats.tbuffered - data.stats.tparsed,
+                            duration: data.stats.tbuffered - data.stats.tfirst,
+                            bw: Math.round(8 * data.stats.total / (data.stats.tbuffered - data.stats.trequest)),
+                            size: data.stats.total
+                        };
+                        events.load.push(event);
+                        events.bitrate.push({
+                            time: performance.now() - events.t0,
+                            bitrate: event.bw,
+                            duration: data.frag.duration,
+                            level: event.id
+                        });
+
+                        if (hls.bufferTimer === undefined) {
+                            events.buffer.push({
+                                time: 0,
+                                buffer: 0,
+                                pos: 0
+                            });
+                            // hls.bufferTimer = window.setInterval(checkBuffer, 100);
+                        }
                         let latency = data.stats.tfirst - data.stats.trequest,
                             parsing = data.stats.tparsed - data.stats.tload,
                             process = data.stats.tbuffered - data.stats.trequest,
-                            bitrate = Math.round(8 * data.stats.length / (data.stats.tbuffered - data.stats.tfirst));
+                            bitrate = Math.round(8 * data.stats.total / (data.stats.tbuffered - data.stats.tfirst));
+
                         if (that.stats.fragBuffered) {
                             that.stats.fragMinLatency = Math.min(that.stats.fragMinLatency, latency);
                             that.stats.fragMaxLatency = Math.max(that.stats.fragMaxLatency, latency);
@@ -252,13 +289,13 @@ class MPlayer {
 
                     hls.on(Hls.Events.FRAG_LOAD_PROGRESS, function (event, data) {
 
-                        const quality = element.getVideoPlaybackQuality();
+                        const quality = typeof el.getVideoPlaybackQuality === (Function) && el.getVideoPlaybackQuality || undefined;
 
                         if(quality && quality.droppedVideoFrames && quality.totalVideoFrames) {
                             that.stats.droppedFrames = quality.droppedVideoFrames
                             that.stats.totalFrames = quality.totalVideoFrames
-                        } else if(element.webkitDroppedFrameCount) {
-                            that.stats.droppedFrames = element.webkitDroppedFrameCount
+                        } else if(el.webkitDroppedFrameCount) {
+                            that.stats.droppedFrames = el.webkitDroppedFrameCount
                             that.stats.totalFrames = 0
                         } else {
                             that.stats.droppedFrames = 0
@@ -282,9 +319,10 @@ class MPlayer {
         this.controller.button.play.innerHTML = Icons.pause
         this.video.play()
 
+        // info panel load speed auto refresh
         this.panelUpdated = setInterval(() => {
             this.infoPanel.trigger()
-        }, 3000)
+        }, 1000)
     }
 
     /**
@@ -304,6 +342,7 @@ class MPlayer {
         this.controller.button.play.innerHTML = Icons.play
         this.video.pause()
         // this.seek(0)
+        clearInterval(this.panelUpdated)
     }
 
     /**

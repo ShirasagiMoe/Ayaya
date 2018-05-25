@@ -1,3 +1,4 @@
+import logger from './logger'
 
 class InfoPanel {
 
@@ -11,6 +12,7 @@ class InfoPanel {
         this.events.viewport = this.panel.querySelector('.viewport')
         this.events.volume = this.panel.querySelector('.volume')
         this.events.playerMode = this.panel.querySelector('.player-mode')
+        this.events.codecs = this.panel.querySelector('.codecs')
 
         this.panel.querySelector('.close').addEventListener('click', (e) => {
             e.preventDefault()
@@ -19,7 +21,7 @@ class InfoPanel {
 
         this.events.playerMode.innerText = this.player.options.type
 
-        let cid = 0
+/*        let cid = 0
         const resize = () => {
             clearTimeout(cid)
             cid = setTimeout( () => {
@@ -27,8 +29,7 @@ class InfoPanel {
             }, 1000)
         }
 
-        this.element.addEventListener('resize', resize)
-
+        this.element.addEventListener('resize', resize)*/
     }
 
     open() {
@@ -47,8 +48,8 @@ class InfoPanel {
 
         if (this.player.stats) {
             this.events.droppedFrames.innerText = `${this.player.stats.droppedFrames}/${this.player.stats.totalFrames}`
-            this.events.connectionSpeed.innerText = ((this.player.stats.fragMaxLatency * 1024) / 8).toFixed(2) + 'Kb/s'
-
+            this.events.connectionSpeed.innerText = (this.player.stats.fragLastKbps / 1024 * 8).toFixed(2) + 'Kb/s'
+            this.events.codecs.innerText = this.player.stats.codec
         }
         this.events.viewport.innerText = this.element.offsetWidth + 'x' + this.element.offsetHeight
     }
