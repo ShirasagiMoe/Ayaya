@@ -76,10 +76,15 @@ export function formatTime(time) {
     return `${min}:${sec}`
 }
 
-export function seekToSeconds(last, now) {
+export function seekToSecondsText(last, now) {
     let seconds = 0
-    seconds = parseInt( now - last )
-    return seconds
+    if (last < now) {
+        seconds = parseInt( now - last )
+        return `快进 ${seconds} 秒`
+    } else {
+        seconds = parseInt( last - now )
+        return `快退 ${seconds} 秒`
+    }
 }
 
 export function now() {
@@ -88,4 +93,4 @@ export function now() {
     return Date.now()
 }
 
-export default { Fullscreen, requestAnimationFrame, cancelAnimationFrame, formatTime, uniqueId, isNumber, seekToSeconds, now}
+export default { Fullscreen, requestAnimationFrame, cancelAnimationFrame, formatTime, uniqueId, isNumber, seekToSecondsText, now}

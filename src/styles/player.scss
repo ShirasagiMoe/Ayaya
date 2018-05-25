@@ -461,7 +461,7 @@
       }
     }
   
-    .video-message {
+    .video-notice {
       display: none;
       opacity: 0;
       position: absolute;
@@ -484,7 +484,7 @@
       }
     }
   
-    .video-notice {
+    .video-stats {
       display: block;
       opacity: 0;
       position: absolute;
@@ -696,7 +696,6 @@
       margin: -50px 0 0 -50px;
     }
   }
-  
   @keyframes ani-notice-show {
     0% {
       opacity: 1;
@@ -711,7 +710,6 @@
       transform: scale(1.4);
     }
   }
-
   @keyframes circle {
     0%{ transform: rotate(0deg); }
     100%{ transform: rotate(360deg); }

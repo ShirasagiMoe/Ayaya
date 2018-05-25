@@ -19,7 +19,7 @@ const template = {
                     </li>
                     <li>
                         <span class="name">Current Mode:</span>
-                        <span class="v player-mode">Hls (m3u plist)</span>
+                        <span class="v player-mode">default</span>
                     </li>
                     <li>
                         <span class="name">Video ID:</span>
@@ -31,7 +31,7 @@ const template = {
                     </li>
                     <li>
                         <span class="name">Volume:</span>
-                        <span class="v volume">40 / 5.7dB</span>
+                        <span class="v volume">40</span>
                     </li>
                     <li>
                         <span class="name">Codecs:</span>
@@ -52,12 +52,7 @@ const template = {
                 </ul>
             </div>
             <div class="context-menu">
-                <ul>
-                    <li>复制视频网址</li>   
-                    <li>复制嵌入代码</li>
-                    <li>循环播放</li>
-                    <li>无法播放反馈</li>
-                    <li>详细统计信息</li>             
+                <ul>         
                 </ul>            
             </div>
             
@@ -70,10 +65,10 @@ const template = {
                 <div class="icon play-status">${Icons.play}</div>
             </div>
             
-            <div class="video-message">
+            <div class="video-notice">
                 <span>10%</span>
             </div>
-            <div class="video-notice">
+            <div class="video-stats">
                 ${Icons.play}
             </div>
             <div class="video-waiting">

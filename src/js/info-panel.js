@@ -10,16 +10,14 @@ class InfoPanel {
         this.events.connectionSpeed = this.panel.querySelector('.connection-speed')
         this.events.viewport = this.panel.querySelector('.viewport')
         this.events.volume = this.panel.querySelector('.volume')
+        this.events.playerMode = this.panel.querySelector('.player-mode')
 
         this.panel.querySelector('.close').addEventListener('click', (e) => {
             e.preventDefault()
             this.close()
         })
-/*
-        this.panelCid = setInterval(() => {
-            this.trigger()
-        }, 5000)
-        */
+
+        this.events.playerMode.innerText = this.player.options.type
 
         let cid = 0
         const resize = () => {

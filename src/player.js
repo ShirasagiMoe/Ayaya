@@ -14,6 +14,8 @@ import Menu from './js/context-menu'
 import InfoPanel from './js/info-panel'
 import Controller from './js/controller'
 import FullScreen from "./js/fullscreen";
+import Notice from "./js/notice";
+import { formatTime, seekToSecondsText } from "./js/utils";
 
 
 let index = 0;
@@ -85,6 +87,7 @@ class MPlayer {
 
         this.controller = new Controller(this)
         this.fullScreen = new FullScreen(this)
+        this.notice = new Notice(this)
         this.setVolume(this.options.volume)
 
         logger.debug('Player inited.')
@@ -101,7 +104,7 @@ class MPlayer {
      */
     init (element, type, source) {
         var that = this;
-        this.type = type;
+        this.options.type = this.type = type;
         if (!this.type || this.type === 'auto') {
             if (/.mpd(#|\?|\$)/i.exec(source)) {
                 this.type = PLAYER_TYPE.NativeDash;
@@ -287,8 +290,10 @@ class MPlayer {
      * 跳转到指定播放时间
      */
     seek (time) {
-        if (time === undefined) return this.video.currentTime;
+        if (time === undefined || isNaN(time)) return this.video.currentTime
         logger.debug(`Seek to ${Math.max(time, 0)}`)
+        let text = seekToSecondsText(this.video.currentTime, time)
+        this.notice.showAutoHide(text)
         this.video.currentTime = time
         return this
     }
@@ -324,13 +329,6 @@ class MPlayer {
         this.video.playbackRate = value
         this.controller.settings.playSpeed.querySelector('.text').innerText = value + ' 倍'
         logger.info(`setting playback rate ${value}`)
-    }
-
-    /**
-     * 弹出消息
-     */
-    notice () {
-
     }
 
     /**
