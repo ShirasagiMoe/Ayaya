@@ -30,6 +30,7 @@ class Menu {
         for (let menu of menus) {
             let li = document.createElement('li')
             li.innerText = menu.name
+            menu.class && li.classList.add(menu.class)
             li.addEventListener('click', menu.func)
             ele.appendChild(li)
         }

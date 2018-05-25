@@ -21,7 +21,7 @@ video {
   box-shadow: 0px 0px 2px #ccc;
 }
 
-#logger {
+.logger {
   width: 900px;
   height: 200px;
   padding: 2px 5px;
@@ -32,7 +32,7 @@ video {
   overflow-y: auto;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .container {
     width: 98%;
   }

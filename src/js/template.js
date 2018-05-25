@@ -51,6 +51,9 @@ const template = {
                     </li>
                 </ul>
             </div>
+            <div class="hidden">
+                <div class="copy-location">${window.location.href}</div>
+            </div>
             <div class="context-menu">
                 <ul>         
                 </ul>            

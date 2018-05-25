@@ -45,7 +45,6 @@ class InfoPanel {
 
     trigger() {
 
-        console.log(this.player.stats)
         if (this.player.stats) {
             this.events.droppedFrames.innerText = `${this.player.stats.droppedFrames}/${this.player.stats.totalFrames}`
             this.events.connectionSpeed.innerText = ((this.player.stats.fragMaxLatency * 1024) / 8).toFixed(2) + 'Kb/s'

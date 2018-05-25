@@ -5,7 +5,7 @@ const extractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = function (options) {
     options.devtool = 'cheap-module-source-map';
     options.plugins = [
-        new extractTextPlugin("[name].min.css"),
+        new extractTextPlugin("[name].[chunkhash:8].min.css"),
     ];
     options.plugins.unshift(new webpack.LoaderOptionsPlugin({
         minimize: true,

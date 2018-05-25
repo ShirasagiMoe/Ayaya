@@ -32,7 +32,7 @@ class Controller {
         this.initPlayTimer();
         this.initVolumeBar();
         this.initSettingGroup();
-        this.initWatingWarp();
+        this.initWaitingWarp();
 
         this.eventFunc = () => {
 
@@ -195,7 +195,8 @@ class Controller {
                     this.button.volume.innerHTML = Icons.volume3
                 }
             }
-            this.player.infoPanel.setVolumeText(val);
+            this.player.notice.showAutoHide(`音量 ${val}`)
+            this.player.infoPanel.setVolumeText(val)
         };
 
         this.getVolume = () => {
@@ -282,35 +283,20 @@ class Controller {
             settingGroup.classList.remove('hidden')
         });
 
-        this.settings.mirror.addEventListener('click', (e) => {
-            if (this.mirror) {
-                this.video.style.transform = 'scaleX(1)'
-                this.settings.mirror.querySelector('.text').innerText = '关'
-            } else {
-                this.video.style.transform = 'scaleX(-1)'
-                this.settings.mirror.querySelector('.text').innerText = '开'
-            }
-            this.mirror = !this.mirror
-        });
+        this.settings.mirror.addEventListener('click', this._mirror);
 
-        this.settings.loop.addEventListener('click', (e) => {
-            if (this.video.loop) {
-                this.video.loop = false
-                this.settings.loop.querySelector('.text').innerText = '关闭'
-            } else {
-                this.video.loop = true
-                this.settings.loop.querySelector('.text').innerText = '开启'
-            }
-        });
+        this.settings.loop.addEventListener('click', this._loop);
 
         const hotKey = () => {
             if (this.hotkey) {
                 this.settings.hotkey.querySelector('.text').innerText = '关闭'
                 window.removeEventListener('keyup', bindHotKey)
+                this.player.notice.showAutoHide('全局热键 关')
                 logger.debug('Hotkey disable')
             } else {
                 this.settings.hotkey.querySelector('.text').innerText = '开启'
                 window.addEventListener('keyup', bindHotKey)
+                this.player.notice.showAutoHide('全局热键 开')
                 logger.debug('Hotkey enable')
             }
             this.hotkey = !this.hotkey
@@ -346,15 +332,30 @@ class Controller {
         hotKey()
     }
 
-    initWatingWarp () {
+    initWaitingWarp () {
 
-        this.video.addEventListener('waiting', () => {
-            this.player.element.classList.add('player-waiting')
-        })
+        let waitingId = 0
 
-        this.video.addEventListener('canplay', () => {
+        const loaded = () => {
             this.player.element.classList.remove('player-waiting')
+            clearInterval(waitingId)
+            logger.debug('Video Loaded.')
+        }
+
+        this.player.video.addEventListener('waiting', () => {
+            this.player.element.classList.add('player-waiting')
+            logger.debug('Video Loading..')
+
+            waitingId = setInterval(() => {
+                console.log('video state:', this.player.video.readyState)
+                if (this.player.video.readyState > 3) {
+                    loaded()
+                }
+            }, 300)
         })
+
+        this.player.video.addEventListener('canplay', loaded)
+        this.player.video.addEventListener('canplaythrough', loaded)
     }
 
     /**
@@ -377,6 +378,31 @@ class Controller {
     hide () {
         this.player.element.classList.add('player-hide-control')
         this.button.setting.checked = false
+    }
+
+    _mirror () {
+        if (this.mirror) {
+            this.video.style.transform = 'scaleX(1)'
+            this.settings.mirror.querySelector('.text').innerText = '关'
+            this.player.notice.showAutoHide('镜像 关')
+        } else {
+            this.video.style.transform = 'scaleX(-1)'
+            this.settings.mirror.querySelector('.text').innerText = '开'
+            this.player.notice.showAutoHide('镜像 开')
+        }
+        this.mirror = !this.mirror
+    }
+
+    _loop () {
+        if (this.video.loop) {
+            this.video.loop = false
+            this.settings.loop.querySelector('.text').innerText = '关闭'
+            this.player.notice.showAutoHide('循环播放 关')
+        } else {
+            this.video.loop = true
+            this.settings.loop.querySelector('.text').innerText = '开启'
+            this.player.notice.showAutoHide('循环播放 开')
+        }
     }
 }
 

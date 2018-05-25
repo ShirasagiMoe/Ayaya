@@ -3,6 +3,7 @@ import './styles/player.scss'
 
 // import { MediaPlayer } from 'dashjs'
 import Hls from 'hls.js'
+import Clipboard from 'clipboard'
 // import flv from 'flv.js'
 
 import PLAYER_TYPE from './js/player-type'
@@ -49,6 +50,17 @@ class MPlayer {
 
         this.infoPanel = new InfoPanel(this);
 
+        this.media = {};
+        this.media.url = option.video.src
+        this.media.poster = option.video.poster
+
+        this.init(this.video, this.options.type, this.media.url)
+
+        this.notice = new Notice(this)
+
+        this.controller = new Controller(this)
+        this.fullScreen = new FullScreen(this)
+
         let that = this
 
         this.menu = new Menu({
@@ -56,19 +68,22 @@ class MPlayer {
             menus: [
                 {
                     name: '复制视频网址',
-                    func: function () {}
-                },
-                {
-                    name: '复制嵌入代码',
-                    func: function () {}
+                    class: 'copy-el1',
+                    func: function () {
+
+                    }
                 },
                 {
                     name: '循环播放',
-                    func: function () {}
+                    func: function () {
+                        that.controller._loop()
+                    }
                 },
                 {
                     name: '无法播放反馈',
-                    func: function () {}
+                    func: function () {
+                        window.location.href = 'http://www.srsg.moe/feedback/player/error_reply?backurl=' + window.location.href
+                    }
                 },
                 {
                     name: '详细统计信息',
@@ -79,15 +94,19 @@ class MPlayer {
             ]
         })
 
-        this.media = {};
-        this.media.url = option.video.src
-        this.media.poster = option.video.poster
+        // 复制
+        let clipboard = new Clipboard('.copy-el1', {
+            text: () => { return window.location.href }
+        });
 
-        this.init(this.video, this.options.type, this.media.url)
+        clipboard.on('success', (e) => {
+            that.notice.showAutoHide('复制成功')
+        })
 
-        this.controller = new Controller(this)
-        this.fullScreen = new FullScreen(this)
-        this.notice = new Notice(this)
+        clipboard.on('error', (e) => {
+            console.log(e)
+        })
+
         this.setVolume(this.options.volume)
 
         logger.debug('Player inited.')
@@ -103,7 +122,7 @@ class MPlayer {
      * @param source
      */
     init (element, type, source) {
-        var that = this;
+        let that = this;
         this.options.type = this.type = type;
         if (!this.type || this.type === 'auto') {
             if (/.mpd(#|\?|\$)/i.exec(source)) {
@@ -233,10 +252,11 @@ class MPlayer {
 
                     hls.on(Hls.Events.FRAG_LOAD_PROGRESS, function (event, data) {
 
-                        const quality = element.getVideoPlaybackQuality;
-                        if(quality && typeof (quality) === typeof (Function)) {
-                            that.stats.droppedFrames = quality().droppedVideoFrames
-                            that.stats.totalFrames = quality().totalVideoFrames
+                        const quality = element.getVideoPlaybackQuality();
+
+                        if(quality && quality.droppedVideoFrames && quality.totalVideoFrames) {
+                            that.stats.droppedFrames = quality.droppedVideoFrames
+                            that.stats.totalFrames = quality.totalVideoFrames
                         } else if(element.webkitDroppedFrameCount) {
                             that.stats.droppedFrames = element.webkitDroppedFrameCount
                             that.stats.totalFrames = 0
@@ -293,6 +313,7 @@ class MPlayer {
         if (time === undefined || isNaN(time)) return this.video.currentTime
         logger.debug(`Seek to ${Math.max(time, 0)}`)
         let text = seekToSecondsText(this.video.currentTime, time)
+        logger.debug(text)
         this.notice.showAutoHide(text)
         this.video.currentTime = time
         return this

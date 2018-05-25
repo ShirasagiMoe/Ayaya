@@ -8,7 +8,7 @@ export default class Notice {
         this.element.style.display = 'none'
         this.element.style.opacity = 0
 
-        this.textEl = this.element.getElementsByTagName('span')
+        this.textEl = this.element.querySelector('span')
         this.textEl.innerText = ''
 
         this.iv = 0
