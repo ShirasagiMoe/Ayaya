@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "A simple SRSG Media Player.",
   "author": "sendya",
-  "license": "GPL",
+  "license": "MIT",
   "main": "dist/mplayer.min.js",
   "style": "dist/mplayer.min.css",
   "devDependencies": {
