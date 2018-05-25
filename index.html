@@ -7,7 +7,7 @@ Date: 2017/01/01
 <head>
     <meta charset="utf-8">
     <title>MPlayer</title>
-    <link rel="stylesheet" type="text/css" media="all" href="/assets/MPlayer.css"/>
+    <link rel="stylesheet" type="text/css" media="all" href="/assets/bundle.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="HandheldFriendly" content="true">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -22,8 +22,17 @@ Date: 2017/01/01
 
     </div>
 
-    <div id="logger" contenteditable="true">
+    <div id="logger" class="logger" contenteditable="true">
     </div>
+
+    <hr />
+
+    <div id="player2">
+
+    </div>
+    <div id="logger2" class="logger" contenteditable="true">
+    </div>
+    <hr />
 </div>
 <script type="text/javascript" src="/assets/MPlayer.js"></script>
 <script type="text/javascript">
@@ -32,7 +41,17 @@ Date: 2017/01/01
         type: 'hls',
         video: {
             poster: '/poster.png',
-            src: '//demo.loacg.com/assets/v4/playlist.m3u8'
+            src: '/dist/playlist.m3u8'
+        },
+        volume: 10
+    });
+
+    var player2 = new MPlayer({
+        element: document.getElementById('player2'),
+        type: 'hls',
+        video: {
+            poster: '/poster.png',
+            src: '/dist/playlist.m3u8'
         },
         volume: 10
     });
