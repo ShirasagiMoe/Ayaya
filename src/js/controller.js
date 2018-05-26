@@ -344,10 +344,10 @@ class Controller {
 
         let waitingId = 0
 
-        const loaded = () => {
+        const loaded = (e) => {
             this.player.element.classList.remove('player-waiting')
             clearInterval(waitingId)
-            logger.debug('Video Loaded.')
+            logger.debug('Video Loaded', e.timeStamp)
         }
 
         this.player.video.addEventListener('waiting', () => {
@@ -355,7 +355,6 @@ class Controller {
             logger.debug('Video Loading..')
 
             waitingId = setInterval(() => {
-                console.log('video state:', this.player.video.readyState)
                 if (this.player.video.readyState > 3) {
                     loaded()
                 }
@@ -363,7 +362,7 @@ class Controller {
         })
 
         this.player.video.addEventListener('canplay', loaded)
-        this.player.video.addEventListener('canplaythrough', loaded)
+        // this.player.video.addEventListener('canplaythrough', loaded)
     }
 
     /**

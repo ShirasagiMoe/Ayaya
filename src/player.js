@@ -104,7 +104,7 @@ class MPlayer {
         })
 
         clipboard.on('error', (e) => {
-            console.log(e)
+            logger.error(e)
         })
 
         this.setVolume(this.options.volume)

@@ -67,6 +67,13 @@ export function isNumber(v) {
     return value - parseFloat(value) + 1 >= 0
 }
 
+export function isArray(v) {
+    if (typeof v === 'object') {
+        return Object.prototype.toString.call(v) === '[object Array]'
+    }
+    return v instanceof Array
+}
+
 export function formatTime(time) {
     var min, sec
     min = Math.floor(time / 60)

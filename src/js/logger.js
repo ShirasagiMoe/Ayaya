@@ -1,3 +1,5 @@
+import { isArray } from "./utils";
+
 const LOGGER_LEVEL = {
     DEBUG: 0,
     INFO: 1,
@@ -51,7 +53,13 @@ class Logger {
             this.el.appendChild(document.createElement("br"))
             this.el.scrollTop = this.el.scrollHeight
         } else {
-            console.log(strs)
+            isArray(strs);
+            let log = '[' + this.typeToName(this.level) + '] -> '
+            strs.forEach((v) => {
+                log += v + ', '
+            })
+            log = log.substring(0, log.length - 2)
+            console.log(log)
         }
     }
 
