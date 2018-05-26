@@ -3,6 +3,7 @@ var webpack = require("webpack");
 const extractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = function (options) {
+    delete options.entry.bundle;
     options.devtool = 'cheap-module-source-map';
     options.plugins = [
         new extractTextPlugin("[name].[chunkhash:8].min.css"),
