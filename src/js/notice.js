@@ -1,3 +1,4 @@
+import Icons from "./icons";
 
 export default class Notice {
 
@@ -10,6 +11,11 @@ export default class Notice {
 
         this.textEl = this.element.querySelector('span')
         this.textEl.innerText = ''
+
+        // stats
+        this.stats = this.player.element.querySelector('.video-stats')
+        // this.stats.classList.remove('show')
+        this.statsIv = 0
 
         this.iv = 0
     }
@@ -36,5 +42,14 @@ export default class Notice {
 
     trigger() {
 
+    }
+
+    showStats(type) {
+        clearTimeout(this.statsIv)
+        this.stats.innerHTML = type
+        this.stats.classList.add('show')
+        this.statsIv = setTimeout(() => {
+            this.stats.classList.remove('show')
+        }, 460)
     }
 }
