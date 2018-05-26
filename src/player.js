@@ -301,8 +301,6 @@ class MPlayer {
                             that.stats.droppedFrames = 0
                             that.stats.totalFrames = 0
                         }
-
-                        that.infoPanel.trigger(that.stats);
                     });
                 }
                 break;

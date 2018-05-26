@@ -48,7 +48,7 @@ class InfoPanel {
 
         if (this.player.stats) {
             this.events.droppedFrames.innerText = `${this.player.stats.droppedFrames}/${this.player.stats.totalFrames}`
-            this.events.connectionSpeed.innerText = (this.player.stats.fragLastKbps / 1024 * 8).toFixed(2) + 'Kb/s'
+            this.events.connectionSpeed.innerText = (this.player.stats.fragLastKbps / 8).toFixed(2) + 'Kb/s'
             this.events.codecs.innerText = this.player.stats.codec
         }
         this.events.viewport.innerText = this.element.offsetWidth + 'x' + this.element.offsetHeight
