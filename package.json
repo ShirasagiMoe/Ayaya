@@ -1,11 +1,11 @@
 {
-  "name": "mplayer",
-  "version": "1.0.1",
+  "name": "ayaya",
+  "version": "1.0.4",
   "description": "A simple SRSG Media Player.",
   "author": "sendya",
   "license": "MIT",
-  "main": "dist/mplayer.min.js",
-  "style": "dist/mplayer.min.css",
+  "main": "dist/mplayer.js",
+  "style": "dist/mplayer.css",
   "devDependencies": {
     "@types/hls.js": "^0.8.1",
     "autoprefixer": "^6.7.2",

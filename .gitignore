@@ -38,4 +38,4 @@ Public/**/*
 
 # build
 build/*
-dist/*
+#dist/*

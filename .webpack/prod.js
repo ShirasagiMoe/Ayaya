@@ -6,7 +6,7 @@ module.exports = function (options) {
     delete options.entry.bundle;
     options.devtool = 'cheap-module-source-map';
     options.plugins = [
-        new extractTextPlugin("[name].[chunkhash:8].min.css"),
+        new extractTextPlugin("[name].css"),
     ];
     options.plugins.unshift(new webpack.LoaderOptionsPlugin({
         minimize: true,
