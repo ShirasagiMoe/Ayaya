@@ -3,10 +3,10 @@ class Menu {
 
     constructor(option) {
 
-        var menu = option.player.element.querySelector('.context-menu')
+        let menu = option.player.element.querySelector('.context-menu')
 
 
-        var ul = menu.querySelector('ul')
+        let ul = menu.querySelector('ul')
 
         ul.innerHTML = ''
 

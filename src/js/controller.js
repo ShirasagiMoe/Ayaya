@@ -1,5 +1,5 @@
 import { formatTime } from './utils'
-import logger from './logger'
+import Logger from './logger'
 import Icons from './icons'
 
 const PLAY_STATUS = {
@@ -10,6 +10,8 @@ const PLAY_STATUS = {
     LOADED: 'loaded',
     ERROR: 'error',
 }
+
+const logger = Logger.getLogger()
 
 class Controller {
 

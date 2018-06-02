@@ -1,11 +1,11 @@
 {
   "name": "ayaya",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A simple SRSG Media Player.",
   "author": "sendya",
   "license": "MIT",
-  "main": "dist/mplayer.js",
-  "style": "dist/mplayer.css",
+  "main": "dist/MPlayer.js",
+  "style": "dist/MPlayer.css",
   "devDependencies": {
     "@types/hls.js": "^0.8.1",
     "autoprefixer": "^6.7.2",
@@ -32,8 +32,6 @@
   },
   "dependencies": {
     "clipboard": "^2.0.1",
-    "dashjs": "^2.6.8",
-    "flv.js": "^1.4.2",
     "hls.js": "^0.9.1"
   }
 }

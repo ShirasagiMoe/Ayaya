@@ -75,7 +75,7 @@ export function isArray(v) {
 }
 
 export function formatTime(time) {
-    var min, sec
+    let min, sec
     min = Math.floor(time / 60)
     if (min < 10) min = '0' + min
     sec = Math.floor(time % 60)

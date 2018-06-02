@@ -5,7 +5,7 @@ const path = require('path'),
 
 const options = {
     entry: {
-        'mplayer': './src/player.js',
+        'MPlayer': './src/player.js',
         'bundle': './src/index.js'
     },
     module: {

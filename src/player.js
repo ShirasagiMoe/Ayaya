@@ -8,7 +8,7 @@ import Clipboard from 'clipboard'
 
 import PLAYER_TYPE from './js/player-type'
 import Icons from './js/icons'
-import logger from './js/logger'
+import Logger from './js/logger'
 import options from './js/options'
 import template from './js/template'
 import Menu from './js/context-menu'
@@ -17,9 +17,11 @@ import Controller from './js/controller'
 import FullScreen from "./js/fullscreen";
 import Notice from "./js/notice";
 import { formatTime, seekToSecondsText } from "./js/utils";
+import Events from "./js/events";
 
 
 let index = 0;
+const logger = Logger.getLogger()
 
 class MPlayer {
 
@@ -108,6 +110,11 @@ class MPlayer {
         })
 
         this.setVolume(this.options.volume)
+
+
+        this.events = new Events()
+
+
 
         logger.debug('Player inited.')
 
@@ -401,6 +408,18 @@ class MPlayer {
 
     showStats (type) {
         this.notice.showStats(type)
+    }
+
+    on(name, callback) {
+        this.events.on(name, callback, this)
+    }
+
+    off(name, callback) {
+        this.events.off(name, callback, this)
+    }
+
+    trigger(name) {
+        this.events.trigger(name)
     }
 
     /**
