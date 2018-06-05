@@ -42,5 +42,7 @@ var player = new MPlayer({
 });
 ```
 
+volume 视频音量
+
 Logger Type: `VIEW: 0`, `CONSOLE: 1`  
 Logger LEVEL: ` DEBUG: 0`, `INFO: 1`, `WARN: 2`, `ERROR: 3`, `FATAL: 4`  

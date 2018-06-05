@@ -88,5 +88,5 @@ const options = {
 };
 
 module.exports = function (env) {
-    return require('./.webpack/' + (env === 'prod' ? 'prod' : 'dev') + '.js')(options);
+    return require('./.webpack/' + (env || 'prod') + '.js')(options);
 };

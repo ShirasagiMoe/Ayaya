@@ -1,6 +1,6 @@
 {
   "name": "ayaya",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A simple SRSG Media Player.",
   "author": "sendya",
   "license": "MIT",
@@ -26,7 +26,7 @@
     "webpack-dev-server": "^2.11.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --env=dev --hot --inline",
+    "start": "webpack-dev-server --env=test --hot --inline",
     "dev": "webpack --env=dev --progress --colors --hide-modules",
     "build": "webpack --env=prod --progress --colors --hide-modules"
   },
