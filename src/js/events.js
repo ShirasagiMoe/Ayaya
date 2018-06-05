@@ -66,7 +66,7 @@ export default class Events {
                 return this
             }
 
-            logger.debug('Events:', Events.prototype[method])
+            // logger.debug('Events:', Events.prototype[method])
         })
 
         logger.debug('Event inited')

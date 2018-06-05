@@ -14,6 +14,8 @@ class InfoPanel {
         this.events.playerMode = this.panel.querySelector('.player-mode')
         this.events.codecs = this.panel.querySelector('.codecs')
 
+        this.isShow = false
+
         this.panel.querySelector('.close').addEventListener('click', (e) => {
             e.preventDefault()
             this.close()
@@ -30,13 +32,20 @@ class InfoPanel {
         }
 
         this.element.addEventListener('resize', resize)*/
+
+        this.dict = [
+            {x: 0, y: 14},
+            {x: 180, y: 14},
+        ];
     }
 
     open() {
+        this.isShow = true
         this.panel.style.display = 'block'
     }
 
     close() {
+        this.isShow = false
         this.panel.style.display = 'none'
     }
 
@@ -52,6 +61,10 @@ class InfoPanel {
             this.events.codecs.innerText = this.player.stats.codec
         }
         this.events.viewport.innerText = this.element.offsetWidth + 'x' + this.element.offsetHeight
+    }
+
+    connectionSpeedLine() {
+
     }
 }
 

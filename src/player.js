@@ -45,6 +45,7 @@ class MPlayer {
         this.element.classList.add('player-wrap')
         this.element.classList.add(this.nowPlayer)
         this.element.innerHTML = template.build(this.index, this.options)
+        this.videoBox = this.element.getElementsByClassName('video-box')[0]
 
         this.video = this.element.getElementsByClassName('mplayer-video')[0]
         this.video.poster = this.options.video.poster
@@ -52,16 +53,18 @@ class MPlayer {
 
         this.infoPanel = new InfoPanel(this);
 
+        /*
         this.media = {};
         this.media.url = option.video.src
         this.media.poster = option.video.poster
+        */
 
-        this.init(this.video, this.options.type, this.media.url)
+        this.init(this.video, this.options.type, this.options.video.src)
 
         this.notice = new Notice(this)
 
-        this.controller = new Controller(this)
         this.fullScreen = new FullScreen(this)
+        this.controller = new Controller(this)
 
         let that = this
 

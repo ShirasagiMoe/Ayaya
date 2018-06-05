@@ -1,9 +1,12 @@
+import Logger from "./logger";
 
 const FULL_MODE = {
     NONE: 0,
     WEB: 1,
     SCREEN: 2
 }
+
+const logger = Logger.getLogger()
 
 class FullScreen {
 
@@ -20,7 +23,7 @@ class FullScreen {
         }
 
 
-        this.mode = FULL_MODE.NONE
+        this.setMode(FULL_MODE.NONE)
 
         // init element
         this.element = {}
@@ -37,12 +40,27 @@ class FullScreen {
         this.element.fullWebScreen.addEventListener('click', () => {
             this.webFull()
         })
+
+        logger.debug('Player Screen Mode:' + this.isInFullScreenMode())
+    }
+
+    /**
+     * 是否进入了全屏模式
+     * @returns {FullScreen|*|boolean}
+     */
+    isInFullScreenMode () {
+        return document.fullScreen || document.mozFullScreen ||
+            document.webkitIsFullScreen || document.msFullscreenElement
+            || this.player.element.fullScreen || this.player.element.mozFullScreen
+            || this.player.element.webkitIsFullScreen || this.player.element.msFullscreenElement;
     }
 
     /**
      * Full Web screen mode
      */
     webFull () {
+
+        logger.debug('Player Screen Mode:' + this.isInFullScreenMode())
 
         if (this.mode !== FULL_MODE.WEB) {
             this.player.element.classList.add(this.element.name.web)
@@ -58,20 +76,23 @@ class FullScreen {
         this.player.infoPanel.trigger()
     }
 
+
+
     /**
      * Full Screen mode
      */
     screenFull () {
+
+        logger.debug('Player Screen Mode:' + this.isInFullScreenMode())
+
         this.player.element.classList.remove(this.element.name.screen)
         this.player.element.classList.remove(this.element.name.web)
 
-        const isInFullScreenMode = function(){
-            return document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen || document.msFullscreenElement;
-        }
-        isInFullScreenMode()
-
         // 不是全屏模式
-        if (this.mode !== FULL_MODE.SCREEN) {
+        if (this.mode !== FULL_MODE.SCREEN && !this.isInFullScreenMode()) {
+
+            logger.debug('InMode' + FULL_MODE.SCREEN)
+
             if (this.player.element.requestFullscreen) {
                 this.player.element.requestFullscreen()
             } else if (this.player.element.mozRequestFullScreen) {
@@ -81,27 +102,45 @@ class FullScreen {
             } else if (this.player.element.msRequestFullscreen) {
                 this.player.element.msRequestFullscreen();
             }
-            screen.orientation.lock(this.SCREEN_DIRECTION.primary)
+            if (this.player.options.mobile) {
+                screen.orientation.lock(this.SCREEN_DIRECTION.primary)
+            }
+
             this.player.element.style.width = '100%'
             this.player.element.style.height = '100%'
+            this.player.element.classList.add(this.element.name.screen)
 
             this.setMode(FULL_MODE.SCREEN)
         } else {
-            if(document.exitFullscreen) {
-                document.exitFullscreen()
-            } else if(document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if(document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if(document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-            screen.orientation.unlock()
-            this.player.element.style.width = ''
-            this.player.element.style.height = ''
+
+            logger.debug('Exit Screen Mode' + FULL_MODE.NONE)
 
             this.setMode(FULL_MODE.NONE)
+            this.exitScreenFull()
         }
+    }
+
+    exitScreenFull () {
+        if(document.exitFullscreen) {
+            document.exitFullscreen()
+        } else if(document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if(document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        } else if(document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+        if (this.player.options.mobile) {
+            screen.orientation.unlock()
+        }
+
+        this.player.element.style.width = ''
+        this.player.element.style.height = ''
+        this.player.element.classList.remove(this.element.name.screen)
+
+        logger.debug('Exit ScreenFull Mode')
     }
 
     /**
@@ -114,6 +153,10 @@ class FullScreen {
 
     setMode (mode) {
         this.mode = mode
+
+        if (mode !== FULL_MODE.SCREEN && this.isInFullScreenMode()) {
+            this.exitScreenFull()
+        }
     }
 
 

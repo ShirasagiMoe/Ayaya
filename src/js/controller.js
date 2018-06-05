@@ -1,6 +1,7 @@
-import { formatTime } from './utils'
+import { formatTime, requestAnimationFrame } from './utils'
 import Logger from './logger'
 import Icons from './icons'
+import PLAYER_TYPE from "./player-type";
 
 const PLAY_STATUS = {
     PLAY: 'play',
@@ -15,15 +16,16 @@ const logger = Logger.getLogger()
 
 class Controller {
 
-    constructor (option) {
-        this.player = option
-        this.element = option.element
-        this.video = option.video
+    constructor (player) {
+        this.player = player
+        this.element = player.element
+        this.video = player.video
 
         this.autoHideControls = 0
 
         this.status = PLAY_STATUS.LOADING
         this.speed = 1
+        this.isShow = false
         this.mirror = false
         this.hotkey = false
 
@@ -35,6 +37,7 @@ class Controller {
         this.initVolumeBar();
         this.initSettingGroup();
         this.initWaitingWarp();
+        this._maskClick();
 
         this.eventFunc = () => {
 
@@ -371,22 +374,34 @@ class Controller {
      * Auto hide controls
      */
     autoHide () {
-        this.show()
-        clearTimeout(this.autoHideControls)
-        this.autoHideControls = setTimeout(() => {
-            if (this.video.played.length && this.status != PLAY_STATUS.PAUSE) {
-                this.hide()
-            }
-        }, 3000)
+        let that = this
+        requestAnimationFrame(function() {
+            that.show()
+            clearTimeout(that.autoHideControls)
+            that.autoHideControls = setTimeout(() => {
+                if (that.video.played.length && that.status != PLAY_STATUS.PAUSE) {
+                    that.hide()
+                }
+            }, 3000)
+        })
+
     }
 
     show () {
+        this.isShow = true
         this.player.element.classList.remove('player-hide-control')
+        logger.debug('fullscreen mode:' + this.player.fullScreen.mode)
+        document.body.style.cursor = 'auto'
     }
 
     hide () {
+        this.isShow = false
         this.player.element.classList.add('player-hide-control')
         this.button.setting.checked = false
+        logger.debug('fullscreen mode:' + this.player.fullScreen.mode)
+        if (this.player.fullScreen.mode > 0) {
+            document.body.style.cursor = 'none'
+        }
     }
 
     _mirror () {
@@ -412,6 +427,23 @@ class Controller {
             this.settings.loop.querySelector('.text').innerText = '开启'
             this.player.notice.showAutoHide('循环播放 开')
         }
+    }
+
+    /**
+     * 点击播放器内窗口切换 播放状态
+     * @private
+     */
+    _maskClick () {
+        logger.debug('addEventListener video click -> play()')
+
+        let that = this
+
+        this.player.video.addEventListener('click', () => {
+
+            if (!that.player.menu.isShow && that.isShow) {
+                this.play()
+            }
+        });
     }
 }
 

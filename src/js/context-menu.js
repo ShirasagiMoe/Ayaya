@@ -3,8 +3,9 @@ class Menu {
 
     constructor(option) {
 
-        let menu = option.player.element.querySelector('.context-menu')
+        this.isShow = false
 
+        let menu = option.player.element.querySelector('.context-menu')
 
         let ul = menu.querySelector('ul')
 
@@ -18,10 +19,16 @@ class Menu {
             menu.style.left = e.offsetX + 'px'
             menu.style.top = e.offsetY + 'px'
             menu.style.display = 'block'
+            this.isShow = true
+            // e.preventDefault();
+            // e.stopPropagation();
         }
 
         option.player.element.onclick = (e) => {
             menu.style.display = 'none'
+            this.isShow = false
+            // e.preventDefault();
+            // e.stopPropagation();
         }
     }
 

@@ -4,7 +4,11 @@
 .player-wrap {
     position: relative;
     user-select: none;
-  
+
+    // hidden cursor
+    &.player-web-full, &.player-web-full {
+
+    }
     // fullscreen
     &.player-web-full {
       top: 0;
@@ -14,12 +18,18 @@
       position: fixed;
       z-index: 200;
     }
+
+    &.player-screen-full {
+
+    }
   
     // control
     &.player-hide-control {
+
       .controls, .control-mask {
         opacity: 0;
       }
+
     }
 
     // waiting wrap
