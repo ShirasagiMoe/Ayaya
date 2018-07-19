@@ -50,6 +50,8 @@ class Controller {
             this.autoHide()
         })
 
+        logger.debug('Controller inited')
+
     }
 
     initButton () {
@@ -264,6 +266,7 @@ class Controller {
     }
 
     initSettingGroup () {
+        const _this = this;
         this.settings = {}
         let settingGroup = this.element.querySelector('.setting-group')
         this.playSpeedBox = this.element.querySelector('.play-speed-box')
@@ -296,53 +299,18 @@ class Controller {
             settingGroup.classList.remove('hidden')
         });
 
-        this.settings.mirror.addEventListener('click', this._mirror);
+        this.settings.mirror.addEventListener('click', _this._mirror.bind(_this), false);
 
-        this.settings.loop.addEventListener('click', this._loop);
+        this.settings.loop.addEventListener('click', _this._loop.bind(_this), false);
 
-        const hotKey = () => {
-            if (this.hotkey) {
-                this.settings.hotkey.querySelector('.text').innerText = '关闭'
-                window.removeEventListener('keyup', bindHotKey)
-                this.player.notice.showAutoHide('全局热键 关')
-                logger.debug('Hotkey disable')
-            } else {
-                this.settings.hotkey.querySelector('.text').innerText = '开启'
-                window.addEventListener('keyup', bindHotKey)
-                this.player.notice.showAutoHide('全局热键 开')
-                logger.debug('Hotkey enable')
-            }
-            this.hotkey = !this.hotkey
-        };
-
-        const bindHotKey = (event) => {
-            switch (event.keyCode) {
-                case 37: // 键盘左键
-                case 74: // J 快退
-                    this.player.seek( this.player.seek() -5);
-                    break;
-                case 39: // 键盘右键
-                case 76: // L 快退
-                    this.player.seek( this.player.seek() +5);
-                    break;
-                case 38: // 上键
-                    this.player.setVolume(this.player.volume +5)
-                    break;
-                case 40: // 下键
-                    this.player.setVolume(this.player.volume -5)
-                    break;
-                case 75:
-                    this.play();
-                    break;
-            }
-        };
+        this.bindHotKeyFunc = _this._bindHotKey.bind(_this);
 
         this.settings.hotkey.addEventListener('click', (e) => {
-            hotKey()
+            _this.hotKey()
         });
 
-
-        hotKey()
+        // default on hotkey
+        _this.hotKey()
     }
 
     initWaitingWarp () {
@@ -375,7 +343,7 @@ class Controller {
      */
     autoHide () {
         let that = this
-        requestAnimationFrame(function() {
+        this.autoHideFunc = function() {
             that.show()
             clearTimeout(that.autoHideControls)
             that.autoHideControls = setTimeout(() => {
@@ -383,14 +351,14 @@ class Controller {
                     that.hide()
                 }
             }, 3000)
-        })
+        };
+        requestAnimationFrame(this.autoHideFunc)
 
     }
 
     show () {
         this.isShow = true
         this.player.element.classList.remove('player-hide-control')
-        logger.debug('fullscreen mode:' + this.player.fullScreen.mode)
         document.body.style.cursor = 'auto'
     }
 
@@ -429,6 +397,50 @@ class Controller {
         }
     }
 
+    hotKey() {
+        var _this = this;
+
+        if (this.hotkey) {
+            this.settings.hotkey.querySelector('.text').innerText = '关闭'
+            document.removeEventListener('keyup', this.bindHotKeyFunc)
+            this.player.notice.showAutoHide('全局热键 关')
+            logger.debug('Hotkey disable')
+        } else {
+            this.settings.hotkey.querySelector('.text').innerText = '开启'
+            document.addEventListener('keyup', this.bindHotKeyFunc)
+            this.player.notice.showAutoHide('全局热键 开')
+            logger.debug('Hotkey enable')
+        }
+        this.hotkey = !this.hotkey
+    }
+
+    _bindHotKey (event) {
+        switch (event.keyCode) {
+            case 37: // 键盘左键
+            case 74: // J 快退
+                event.preventDefault();
+                this.player.seek( this.player.seek() -5);
+                break;
+            case 39: // 键盘右键
+            case 76: // L 快退
+                event.preventDefault();
+                this.player.seek( this.player.seek() +5);
+                break;
+            case 38: // 上键
+                event.preventDefault();
+                this.player.setVolume(this.player.volume +5)
+                break;
+            case 40: // 下键
+                event.preventDefault();
+                this.player.setVolume(this.player.volume -5)
+                break;
+            case 75:
+                event.preventDefault();
+                this.play();
+                break;
+        }
+    };
+
     /**
      * 点击播放器内窗口切换 播放状态
      * @private
@@ -444,6 +456,12 @@ class Controller {
                 this.play()
             }
         });
+    }
+
+    destroy() {
+        document.removeEventListener('keyup', this.bindHotKeyFunc)
+        clearTimeout(this.autoHideControls)
+        cancelAnimationFrame(this.autoHideFunc)
     }
 }
 

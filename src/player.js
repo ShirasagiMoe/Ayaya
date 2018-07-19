@@ -48,6 +48,7 @@ class MPlayer {
         this.videoBox = this.element.getElementsByClassName('video-box')[0]
 
         this.video = this.element.getElementsByClassName('mplayer-video')[0]
+
         this.video.poster = this.options.video.poster
         this.muted = false
 
@@ -316,6 +317,7 @@ class MPlayer {
                 break;
             case PLAYER_TYPE.HtmlMediaElement:
             default:
+                element.src = source;
                break;
         }
     }
@@ -429,6 +431,15 @@ class MPlayer {
      * 销毁播放器
      */
     destroy () {
+        this.controller.destroy()
+        this.notice.destroy()
+        clearInterval(this.panelUpdated)
+        this.infoPanel = null;
+        this.fullScreen = null;
+        this.notice = null;
+        this.menu = null
+        logger.debug('player destroy')
+        this.element.innerHTML = '';
 
     }
 

@@ -52,4 +52,9 @@ export default class Notice {
             this.stats.classList.remove('show')
         }, 460)
     }
+
+    destroy() {
+        clearTimeout(this.iv)
+        clearTimeout(this.statsIv)
+    }
 }

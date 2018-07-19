@@ -11,7 +11,7 @@ const template = {
                 <ul class="items">
                     <li>
                         <span class="name">Player:</span>
-                        <span class="v">MPlayer @build.20180511-r2</span>
+                        <span class="v">MPlayer @build.2018019-r1</span>
                     </li>
                     <li>
                         <span class="name">Support Mode:</span>
@@ -43,7 +43,7 @@ const template = {
                     </li>
                     <li>
                         <span class="name">Connection Speed:</span>
-                        <span class="v right connection-speed">479Kb/s</span>
+                        <span class="v right connection-speed">- Kb/s</span>
                     </li>
                     <li>
                         <span class="name">Dropped frames:</span>

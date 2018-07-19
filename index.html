@@ -18,6 +18,14 @@ Date: 2017/01/01
 
 <div class="container" id="container">
 
+    <div class="title">
+        <h2>WakabaGirl</h2>
+        <h4>MPlayer @build.4cd948e3</h4>
+    </div>
+    <div class="mode">
+        <button id="html5" onclick="h5()">HTML5</button> &nbsp;&nbsp; <button id="hls" onclick="hls()">Hls</button>
+    </div>
+
     <div id="player">
 
     </div>
@@ -29,14 +37,48 @@ Date: 2017/01/01
 <script type="text/javascript">
     var player = new MPlayer({
         element: document.getElementById('player'),
-        type: 'hls',
+        type: 'html5',
         loggerType: 0,
         video: {
             poster: '//demo.loacg.com/poster.png',
-            src: '//demo.loacg.com/mplayer/Puella_Magi_Madoka_Magica/01/01.m3u8'
+            src: '//demo.loacg.com/assets/video/WakabaGirl.mp4'
         },
         volume: 10
     });
+
+    var h5Btn = document.getElementById('html5');
+    var hlsBtn = document.getElementById('hls');
+
+
+    function h5() {
+        player.destroy();
+
+        player = new MPlayer({
+            element: document.getElementById('player'),
+            type: 'html5',
+            loggerType: 0,
+            video: {
+                poster: '//demo.loacg.com/poster.png',
+                src: '//demo.loacg.com/assets/video/WakabaGirl.mp4'
+            },
+            volume: 10
+        });
+    }
+    
+    function hls() {
+        player.destroy();
+
+        player = new MPlayer({
+            element: document.getElementById('player'),
+            type: 'hls',
+            loggerType: 0,
+            video: {
+                poster: '//demo.loacg.com/poster.png',
+                src: '//demo.loacg.com/assets/video/WakabaGirl.m3u8'
+            },
+            volume: 10
+        });
+    }
 </script>
 </body>
 </html>
