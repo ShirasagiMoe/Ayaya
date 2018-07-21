@@ -26,8 +26,8 @@
     "webpack-dev-server": "^2.11.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --env=test --hot --inline",
-    "dev": "webpack --env=dev --progress --colors --hide-modules",
+    "dev": "webpack-dev-server --env=test --hot --inline",
+    "build:dev": "webpack --env=dev --progress --colors --hide-modules",
     "build": "webpack --env=prod --progress --colors --hide-modules"
   },
   "dependencies": {

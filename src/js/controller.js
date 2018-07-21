@@ -202,12 +202,10 @@ class Controller {
 
                 this.volumeBar.inner.style.width = `${val}%`
 
-                if (val > 0 && val < 30) {
+                if (val > 0 && val < 50) {
                     this.button.volume.innerHTML = Icons.volume1
-                } else if (val <= 60) {
+                } else {
                     this.button.volume.innerHTML = Icons.volume2
-                } else if (val >= 60) {
-                    this.button.volume.innerHTML = Icons.volume3
                 }
             }
             this.player.notice.showAutoHide(`音量 ${val}`)
@@ -291,9 +289,11 @@ class Controller {
         this.playSpeedBox.addEventListener('click', (event) => {
             let target = event.target || event.srcElement
             if (target.tagName.toLowerCase() === 'li') {
-                this.player.playbackRate(target.dataset.spd)
-                activeElement(this.playSpeedBox)
-                target.classList.add('active')
+                if (target.dataset.spd != null) {
+                    this.player.playbackRate(target.dataset.spd);
+                    activeElement(this.playSpeedBox);
+                    target.classList.add('active')
+                }
             }
             this.playSpeedBox.classList.add('hidden')
             settingGroup.classList.remove('hidden')
@@ -366,7 +366,6 @@ class Controller {
         this.isShow = false
         this.player.element.classList.add('player-hide-control')
         this.button.setting.checked = false
-        logger.debug('fullscreen mode:' + this.player.fullScreen.mode)
         if (this.player.fullScreen.mode > 0) {
             document.body.style.cursor = 'none'
         }

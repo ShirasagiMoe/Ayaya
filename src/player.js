@@ -439,6 +439,7 @@ class MPlayer {
         this.notice = null;
         this.menu = null
         logger.debug('player destroy')
+        this.element.classList = '';
         this.element.innerHTML = '';
 
     }

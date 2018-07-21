@@ -10,10 +10,10 @@ import pause from '../assets/icons/pause.svg';
 import skip from '../assets/icons/skip-next.svg';
 import volume1 from '../assets/icons/volume1.svg';
 import volume2 from '../assets/icons/volume2.svg';
-import volume3 from '../assets/icons/volume3.svg';
 import decrease from '../assets/icons/volume-decrease.svg';
 import increase from '../assets/icons/volume-increase.svg';
 import setting from '../assets/icons/settings.svg';
+import back from '../assets/icons/back.svg';
 
 const Icons = {
     comment: comment,
@@ -28,10 +28,10 @@ const Icons = {
     skip: skip,
     volume1: volume1,
     volume2: volume2,
-    volume3: volume3,
     decrease: decrease,
     increase: increase,
     setting: setting,
+    back: back,
 };
 
 export default Icons;

@@ -120,12 +120,13 @@ const template = {
                     </label>
                     <div class="control-settings">
                         <ul class="setting-group">
-                            <li class="play-speed">播放速度：<span class="text">1 倍</span></li>
+                            <li class="play-speed">播放速度：<span class="text">1 倍</span>${Icons.back}</li>
                             <li class="mirror">镜像模式：<span class="text">关</span></li>
                             <li class="hotkey">方向热键：<span class="text">开启</span></li>
                             <li class="loop">洗脑循环：<span class="text">关闭</span></li>                    
                         </ul>
                         <ul class="play-speed-box hidden">
+                            <li class="line">${Icons.back} 速度</li>
                             <li data-spd="0.5">0.50 倍</li>
                             <li data-spd="0.75">0.75 倍</li>
                             <li data-spd="1" class="active">默认</li>
