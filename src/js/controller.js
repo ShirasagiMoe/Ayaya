@@ -342,6 +342,7 @@ class Controller {
      * Auto hide controls
      */
     autoHide () {
+        return;
         let that = this
         this.autoHideFunc = function() {
             that.show()
@@ -353,7 +354,6 @@ class Controller {
             }, 3000)
         };
         requestAnimationFrame(this.autoHideFunc)
-
     }
 
     show () {

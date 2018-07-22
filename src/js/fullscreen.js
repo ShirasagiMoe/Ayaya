@@ -74,6 +74,7 @@ class FullScreen {
             this.setMode(FULL_MODE.NONE)
         }
         this.player.infoPanel.trigger()
+        this.player.events.trigger('fullscreen', this.getMode())
     }
 
 
@@ -118,6 +119,7 @@ class FullScreen {
             this.setMode(FULL_MODE.NONE)
             this.exitScreenFull()
         }
+        this.player.events.trigger('fullscreen', this.getMode())
     }
 
     exitScreenFull () {

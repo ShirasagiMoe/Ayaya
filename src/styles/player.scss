@@ -79,7 +79,7 @@
         z-index: 200;
   
         &.left {
-          left: 10px;
+          left: 20px;
   
           .play-time {
             color: #eee;
@@ -97,6 +97,9 @@
             display: inline-block;
             transition: all 0.3s ease;
             vertical-align: top;
+            .button-volume {
+              margin-right: 0;
+            }
   
             &:hover {
               width: auto;
@@ -163,7 +166,7 @@
         }
   
         &.right {
-          right: 16px;
+          right: 26px;
   
           .control-settings {
             display: none;
@@ -179,7 +182,7 @@
             border-radius: 3px;
             font-size: 0.765rem;
             z-index: 0;
-            width: 120px;
+            width: 125px;
   
             &:active {
               opacity: 1;
@@ -434,6 +437,7 @@
       height: 34px;
       padding: 0 4px 4px;
       vertical-align: top;
+      margin-right: 8px;
     }
 
     // video

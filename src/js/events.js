@@ -54,6 +54,7 @@ export default class Events {
 
     constructor(player) {
         this.player = player
+/*
 
         Object.keys(methods).forEach((method) => {
 
@@ -68,6 +69,7 @@ export default class Events {
 
             // logger.debug('Events:', Events.prototype[method])
         })
+*/
 
         logger.debug('Event inited')
     }
@@ -105,16 +107,38 @@ export default class Events {
         return this.on(name, once, context)
     }
 
+    /**
+     * stop to an event indefinitely
+     * @param name
+     * @param callback
+     * @param context
+     * @returns {Events}
+     */
     off(name, callback, context) {
-
+        var index = this._events[name].indexOf(callback);
+        this._events[name].splice(index, 1)
     }
 
     trigger(name) {
+
+        if (this._events != null && this._events.hasOwnProperty(name)) {
+            if (this._events[name] != null) {
+                this._events[name].forEach(e => {
+                    if (typeof e.callback === 'function') {
+                        e.callback.apply(this, arguments)
+                    }
+                })
+            }
+        }
 
     }
 
     offListening(obj, name, callback) {
 
+    }
+
+    destroy() {
+        this._events = null
     }
 
     static register(name) {

@@ -43,15 +43,18 @@ Date: 2017/01/01
             poster: '//demo.loacg.com/poster.png',
             src: '//demo.loacg.com/assets/video/WakabaGirl.mp4'
         },
-        volume: 10
+        volume: 60
     });
+
+    onEvent(player);
 
     var h5Btn = document.getElementById('html5');
     var hlsBtn = document.getElementById('hls');
 
 
     function h5() {
-        player.destroy();
+        if (player != null)
+            player.destroy();
 
         player = new MPlayer({
             element: document.getElementById('player'),
@@ -61,12 +64,17 @@ Date: 2017/01/01
                 poster: '//demo.loacg.com/poster.png',
                 src: '//demo.loacg.com/assets/video/WakabaGirl.mp4'
             },
-            volume: 10
+            volume: 60
         });
+
+        // 监听事件
+        onEvent(player);
+
     }
     
     function hls() {
-        player.destroy();
+        if (player != null)
+            player.destroy();
 
         player = new MPlayer({
             element: document.getElementById('player'),
@@ -76,8 +84,32 @@ Date: 2017/01/01
                 poster: '//demo.loacg.com/poster.png',
                 src: '//demo.loacg.com/assets/video/WakabaGirl.m3u8'
             },
-            volume: 10
+            volume: 60
         });
+
+        // 监听事件
+        onEvent(player);
+    }
+
+
+    function play() {
+        console.log('event:: on.play play() called')
+    }
+    function play2() {
+        console.log('event:: on.play play2() called')
+    }
+    function pauseEvent() {
+        console.log('event:: on.pause pauseEvent() called');
+    }
+    function screenEvent(e, type) {
+        console.log('event:: on.fullscreen screenEvent() called', e, type);
+    }
+
+    function onEvent(p) {
+        p.on('play', play);
+        p.on('play', play2);
+        p.on('pause', pauseEvent);
+        p.on('fullscreen', screenEvent)
     }
 </script>
 </body>

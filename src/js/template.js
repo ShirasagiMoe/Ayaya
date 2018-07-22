@@ -114,25 +114,27 @@ const template = {
                     <button class="icon button-disorder hidden">
                         
                     </button>
+                    <button class="icon">720P</button>
+                    <div class="video-quality hidden"></div>                  
                     <input type="checkbox" id="mplayer-chk${index}" class="button-settings-checkbox hidden"/>
                     <label for="mplayer-chk${index}" class="icon button-settings">
                         ${Icons.setting}
                     </label>
                     <div class="control-settings">
                         <ul class="setting-group">
-                            <li class="play-speed">播放速度：<span class="text">1 倍</span>${Icons.back}</li>
+                            <li class="play-speed">播放速度：<span class="text">正常</span>${Icons.back}</li>
                             <li class="mirror">镜像模式：<span class="text">关</span></li>
                             <li class="hotkey">方向热键：<span class="text">开启</span></li>
                             <li class="loop">洗脑循环：<span class="text">关闭</span></li>                    
                         </ul>
                         <ul class="play-speed-box hidden">
                             <li class="line">${Icons.back} 速度</li>
-                            <li data-spd="0.5">0.50 倍</li>
-                            <li data-spd="0.75">0.75 倍</li>
-                            <li data-spd="1" class="active">默认</li>
-                            <li data-spd="1.25">1.25 倍</li>
-                            <li data-spd="1.5">1.50 倍</li>
-                            <li data-spd="2">2 倍</li>                           
+                            <li data-spd="0.5">0.50</li>
+                            <li data-spd="0.75">0.75</li>
+                            <li data-spd="1" class="active">正常</li>
+                            <li data-spd="1.25">1.25</li>
+                            <li data-spd="1.5">1.50</li>
+                            <li data-spd="2">2</li>                           
                         </ul>                
                     </div>
                     <div class="full-screen-group">

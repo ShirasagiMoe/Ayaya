@@ -52,6 +52,8 @@ class MPlayer {
         this.video.poster = this.options.video.poster
         this.muted = false
 
+        this.events = new Events();
+
         this.infoPanel = new InfoPanel(this);
 
         /*
@@ -114,10 +116,6 @@ class MPlayer {
         })
 
         this.setVolume(this.options.volume)
-
-
-        this.events = new Events()
-
 
 
         logger.debug('Player inited.')
@@ -330,6 +328,8 @@ class MPlayer {
         this.showStats(Icons.play)
         this.video.play()
 
+        this.events.trigger('play')
+
         // info panel load speed auto refresh
         this.panelUpdated = setInterval(() => {
             this.infoPanel.trigger()
@@ -344,6 +344,9 @@ class MPlayer {
         this.showStats(Icons.pause)
         this.video.pause()
 
+        this.events.trigger('pause')
+
+
         clearInterval(this.panelUpdated)
     }
 
@@ -353,6 +356,9 @@ class MPlayer {
     stop () {
         this.controller.button.play.innerHTML = Icons.play
         this.video.pause()
+
+        this.events.trigger('stop')
+
         // this.seek(0)
         clearInterval(this.panelUpdated)
     }
@@ -367,6 +373,9 @@ class MPlayer {
         logger.debug(text)
         this.notice.showAutoHide(text)
         this.video.currentTime = time
+
+        this.events.trigger('seek', time)
+
         return this
     }
 
@@ -384,6 +393,7 @@ class MPlayer {
         this.volume = volume;
         this.controller.setVolume(this.volume)
         this.infoPanel.setVolumeText(volume);
+        this.events.trigger('volume', volume);
     }
 
     /**
@@ -399,7 +409,8 @@ class MPlayer {
      */
     playbackRate (value) {
         this.video.playbackRate = value
-        this.controller.settings.playSpeed.querySelector('.text').innerText = value + ' 倍'
+        this.controller.settings.playSpeed.querySelector('.text').innerText = value == 1 ? '正常' : value
+        this.events.trigger('playbackRate', value);
         logger.info(`setting playback rate ${value}`)
     }
 
@@ -408,7 +419,11 @@ class MPlayer {
      * type: web | screen
      */
     screenFull (type) {
-
+        if (type === 'screen') {
+            this.fullScreen.screenFull()
+        } else {
+            this.fullScreen.webFull()
+        }
     }
 
     showStats (type) {
@@ -438,10 +453,10 @@ class MPlayer {
         this.fullScreen = null;
         this.notice = null;
         this.menu = null
-        logger.debug('player destroy')
         this.element.classList = '';
         this.element.innerHTML = '';
-
+        this.events.destroy();
+        logger.debug('player destroy')
     }
 
 }
