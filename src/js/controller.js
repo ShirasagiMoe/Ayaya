@@ -342,7 +342,6 @@ class Controller {
      * Auto hide controls
      */
     autoHide () {
-        return;
         let that = this
         this.autoHideFunc = function() {
             that.show()

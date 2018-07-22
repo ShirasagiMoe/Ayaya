@@ -58,12 +58,6 @@ const template = {
                 <ul>         
                 </ul>            
             </div>
-            
-            <!--
-            <div class="video-mask">
-                <div class="icon">${Icons.play}</div>
-            </div>
-            -->
             <div class="video-play-status-mask">
                 <div class="icon play-status">${Icons.play}</div>
             </div>
