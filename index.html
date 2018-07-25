@@ -19,29 +19,28 @@ Date: 2017/01/01
 <div class="container" id="container">
 
     <div class="title">
-        <h2>WakabaGirl</h2>
         <h4>MPlayer @build.4cd948e3</h4>
     </div>
     <div class="mode">
-        <button id="html5" onclick="h5()">HTML5</button> &nbsp;&nbsp; <button id="hls" onclick="hls()">Hls</button>
+        <button id="html5" onclick="h5()">HTML5</button> &nbsp;&nbsp; <button id="hls" onclick="hls()">Hls</button> &nbsp;&nbsp; <button id="log" onclick="log()">Log</button>
     </div>
 
     <div id="player">
 
     </div>
 
-    <div id="logger" class="logger" contenteditable="true">
+    <div id="logger" class="logger hidden" contenteditable="true">
     </div>
 </div>
 <script type="text/javascript" src="/assets/MPlayer.js"></script>
 <script type="text/javascript">
     var player = new MPlayer({
         element: document.getElementById('player'),
-        type: 'html5',
+        type: 'hls',
         loggerType: 0,
         video: {
             poster: '//demo.loacg.com/poster.png',
-            src: '//demo.loacg.com/assets/video/WakabaGirl.mp4'
+            src: '//demo.loacg.com/assets/video/WakabaGirl.m3u8'
         },
         volume: 60
     });
@@ -110,6 +109,16 @@ Date: 2017/01/01
         p.on('play', play2);
         p.on('pause', pauseEvent);
         p.on('fullscreen', screenEvent)
+    }
+    
+    var logEle = document.getElementById('logger');
+
+    function log() {
+        if (logEle.classList.contains('hidden')) {
+            logEle.classList.remove('hidden')
+        } else {
+            logEle.classList.add('hidden')
+        }
     }
 </script>
 </body>
