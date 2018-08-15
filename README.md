@@ -72,6 +72,44 @@ player.switchSource('//demo.loacg.com/assets/video/WakabaGirl.mp4');
 | screen       | function(modeType)                   | 播放器屏幕显示模式<br />参数 modeType: <br />0 - 正常<br />1 - web 全屏<br />2 - 屏幕全屏 |
 | destory      | function() {}                        | 播放器被销毁时  无参                                         |
 
+#### 事件绑定例子
+```javascript
+
+// 初始化播放器
+var player = new MPlayer({
+    element: document.getElementById('player'),
+    type: 'hls',
+    loggerType: 1,
+    video: {
+        poster: '//demo.loacg.com/poster.png',
+        src: '//demo.loacg.com/mplayer/Puella_Magi_Madoka_Magica/01/01.m3u8'
+    },
+    volume: 10
+});
+
+// 1. 无参事件
+function playEvent() {
+    console.log('player playing');
+}
+
+// 监听事件
+player.on('play', playEvent);
+
+// 取消监听事件
+player.off('play', playEvent);
+
+
+// 2. 有参监听
+function sourceChangeEvent(parameter) {
+    console.log(parameter); // {type: 'hls', src: ''}
+
+    console.log('player type:', parameter.type);
+    console.log('origin video source:', parameter.src)
+}
+player.on('switchSource', sourceChangeEvent); // 监听
+player.off('switchSource', sourceChangeEvent); // 取消监听
+
+```
 
 
 > 日志记录
