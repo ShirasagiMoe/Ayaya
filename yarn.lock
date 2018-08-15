@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@types/hls.js@^0.8.1":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@types/hls.js/-/hls.js-0.8.1.tgz#1e2d00dfd98b0d9130b11b492579f54d00712d9c"
+"@types/hls.js@^0.10.1":
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/@types/hls.js/-/hls.js-0.10.1.tgz#24ecc333aa6d24f2fd6278bd86985088beb5d34a"
 
 abbrev@1:
   version "1.1.1"
@@ -2321,9 +2321,9 @@ he@1.1.x:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
-hls.js@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-0.9.1.tgz#36516d4fac3ab44108e5c127ef0f3e9cd06f6330"
+hls.js@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-0.11.0.tgz#a205fb61725d9d69bf6258984be3dc2ee829fa9e"
   dependencies:
     string.prototype.endswith "^0.2.0"
     url-toolkit "^2.1.2"
