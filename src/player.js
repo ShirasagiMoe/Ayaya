@@ -50,6 +50,7 @@ class MPlayer {
         this.video = this.element.getElementsByClassName('mplayer-video')[0]
 
         this.video.poster = this.options.video.poster
+
         this.muted = false
 
         this.events = new Events();
@@ -324,6 +325,11 @@ class MPlayer {
      * 播放
      */
     play () {
+        if (this.options.video.src === '') {
+            this.pause()
+            console.log('播放器未初始化视频源，请调用方法 switchSource(src) 或在初始化播放器时，传入视频源地址')
+            return;
+        }
         this.controller.button.play.innerHTML = Icons.pause
         this.showStats(Icons.play)
         this.video.play()
@@ -399,8 +405,9 @@ class MPlayer {
     /**
      * 切换视频源
      */
-    switchSource () {
-
+    switchSource (newSrc) {
+        this.init(this.video, this.options.type, newSrc)
+        this.events.trigger('switchSource', { type: this.options.type, src: this.options.video.src })
     }
 
     /**
@@ -446,6 +453,7 @@ class MPlayer {
      * 销毁播放器
      */
     destroy () {
+        this.events.trigger('destroy')
         this.controller.destroy()
         this.notice.destroy()
         clearInterval(this.panelUpdated)

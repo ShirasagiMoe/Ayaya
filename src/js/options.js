@@ -26,5 +26,12 @@ export default (options) => {
         }
     }
 
+    if (!options.video) {
+        options.video = {
+            poster: '',
+            src: ''
+        }
+    }
+
     return options;
 }
