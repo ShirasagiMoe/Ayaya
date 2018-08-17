@@ -1,16 +1,7 @@
 import { formatTime, requestAnimationFrame } from './utils'
 import Logger from './logger'
 import Icons from './icons'
-import PLAYER_TYPE from "./player-type";
-
-const PLAY_STATUS = {
-    PLAY: 'play',
-    PAUSE: 'pause',
-    STOP: 'stop',
-    LOADING: 'loading',
-    LOADED: 'loaded',
-    ERROR: 'error',
-}
+import PLAY_STATUS from './player-status'
 
 const logger = Logger.getLogger()
 
@@ -315,19 +306,18 @@ class Controller {
 
     initWaitingWarp () {
 
-        let waitingId = 0
+        this.waitingId = 0
 
         const loaded = (e) => {
             this.player.element.classList.remove('player-waiting')
-            clearInterval(waitingId)
-            logger.debug('Video Loaded', e.timeStamp)
+            clearInterval(this.waitingId)
         }
 
         this.player.video.addEventListener('waiting', () => {
             this.player.element.classList.add('player-waiting')
             logger.debug('Video Loading..')
 
-            waitingId = setInterval(() => {
+            this.waitingId = setInterval(() => {
                 if (this.player.video.readyState > 3) {
                     loaded()
                 }
@@ -459,6 +449,7 @@ class Controller {
     destroy() {
         document.removeEventListener('keyup', this.bindHotKeyFunc)
         clearTimeout(this.autoHideControls)
+        clearInterval(this.waitingId)
         cancelAnimationFrame(this.autoHideFunc)
     }
 }

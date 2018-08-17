@@ -22,7 +22,11 @@ Date: 2017/01/01
         <h4>MPlayer @build.4cd948e3</h4>
     </div>
     <div class="mode">
-        <button id="html5" onclick="h5()">HTML5</button> &nbsp;&nbsp; <button id="hls" onclick="hls()">Hls</button> &nbsp;&nbsp; <button id="log" onclick="log()">Log</button>
+        <button id="html5" onclick="h5()">HTML5</button>
+        <button id="hls" onclick="hls()">Hls</button>
+        <button id="log" onclick="log()">Log</button>
+
+        <button id="switch" onclick="switchSource()">SwitchSource</button>
     </div>
 
     <div id="player">
@@ -34,14 +38,15 @@ Date: 2017/01/01
 </div>
 <script type="text/javascript" src="/assets/MPlayer.js"></script>
 <script type="text/javascript">
+    var list = ['/build/01/01.m3u8', '/build/02/02.m3u8'];
     var player = new MPlayer({
         element: document.getElementById('player'),
         type: 'hls',
         loggerType: 0,
-        /*video: {
-            poster: '//demo.loacg.com/poster.png',
-            src: '//demo.loacg.com/assets/video/WakabaGirl.m3u8'
-        },*/
+        video: {
+            poster: '',
+            src: '/build/01/01.m3u8'
+        },
         volume: 60
     });
 
@@ -50,6 +55,11 @@ Date: 2017/01/01
     var h5Btn = document.getElementById('html5');
     var hlsBtn = document.getElementById('hls');
 
+    function switchSource() {
+        var index = Math.round(Math.random());;
+        player.stop();
+        player.switchSource(list[index]);
+    }
 
     function h5() {
         if (player != null)

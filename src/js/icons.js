@@ -14,7 +14,7 @@ import decrease from '../assets/icons/volume-decrease.svg';
 import increase from '../assets/icons/volume-increase.svg';
 import setting from '../assets/icons/settings.svg';
 import back from '../assets/icons/back.svg';
-import light from '../assets/icons/light.svg';
+// import light from '../assets/icons/light.svg';
 
 const Icons = {
     comment: comment,
@@ -33,7 +33,7 @@ const Icons = {
     increase: increase,
     setting: setting,
     back: back,
-    light: light,
+    // light: light,
 };
 
 export default Icons;

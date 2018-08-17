@@ -7,6 +7,7 @@ import Clipboard from 'clipboard'
 // import flv from 'flv.js'
 
 import PLAYER_TYPE from './js/player-type'
+import PLAY_STATUS from './js/player-status'
 import Icons from './js/icons'
 import Logger from './js/logger'
 import options from './js/options'
@@ -62,8 +63,9 @@ class MPlayer {
         this.media.url = option.video.src
         this.media.poster = option.video.poster
         */
-
-        this.init(this.video, this.options.type, this.options.video.src)
+        if (this.options.video.src) {
+            this.init(this.video, this.options.type, this.options.video.src)
+        }
 
         this.notice = new Notice(this)
 
@@ -334,7 +336,7 @@ class MPlayer {
         this.showStats(Icons.play)
         this.video.play()
 
-        this.events.trigger('play')
+        this.events.trigger(PLAY_STATUS.PLAY)
 
         // info panel load speed auto refresh
         this.panelUpdated = setInterval(() => {
@@ -350,7 +352,7 @@ class MPlayer {
         this.showStats(Icons.pause)
         this.video.pause()
 
-        this.events.trigger('pause')
+        this.events.trigger(PLAY_STATUS.PAUSE)
 
 
         clearInterval(this.panelUpdated)
@@ -362,8 +364,9 @@ class MPlayer {
     stop () {
         this.controller.button.play.innerHTML = Icons.play
         this.video.pause()
+        this.controller.status = PLAY_STATUS.STOP
 
-        this.events.trigger('stop')
+        this.events.trigger(PLAY_STATUS.STOP)
 
         // this.seek(0)
         clearInterval(this.panelUpdated)
@@ -406,6 +409,7 @@ class MPlayer {
      * 切换视频源
      */
     switchSource (newSrc) {
+        this.notice.showAutoHide('正在切换视频源')
         this.init(this.video, this.options.type, newSrc)
         this.events.trigger('switchSource', { type: this.options.type, src: this.options.video.src })
     }

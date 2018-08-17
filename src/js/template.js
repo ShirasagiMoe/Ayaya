@@ -11,7 +11,7 @@ const template = {
                 <ul class="items">
                     <li>
                         <span class="name">Player:</span>
-                        <span class="v">MPlayer @build.2018019-r1</span>
+                        <span class="v">MPlayer @build.20180801-r1</span>
                     </li>
                     <li>
                         <span class="name">Support Mode:</span>
@@ -39,7 +39,7 @@ const template = {
                     </li>
                     <li>
                         <span class="name">Host:</span>
-                        <span class="v host">video-s1.shirasagi.moe</span>
+                        <span class="v host"></span>
                     </li>
                     <li>
                         <span class="name">Connection Speed:</span>
@@ -109,8 +109,13 @@ const template = {
                         
                     </button>
                     <button class="icon">720P</button>
-                    <div class="video-quality hidden"></div>    
-                    <button class="icon">${Icons.light}</button>
+                    <div class="video-quality hidden">
+                        <ul>
+                            <li>1080P</li>
+                            <li>720P</li>
+                            <li>360P</li>                           
+                        </ul>                    
+                    </div>    
                     <input type="checkbox" id="mplayer-chk${index}" class="button-settings-checkbox hidden"/>
                     <label for="mplayer-chk${index}" class="icon button-settings">
                         ${Icons.setting}

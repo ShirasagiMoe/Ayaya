@@ -15,6 +15,10 @@ body {
 .mode {
   text-align: center;
   margin: 1rem 0;
+
+  button {
+    margin: 0 1rem;
+  }
 }
 #player {
   width: 1200px;
