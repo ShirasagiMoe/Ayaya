@@ -412,6 +412,7 @@ class MPlayer {
         this.notice.showAutoHide('正在切换视频源')
         this.init(this.video, this.options.type, newSrc)
         this.events.trigger('switchSource', { type: this.options.type, src: this.options.video.src })
+        this.options.video.src = newSrc
     }
 
     /**
