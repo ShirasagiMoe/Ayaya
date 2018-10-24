@@ -1,10 +1,12 @@
-# Ayaya
+Ayaya
+====
+
+> A simple website media player
 
 
-> A simple SRSG.MOE website media player
 
-
-## Build Setup
+Build Setup
+----
 
 ```bash
 # install dependencies
@@ -25,9 +27,11 @@ yarn run build
 ```
 
 
-## Docs
 
-> 初始化播放器 1方式
+Docs
+----
+
+#### 初始化播放器 1方式
 
 ```javascript
 var player = new MPlayer({
@@ -42,7 +46,7 @@ var player = new MPlayer({
 });
 ```
 
->初始化播放器 2 方式
+#### 初始化播放器 2 方式
 
 ```javascript
 // 先初始化播放器
@@ -56,9 +60,26 @@ var player = new MPlayer({
 player.switchSource('//demo.loacg.com/assets/video/WakabaGirl.mp4');
 ```
 
+#### 播放器参数
 
 
-> 播放器事件：
+| 参数       | 说明                                                   | 类型       | 默认值      |
+| ---------- | ------------------------------------------------------ | ---------- | ----------- |
+| element    | 要初始化播放器的 dom 元素                              | DomElement | .mplayer[0] |
+| type       | 播放器类型<br />'html5', 'hls', 'dash', 'flv'          | String     | 'html5'     |
+| preload    | 预加载                                                 | String     | 'auto'      |
+| quality    | 是否支持清晰度切换                                     | Boolean    | false       |
+| hotkey     | 是否开启热键支持                                       | Boolean    | false       |
+| autoplay   | 打开页面时自动播放                                     | Boolean    | false       |
+| loop       | 循环播放                                               | Boolean    | false       |
+| blob       | 是否采用 html5 BLOB 包装视频源                         | Boolean    | false       |
+| volume     | 当前播放器声音大小，范围 0-100                         | Number     | 40          |
+| loggerType | 日志类型<br />0 在页面输出<br />1在浏览器 console 输出 | Number     | 1           |
+
+
+
+#### 播放器事件
+
 
 | 事件名       | 回调参数                             | 说明                                                         |
 | ------------ | ------------------------------------ | ------------------------------------------------------------ |
@@ -112,12 +133,11 @@ player.off('switchSource', sourceChangeEvent); // 取消监听
 ```
 
 
-> 日志记录
+#### 日志记录
+
 
 | #           | 值                   | 说明                                                      |
 | ----------- | -------------------- | --------------------------------------------------------- |
 | loggerType  | 0 \| 1               | 0 在页面输出<br />1 在浏览器 console 输出                 |
 | loggerLevel | 0 \| 1 \| 2 \| 3\| 4 | 0 DEBUG<br />1 INFO<br />2 WARN<br />3 ERROR<br />4 FATAL |
-
-
 

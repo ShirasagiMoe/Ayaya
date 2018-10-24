@@ -1,9 +1,12 @@
 {
   "name": "ayaya",
-  "version": "1.0.8",
-  "description": "A simple SRSG Media Player.",
+  "version": "1.0.9",
+  "description": "A simple Media Player.",
   "author": "sendya",
   "license": "MIT",
+  "keywords": [
+    "player", "mp4", "media", "hls", "video", "media-player"
+  ],
   "main": "dist/MPlayer.js",
   "style": "dist/MPlayer.css",
   "devDependencies": {
