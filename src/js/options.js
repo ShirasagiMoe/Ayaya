@@ -6,6 +6,7 @@ export default (options) => {
         element: options.element || document.getElementsByClassName('mplayer')[0],
         type: options.type || 'html5',
         preload: 'auto',
+        quality: false,
         mobile: false,
         hotkey: false,
         autoplay: false,

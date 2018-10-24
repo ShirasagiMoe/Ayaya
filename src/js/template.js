@@ -105,10 +105,9 @@ const template = {
                     </div>
                 </div>
                 <div class="control right">
-                    <button class="icon button-disorder hidden">
-                        
+                    <button class="icon button-disorder hidden">  
                     </button>
-                    <button class="icon">720P</button>
+                    ${ option.quality ? '<button class="icon">720P</button>' : ''}
                     <div class="video-quality hidden">
                         <ul>
                             <li>1080P</li>
@@ -116,6 +115,7 @@ const template = {
                             <li>360P</li>                           
                         </ul>                    
                     </div>    
+                    
                     <input type="checkbox" id="mplayer-chk${index}" class="button-settings-checkbox hidden"/>
                     <label for="mplayer-chk${index}" class="icon button-settings">
                         ${Icons.setting}
