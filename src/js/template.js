@@ -11,11 +11,11 @@ const template = {
                 <ul class="items">
                     <li>
                         <span class="name">Player:</span>
-                        <span class="v">MPlayer @build.20180801-r1</span>
+                        <span class="v">MPlayer @build.20181027</span>
                     </li>
                     <li>
                         <span class="name">Support Mode:</span>
-                        <span class="v">Html5, Flv, Hls, M(PEG)-Dash</span>
+                        <span class="v">html5, flv, hls, M(PEG)-Dash</span>
                     </li>
                     <li>
                         <span class="name">Current Mode:</span>
@@ -23,7 +23,7 @@ const template = {
                     </li>
                     <li>
                         <span class="name">Video ID:</span>
-                        <span class="v vid">v10001</span>
+                        <span class="v vid">-</span>
                     </li>
                     <li>
                         <span class="name">Viewport:</span>
@@ -43,7 +43,7 @@ const template = {
                     </li>
                     <li>
                         <span class="name">Connection Speed:</span>
-                        <span class="v right connection-speed">- Kb/s</span>
+                        <span class="v right connection-speed">-</span>
                     </li>
                     <li>
                         <span class="name">Dropped frames:</span>

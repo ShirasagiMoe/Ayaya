@@ -49,8 +49,9 @@ class MPlayer {
         this.videoBox = this.element.getElementsByClassName('video-box')[0]
 
         this.video = this.element.getElementsByClassName('mplayer-video')[0]
-
-        this.video.poster = this.options.video.poster
+        if (this.options.video.poster) {
+            this.video.poster = this.options.video.poster
+        }
 
         this.muted = false
 
