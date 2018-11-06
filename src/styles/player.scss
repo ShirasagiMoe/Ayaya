@@ -566,6 +566,7 @@
       color: #fff;
       background: rgba(0, 0, 0, 0.2);
       transition: opacity 0.5s ease-in-out;
+      box-sizing: unset;
   
       &.show {
         display: block;
@@ -579,6 +580,7 @@
         padding: 25%;
         fill: currentColor;
         overflow: hidden;
+        box-sizing: unset;
       }
     }
   
