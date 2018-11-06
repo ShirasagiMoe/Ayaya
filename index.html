@@ -113,12 +113,16 @@ Date: 2017/01/01
     function screenEvent(e, type) {
         console.log('event:: on.fullscreen screenEvent() called', e, type);
     }
+    function played() {
+        console.log('event:: on.played called')
+    }
 
     function onEvent(p) {
         p.on('play', play);
         p.on('play', play2);
         p.on('pause', pauseEvent);
         p.on('fullscreen', screenEvent)
+        p.on('played', played)
     }
     
     var logEle = document.getElementById('logger');

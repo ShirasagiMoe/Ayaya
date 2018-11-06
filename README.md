@@ -85,13 +85,14 @@ player.switchSource('//demo.loacg.com/assets/video/WakabaGirl.mp4');
 | ------------ | ------------------------------------ | ------------------------------------------------------------ |
 | play         | function() {}                        | 播放视频时  无参                                             |
 | pause        | function() {}                        | 暂停播放时  无参                                             |
+| played       | function() {}                        | 播放结束时  无参                                             |
 | stop         | function() {}                        | 停止播放时(播放结束)                                         |
 | seek         | function(int) {}                     | 点击播放进度跳转时间轴时<br />跳过时间轴的秒数               |
 | volume       | function(int) {}                     | 修改播放器音量时触发 <br />参数 修改的音量大小               |
 | switchSource | function({type: 'xx', src: 'xx'}) {} | 切换播放源<br />参数 type: 播放器类型(hls, html5, dash, flv)<br />src: 切换前的视频源 |
 | playbackRate | function(rate) {}                    | 播放器当前播放速度<br />参数 rate: int                       |
 | screen       | function(modeType)                   | 播放器屏幕显示模式<br />参数 modeType: <br />0 - 正常<br />1 - web 全屏<br />2 - 屏幕全屏 |
-| destory      | function() {}                        | 播放器被销毁时  无参                                         |
+| destroy      | function() {}                        | 播放器被销毁时  无参                                         |
 
 #### 事件绑定例子
 ```javascript

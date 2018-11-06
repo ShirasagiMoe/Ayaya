@@ -56,6 +56,8 @@ class Controller {
             this.status = PLAY_STATUS.PAUSE
             this.video.removeEventListener('timeupdate', this.eventFunc);
             this.video.removeEventListener('ended', ended)
+
+            this.player.events.trigger(PLAY_STATUS.PLAYED)
         }
 
         this.play = () => {

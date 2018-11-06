@@ -726,6 +726,7 @@
           line-height: 1.25rem;
           padding: 5px 10px;
           cursor: pointer;
+          box-sizing: unset;
 
           &:hover {
             background: rgba(255, 255, 255, 0.13);
