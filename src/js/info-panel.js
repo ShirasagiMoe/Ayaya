@@ -60,7 +60,7 @@ class InfoPanel {
     }
 
     setSourceHost(val) {
-        this.events.host = val;
+        this.events.host.innerText = val;
     }
 
     trigger() {
