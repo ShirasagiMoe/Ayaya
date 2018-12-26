@@ -11,6 +11,8 @@ class InfoPanel {
         this.events.connectionSpeed = this.panel.querySelector('.connection-speed')
         this.events.viewport = this.panel.querySelector('.viewport')
         this.events.volume = this.panel.querySelector('.volume')
+        this.events.videoId = this.panel.querySelector('.vid')
+        this.events.host = this.panel.querySelector('.host')
         this.events.playerMode = this.panel.querySelector('.player-mode')
         this.events.codecs = this.panel.querySelector('.codecs')
 
@@ -51,6 +53,14 @@ class InfoPanel {
 
     setVolumeText(volume) {
         this.events.volume.innerText = volume;
+    }
+
+    setVideoId(val) {
+        this.events.videoId.innerText = val;
+    }
+
+    setSourceHost(val) {
+        this.events.host = val;
     }
 
     trigger() {

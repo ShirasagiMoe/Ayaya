@@ -14,6 +14,7 @@ import decrease from '../assets/icons/volume-decrease.svg';
 import increase from '../assets/icons/volume-increase.svg';
 import setting from '../assets/icons/settings.svg';
 import back from '../assets/icons/back.svg';
+import loadingFox from '../assets/icons/loading-cutie-fox.svg';
 // import light from '../assets/icons/light.svg';
 
 const Icons = {
@@ -21,7 +22,7 @@ const Icons = {
     full: full,
     fullWeb: fullWeb,
     fullExit: fullExit,
-    loading: loading,
+    loading: loadingFox,
     loop: loop,
     mute: mute,
     play: play,

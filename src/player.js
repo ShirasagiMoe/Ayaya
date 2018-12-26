@@ -455,6 +455,11 @@ class MPlayer {
         this.events.trigger(name)
     }
 
+    setVideoInfo(videoId, videoSourceCdn) {
+        this.infoPanel.setVideoId(videoId);
+        this.infoPanel.setSourceHost(videoSourceCdn);
+    }
+
     /**
      * 销毁播放器
      */
