@@ -11,7 +11,7 @@ const template = {
                 <ul class="items">
                     <li>
                         <span class="name">Player:</span>
-                        <span class="v">MPlayer @build.20181027</span>
+                        <span class="v">Ayaya @${AYAYA_VERSION}-${GIT_HASH}</span>
                     </li>
                     <li>
                         <span class="name">Support Mode:</span>

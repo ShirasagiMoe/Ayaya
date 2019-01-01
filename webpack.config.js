@@ -1,7 +1,9 @@
 const path = require('path'),
     webpack = require('webpack'),
     htmlWebpackPlugin = require('html-withimg-loader'),
-    extractTextPlugin = require('extract-text-webpack-plugin');
+    extractTextPlugin = require('extract-text-webpack-plugin'),
+    GitRevisionPlugin = require('git-revision-webpack-plugin');
+const GitRevision = new GitRevisionPlugin();
 
 const options = {
     entry: {
@@ -66,6 +68,10 @@ const options = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            AYAYA_VERSION: `"${require('./package.json').version}"`,
+            GIT_HASH: JSON.stringify(GitRevision.version())
+        })
     ],
     devServer: {
         contentBase: path.join(__dirname, ''),

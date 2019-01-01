@@ -322,6 +322,8 @@ class MPlayer {
                 element.src = source;
                break;
         }
+
+        this.video.currentTime = 0
     }
 
     /**

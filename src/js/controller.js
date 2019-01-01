@@ -392,12 +392,12 @@ class Controller {
 
         if (this.hotkey) {
             this.settings.hotkey.querySelector('.text').innerText = '关闭'
-            document.removeEventListener('keyup', this.bindHotKeyFunc)
+            document.removeEventListener('keydown', this.bindHotKeyFunc)
             this.player.notice.showAutoHide('全局热键 关')
             logger.debug('Hotkey disable')
         } else {
             this.settings.hotkey.querySelector('.text').innerText = '开启'
-            document.addEventListener('keyup', this.bindHotKeyFunc)
+            document.addEventListener('keydown', this.bindHotKeyFunc)
             this.player.notice.showAutoHide('全局热键 开')
             logger.debug('Hotkey enable')
         }
@@ -405,8 +405,13 @@ class Controller {
     }
 
     _bindHotKey (event) {
+        console.log('event', event)
+        event.stopPropagation();
         event.preventDefault();
         switch (event.keyCode) {
+            case 123:
+                console.log('...link start!');
+                return false;
             case 37: // 键盘左键
             case 74: // J 快退
                 this.player.seek( this.player.seek() -5);
