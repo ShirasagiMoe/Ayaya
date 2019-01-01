@@ -70,7 +70,7 @@ class FullScreen {
         } else {
             this.player.element.classList.remove(this.element.name.web)
             this.player.element.classList.remove(this.element.name.screen)
-            document.body.style.overflow = '';
+            document.body.style.overflow = 'auto';
             this.setMode(FULL_MODE.NONE)
         }
         this.player.infoPanel.trigger()

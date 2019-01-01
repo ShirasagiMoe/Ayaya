@@ -388,7 +388,7 @@ class Controller {
     }
 
     hotKey() {
-        var _this = this;
+        const _this = this;
 
         if (this.hotkey) {
             this.settings.hotkey.querySelector('.text').innerText = '关闭'
@@ -405,27 +405,24 @@ class Controller {
     }
 
     _bindHotKey (event) {
+        event.preventDefault();
         switch (event.keyCode) {
             case 37: // 键盘左键
             case 74: // J 快退
-                event.preventDefault();
                 this.player.seek( this.player.seek() -5);
                 break;
             case 39: // 键盘右键
             case 76: // L 快退
-                event.preventDefault();
                 this.player.seek( this.player.seek() +5);
                 break;
             case 38: // 上键
-                event.preventDefault();
-                this.player.setVolume(this.player.volume +5)
+                this.player.setVolume(this.player.volume +5);
                 break;
             case 40: // 下键
-                event.preventDefault();
-                this.player.setVolume(this.player.volume -5)
+                this.player.setVolume(this.player.volume -5);
                 break;
-            case 75:
-                event.preventDefault();
+            case 75: // K 键，空格键
+            case 32:
                 this.play();
                 break;
         }
@@ -438,7 +435,7 @@ class Controller {
     _maskClick () {
         logger.debug('addEventListener video click -> play()')
 
-        let that = this
+        const that = this
 
         this.player.video.addEventListener('click', () => {
 
