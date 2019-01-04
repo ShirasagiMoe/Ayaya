@@ -23,7 +23,7 @@
     &.player-screen-full {
 
     }
-  
+
     // control
     &.player-hide-control {
 
@@ -73,16 +73,31 @@
       position: absolute;
       padding: 0 20px;
       z-index: 105;
-  
+
       .control {
         bottom: 0;
         height: 34px;
         position: absolute;
         z-index: 200;
-  
+
         &.left {
           left: 20px;
-  
+
+          .button-play {
+            margin-left: 0;
+          }
+
+          .button-next {
+            &.hidden {
+              display: none;
+              opacity: 0;
+            }
+          }
+
+          .button-volume {
+            margin-left: 8px;
+          }
+
           .play-time {
             color: #eee;
             padding: 0 5px;
@@ -95,7 +110,7 @@
               font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             }
           }
-  
+
           .volume-box {
             height: 100%;
             width: auto;
@@ -107,24 +122,24 @@
             .button-volume {
               margin-right: 0;
             }
-  
+
             &:hover {
               width: auto;
               margin-right: 0;
-  
+
               .volume-bar-box {
                 cursor: pointer;
                 margin: 0 0 0 -5px;
                 width: 60px;
                 opacity: 1;
-  
+
                 .volume-bar {
                   display: block;
                   opacity: 1;
                 }
               }
             }
-  
+
             .volume-bar-box {
               width: 0;
               opacity: 0;
@@ -132,7 +147,7 @@
               vertical-align: middle;
               height: 100%;
               transition: all 0.3s ease;
-  
+
               .volume-bar {
                 display: none;
                 opacity: 0;
@@ -142,14 +157,14 @@
                 cursor: pointer;
                 position: absolute;
                 background: rgba(255,255,255,.2);
-  
+
                 .volume-bar-inner {
                   top: 0;
                   left: 0;
                   height: 100%;
                   position: absolute;
                   background: #fff;
-  
+
                   &::after {
                     position: absolute;
                     top: 0;
@@ -169,12 +184,12 @@
               }
             }
           }
-  
+
         }
-  
+
         &.right {
           right: 26px;
-  
+
           .control-settings {
             display: none;
             opacity: 0;
@@ -191,19 +206,19 @@
             z-index: 0;
             width: 125px;
             text-align: left;
-  
+
             &:active {
               opacity: 1;
               z-index: 1000;
             }
-  
+
             ul {
-  
+
               li {
                 list-style: none;
                 padding: 8px 10px;
                 line-height: 1.256rem;
-  
+
                 &:hover {
                   cursor: pointer;
                   background: rgba(255,255,255,0.2);
@@ -236,7 +251,7 @@
                 }
                 */
               }
-  
+
               .loop {
                 /*margin-top: 10px;*/
               }
@@ -275,13 +290,13 @@
               }
             }
           }
-  
+
           .button-settings {
             transform: rotate(0deg);
             transition: transform .5s;
             padding: 0 4px 4px;
           }
-  
+
           .button-settings-checkbox + .control-settings {
             opacity: 0;
           }
@@ -295,15 +310,15 @@
               content: '';
             }
           }
-  
+
           .button-settings-checkbox:checked + .button-settings + .control-settings {
             display: block;
             opacity: 1;
             z-index: 201;
           }
-  
-  
-  
+
+
+
           .full-screen-group {
             width: 34px;
             height: 100%;
@@ -332,9 +347,9 @@
             display: block;
           }
         }
-  
+
       }
-  
+
       .control-bar {
         position: absolute;
         cursor: pointer;
@@ -343,7 +358,7 @@
         height: 3px;
         padding: 5px 0;
         z-index: 101;
-  
+
         .seek-timer-label {
           display: none;
         }
@@ -355,7 +370,7 @@
           cursor: pointer !important;
           transition: height 0.2s ease;
           z-index: 101;
-  
+
           .loaded {
             position: absolute;
             left: 0;
@@ -365,7 +380,7 @@
             transition: height 0.2s ease;
             z-index: 101;
           }
-  
+
           .played {
             position: absolute;
             left: 0;
@@ -380,9 +395,9 @@
             z-index: 101;
           }
         }
-  
+
         &:hover{
-  
+
           .load-bar {
             height: 5px;
             transition: height 0.2s ease;
@@ -412,13 +427,13 @@
                 &:hover {
                   cursor: grab;
                 }
-  
+
                 &:active {
                   cursor: grabbing;
                 }
-  
+
               }
-  
+
             }
             .hover {
               height: 5px;
@@ -426,7 +441,7 @@
               background: rgba(255, 255, 255, 0.4);
             }
           }
-  
+
           .seek-timer-label {
             position: absolute;
             display: block;
@@ -438,7 +453,7 @@
             font-size: 0.875em;
             line-height: 1.256em;
             color: #fff;
-  
+
             &:after {
               top: 100%;
               left: 50%;
@@ -447,20 +462,20 @@
               width: 0;
               position: absolute;
               pointer-events: none;
-  
+
               border: 5px solid rgba(136, 183, 213, 0);
               border-top-color: rgba(0, 0, 0, 0.5);
               margin-left: -5px;
               transition: all 0.2s ease;
             }
           }
-  
+
         }
-  
-  
+
+
       }
     }
-  
+
     .control-mask {
       position: absolute;
       opacity: 1;
@@ -472,13 +487,13 @@
       pointer-events: none;
       z-index: 99;
     }
-  
+
     button.icon {
       width: 34px;
       height: 34px;
       padding: 0 4px 4px;
       vertical-align: top;
-      margin-right: 8px;
+      /*margin-left: 8px;*/
     }
 
     // video
@@ -495,7 +510,7 @@
         display: block;
       }
     }
-  
+
     .video-play-status-mask {
       display: none;
       opacity: 0;
@@ -508,17 +523,17 @@
       background: rgba(0,0,0,0.2);
       border-radius: 50%;
       transform: scale(1.2);
-  
+
       &.show {
         animation: play-status-show 1s;
       }
-  
+
       .play-status {
         margin: 10%;
         width: 80%;
         height: 80%;
         padding-left: 5px;
-  
+
         .svg-font {
           width: 100%;
           height: 100%;
@@ -528,7 +543,7 @@
         }
       }
     }
-  
+
     .video-notice {
       display: none;
       opacity: 0;
@@ -551,7 +566,7 @@
         display: block;
       }
     }
-  
+
     .video-stats {
       display: none;
       opacity: 0;
@@ -567,13 +582,13 @@
       background: rgba(0, 0, 0, 0.2);
       transition: opacity 0.5s ease-in-out;
       box-sizing: unset;
-  
+
       &.show {
         display: block;
         animation: animation-stats-show .5s linear 1 normal forwards;
         pointer-events: none;
       }
-  
+
       .svg {
         width: 50%;
         height: 50%;
@@ -583,7 +598,7 @@
         box-sizing: unset;
       }
     }
-  
+
     .video-mask {
       position: absolute;
       width: 100%;
@@ -591,15 +606,15 @@
       bottom: 0;
       background: rgba(0, 0, 0, 0.85);
       transition: all 0.5s ease;
-  
+
       &.pause {
         cursor: pointer;
       }
-  
+
       &.play {
         cursor: default;
       }
-  
+
       .icon {
         position: absolute;
         left: 50%;
@@ -610,7 +625,7 @@
         padding: 0;
         opacity: .33;
       }
-  
+
       .svg-font {
         width: 100px;
         height: 100px;
@@ -619,7 +634,7 @@
         overflow: hidden;
       }
     }
-  
+
     .comment-box {
       position: absolute;
       z-index: 1000;
@@ -630,7 +645,7 @@
       height: 40px;
       background: rgba(255, 255, 255, 0.55);
       border-radius: 5px;
-  
+
       input {
         border: none;
         outline: none;
@@ -639,7 +654,7 @@
         line-height: 38px;
         color: #000 !important;
         background: rgba(0, 0, 0, 0);
-  
+
         &::placeholder {
           color: #000 !important;
         }
@@ -689,9 +704,9 @@
 
         &.right {
           text-align: right;
-        }  
+        }
       }
-      
+
       .close {
         font-size: 0.75rem;
         position: absolute;

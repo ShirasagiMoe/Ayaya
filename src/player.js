@@ -52,6 +52,10 @@ class MPlayer {
         if (this.options.video.poster) {
             this.video.poster = this.options.video.poster
         }
+        this.source2 = null
+        this.nextPlayButtonEle = this.element.querySelector('.button-next')
+
+        // button-next
 
         this.muted = false
 
@@ -411,11 +415,12 @@ class MPlayer {
     /**
      * 切换视频源
      */
-    switchSource (newSrc) {
+    switchSource (newSrc, nextSrc) {
         this.notice.showAutoHide('正在切换视频源')
         this.init(this.video, this.options.type, newSrc)
         this.events.trigger('switchSource', { type: this.options.type, src: this.options.video.src })
         this.options.video.src = newSrc
+        this.setNextVideo(nextSrc)
     }
 
     /**
@@ -455,6 +460,27 @@ class MPlayer {
 
     trigger(name) {
         this.events.trigger(name)
+    }
+
+    next() {
+        if (this.source2 !== null) {
+            this.switchSource(this.source2)
+        }
+    }
+
+    /**
+     * 设置下一集，如果被调用。
+     * 则会在播放按钮旁边显示一个 next 按钮
+     * @param source
+     */
+    setNextVideo(source) {
+        if (source !== null && source !== undefined) {
+            this.source2 = source
+            this.nextPlayButtonEle.removeClass('hidden')
+        } else {
+            this.source2 = null
+            this.nextPlayButtonEle.addClass('hidden')
+        }
     }
 
     setVideoInfo(videoId, videoSourceCdn) {

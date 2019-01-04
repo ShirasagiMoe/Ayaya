@@ -89,6 +89,9 @@ const template = {
                     <button class="icon button-play">
                         ${Icons.play}
                     </button>
+                    <button class="icon button-next hidden">
+                        ${Icons.skip}                    
+                    </button>
                     <div class="volume-box">
                         <button class="icon button-volume">
                             ${Icons.volume1}

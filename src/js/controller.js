@@ -50,6 +50,7 @@ class Controller {
         this.button.play = this.element.querySelector('.button-play')
         this.button.volume = this.element.querySelector('.button-volume')
         this.button.setting = this.element.querySelector('.button-settings-checkbox')
+        this.button.nextPlay = this.element.querySelector('.button-next')
 
         const ended = () => {
             this.player.pause()
@@ -76,7 +77,14 @@ class Controller {
             }
         };
 
+        this.next = () => {
+            logger.info(`Next video: ${this.player.source2}`)
+            if (this.player.source2 !== null) {
+                this.player.next()
+            }
+        }
 
+        this.button.nextPlay.addEventListener('click', () => this.next())
         this.button.play.addEventListener('click', () => this.play())
         this.button.volume.addEventListener('click', () => {
             if (this.video.muted) {
