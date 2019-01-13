@@ -372,6 +372,7 @@ class MPlayer {
      */
     stop () {
         this.controller.button.play.innerHTML = Icons.play
+        this.controller.resetLoadBar()
         this.video.pause()
         this.controller.status = PLAY_STATUS.STOP
 

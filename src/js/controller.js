@@ -458,6 +458,10 @@ class Controller {
         });
     }
 
+    resetLoadBar() {
+        this.bar.played.style.width = `0%`
+    }
+
     destroy() {
         document.removeEventListener('keyup', this.bindHotKeyFunc)
         clearTimeout(this.autoHideControls)
