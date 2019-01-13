@@ -80,8 +80,8 @@ export function formatTime(time) {
     if (min < 10) min = '0' + min
     sec = Math.floor(time % 60)
     if (sec < 10) sec = '0' + sec
-    if (min === 'Nan' || sec === 'Nan') {
-        return '00:00'
+    if (isNaN(min) || isNaN(sec)) {
+        return '--:--'
     }
     return `${min}:${sec}`
 }

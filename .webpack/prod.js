@@ -1,5 +1,6 @@
 // env: node
 var webpack = require("webpack");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const extractTextPlugin = require("extract-text-webpack-plugin");
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const GitRevision = new GitRevisionPlugin();
@@ -18,13 +19,20 @@ module.exports = function (options) {
         minimize: true,
         debug: false
     }));
-    options.plugins.unshift(new webpack.optimize.UglifyJsPlugin({
-        beautify: false,
-        mangle: { screw_ie8: true },
-        compress: { screw_ie8: true, warnings: false },
-        comments: false,
-        ascii_only: true,
-        sourceMap: true
-    }));
+    options.optimization = {
+        minimizer: [
+            // we specify a custom UglifyJsPlugin here to get source maps in production
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                uglifyOptions: {
+                    compress: false,
+                    ecma: 6,
+                    mangle: true
+                },
+                sourceMap: true
+            })
+        ]
+    };
     return options;
 };

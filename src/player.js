@@ -202,6 +202,8 @@ class MPlayer {
                         that.stats.codec = data && data.video && data.video.container + ';codecs="' + data.video.codec + '"'
                     });
                     hls.on(Hls.Events.LEVEL_LOADED, function(event, data) {
+                        // 把播放时间重置为 0
+                        element.currentTime = 0
                         var event = {
                             type    : 'level',
                             id      : data.level,
@@ -420,7 +422,7 @@ class MPlayer {
         this.init(this.video, this.options.type, newSrc)
         this.events.trigger('switchSource', { type: this.options.type, src: this.options.video.src })
         this.options.video.src = newSrc
-        this.setNextVideo(nextSrc)
+        // this.setNextVideo(nextSrc)
     }
 
     /**

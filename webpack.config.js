@@ -77,19 +77,13 @@ const options = {
         contentBase: path.join(__dirname, ''),
         compress: true,
         port: 9000,
-        hot: true,
         open: true,
-        inline: true,
-        progress: true,
         // It's a required option.
         publicPath: "/assets",
         watchOptions: {
             aggregateTimeout: 300,
             poll: 1000,
-        },
-        stats: {
-            colors: true
-        },
+        }
     }
 };
 
