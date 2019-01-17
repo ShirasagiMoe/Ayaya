@@ -1,0 +1,1 @@
+const handlebars = require('handlebars') // require('handlebars/runtime')
