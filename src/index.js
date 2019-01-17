@@ -1,14 +1,20 @@
 import './styles/demo.scss'
 
+console.log(`Ayaya@${AYAYA_VERSION}-${GIT_HASH}`)
+
 // import MPlayer from './player'
 import Event from './js/events'
+import './Ayaya'
 
 const event = new Event()
 
 event.register('haha', (arg) => {
-    console.log('call ', arg)
+    console.log('callback ', arg)
 })
 
-event.dispatch('haha', '我是触发消息的内容')
+event.dispatch('haha', { message: 'test' })
+
+
+
 
 console.log('use Ayaya')

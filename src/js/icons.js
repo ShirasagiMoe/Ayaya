@@ -2,7 +2,7 @@ import comment from '../assets/icons/comment.svg';
 import full from '../assets/icons/fullscreen.svg';
 import fullWeb from '../assets/icons/fullscreen-web.svg';
 import fullExit from '../assets/icons/fullscreen-exit.svg';
-import loading from '../assets/icons/load.svg';
+// import loading from '../assets/icons/load.svg';
 import loop from '../assets/icons/loop.svg';
 import mute from '../assets/icons/mute.svg';
 import play from '../assets/icons/play.svg';

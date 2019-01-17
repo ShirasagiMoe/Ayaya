@@ -51,7 +51,10 @@ const options = {
             }, {
                 test: /\.svg$/,
                 loader: 'svg-inline-loader'
-            },
+            }, { 
+                test: /\.hbs$/,
+                loader: "handlebars-loader" 
+            }
         ]
     },
     resolve: {
