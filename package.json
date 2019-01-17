@@ -37,7 +37,7 @@
     "webpack-dev-server": "^>=3.1.11"
   },
   "scripts": {
-    "dev": "webpack-dev-server --env=test --mode=development  --progress --colors --hide-modules",
+    "dev": "webpack-dev-server --env=test --mode=development --colors --hide-modules",
     "build:dev": "webpack --env=dev --progress --colors --hide-modules",
     "build": "webpack --env=prod --progress --colors --hide-modules"
   },
