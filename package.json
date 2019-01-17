@@ -1,6 +1,6 @@
 {
   "name": "ayaya",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A simple Media Player.",
   "author": "sendya",
   "license": "MIT",
@@ -38,8 +38,8 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --env=test --mode=development --colors --hide-modules",
-    "build:dev": "webpack --env=dev --progress --colors --hide-modules",
-    "build": "webpack --env=prod --progress --colors --hide-modules"
+    "build:dev": "webpack --env=dev --mode=development --progress --colors --hide-modules",
+    "build": "webpack --env=prod --mode=production --progress --colors --hide-modules"
   },
   "dependencies": {
     "clipboard": "^2.0.1",

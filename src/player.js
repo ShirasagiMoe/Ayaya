@@ -2,7 +2,7 @@ import './styles/player.scss'
 
 // import { MediaPlayer } from 'dashjs'
 // import flv from 'flv.js'
-import Hls from 'hls.js'
+// import Hls from 'hls.js'
 import Clipboard from 'clipboard'
 
 
@@ -139,7 +139,7 @@ class MPlayer {
      * @param source
      */
     init (element, type, source) {
-        let that = this;
+        const that = this;
         this.options.type = this.type = type;
         const el = element
         if (!this.type || this.type === 'auto') {
@@ -204,6 +204,7 @@ class MPlayer {
                     hls.on(Hls.Events.LEVEL_LOADED, function(event, data) {
                         // 把播放时间重置为 0
                         element.currentTime = 0
+                        that.events.trigger(PLAY_STATUS.LOADED)
                         var event = {
                             type    : 'level',
                             id      : data.level,
