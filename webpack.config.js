@@ -3,11 +3,12 @@ const path = require('path'),
     htmlWebpackPlugin = require('html-withimg-loader'),
     extractTextPlugin = require('extract-text-webpack-plugin'),
     GitRevisionPlugin = require('git-revision-webpack-plugin');
+const colors = require('colors');
 const GitRevision = new GitRevisionPlugin();
 
 const options = {
     entry: {
-        'MPlayer': './src/player.js',
+        'MPlayer': './src/index.js',
         'bundle': './src/index.js'
     },
     module: {
@@ -74,16 +75,16 @@ const options = {
         })
     ],
     devServer: {
-        after: function (app) {
-            console.log(':: Ayaya ::')
-            console.log('[Command] -> System call: generate MPlayer element: #player')
+        after: function (app, server) {
+            console.log(':: Ayaya dev mode ::')
+            console.log('[Command] -> System call: generate Ayaya element: #player')
             console.log('[Command] -> Call reply: object ID #01')
             console.log('[Command] -> System call: connect MediaSourceServer ..')
             console.log('[Command] -> System call: decode video codec/ac ...')
             console.log('[Command] -> System call: decode audio acc plist ...')
-            console.log('[Command] -> System call: generate MPlayer UI Box arrow shape ...')
-
-            console.log('[Generate] -> ok;')
+            console.log('[Command] -> System call: generate Ayaya UI Box arrow shape ...')
+            console.log('[Generate] -> host: ', `http://${this.host}:${this.port}`.green)
+            console.log('[Generate] -> ok')
         },
         noInfo: true,
         // clientLogLevel: 'none',
