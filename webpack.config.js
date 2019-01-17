@@ -74,10 +74,23 @@ const options = {
         })
     ],
     devServer: {
+        after: function (app) {
+            console.log(':: Ayaya ::')
+            console.log('[Command] -> System call: generate MPlayer element: #player')
+            console.log('[Command] -> Call reply: object ID #01')
+            console.log('[Command] -> System call: connect MediaSourceServer ..')
+            console.log('[Command] -> System call: decode video codec/ac ...')
+            console.log('[Command] -> System call: decode audio acc plist ...')
+            console.log('[Command] -> System call: generate MPlayer UI Box arrow shape ...')
+
+            console.log('[Generate] -> ok;')
+        },
+        noInfo: true,
+        // clientLogLevel: 'none',
         contentBase: path.join(__dirname, ''),
         compress: true,
         port: 9000,
-        open: true,
+        open: false,
         // It's a required option.
         publicPath: "/assets",
         watchOptions: {

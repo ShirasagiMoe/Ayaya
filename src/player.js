@@ -1,10 +1,10 @@
-// import './styles/demo.scss'
 import './styles/player.scss'
 
 // import { MediaPlayer } from 'dashjs'
+// import flv from 'flv.js'
 import Hls from 'hls.js'
 import Clipboard from 'clipboard'
-// import flv from 'flv.js'
+
 
 import PLAYER_TYPE from './js/player-type'
 import PLAY_STATUS from './js/player-status'
