@@ -65,17 +65,22 @@ class Controller {
             logger.info(`Play Status: ${this.status}`)
             if (this.status === PLAY_STATUS.PLAY) {
                 this.player.pause()
-                this.status = PLAY_STATUS.PAUSE
-                this.video.removeEventListener('timeupdate', this.eventFunc);
-                this.video.removeEventListener('ended', ended)
             } else {
-                this.video.addEventListener('timeupdate', this.eventFunc);
-                this.video.addEventListener('ended', ended)
-                this.status = PLAY_STATUS.PLAY
                 this.player.play()
-                this.autoHide()
             }
         };
+
+        this.listener = () => {
+            this.video.addEventListener('timeupdate', this.eventFunc);
+            this.video.addEventListener('ended', ended)
+            this.status = PLAY_STATUS.PLAY
+            this.autoHide()
+        }
+        this.removeListener = () => {
+            this.video.removeEventListener('timeupdate', this.eventFunc);
+            this.video.removeEventListener('ended', ended)
+            this.status = PLAY_STATUS.PAUSE
+        }
 
         this.next = () => {
             logger.info(`Next video: ${this.player.source2}`)

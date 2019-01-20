@@ -345,8 +345,7 @@ class MPlayer {
         this.controller.button.play.innerHTML = Icons.pause
         this.showStats(Icons.play)
         this.video.play()
-        this.controller.play()
-        this.controller.status = PLAY_STATUS.PLAY
+        this.controller.listener()
         this.events.trigger(PLAY_STATUS.PLAY)
 
         // info panel load speed auto refresh
@@ -362,8 +361,7 @@ class MPlayer {
         this.controller.button.play.innerHTML = Icons.play
         this.showStats(Icons.pause)
         this.video.pause()
-        this.controller.play()
-        this.controller.status = PLAY_STATUS.PAUSE
+        this.controller.removeListener()
         this.events.trigger(PLAY_STATUS.PAUSE)
 
         clearInterval(this.panelUpdated)
@@ -374,8 +372,9 @@ class MPlayer {
      */
     stop () {
         this.controller.button.play.innerHTML = Icons.play
-        this.controller.resetLoadBar()
         this.video.pause()
+        this.controller.removeListener()
+        this.controller.resetLoadBar()
         this.controller.status = PLAY_STATUS.STOP
 
         this.events.trigger(PLAY_STATUS.STOP)
