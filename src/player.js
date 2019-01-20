@@ -345,7 +345,8 @@ class MPlayer {
         this.controller.button.play.innerHTML = Icons.pause
         this.showStats(Icons.play)
         this.video.play()
-
+        this.controller.play()
+        this.controller.status = PLAY_STATUS.PLAY
         this.events.trigger(PLAY_STATUS.PLAY)
 
         // info panel load speed auto refresh
@@ -361,9 +362,9 @@ class MPlayer {
         this.controller.button.play.innerHTML = Icons.play
         this.showStats(Icons.pause)
         this.video.pause()
-
+        this.controller.play()
+        this.controller.status = PLAY_STATUS.PAUSE
         this.events.trigger(PLAY_STATUS.PAUSE)
-
 
         clearInterval(this.panelUpdated)
     }
