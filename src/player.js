@@ -194,7 +194,7 @@ class MPlayer {
 
                     if (p2pEngine !== null && p2pEngine !== undefined) {
                         that.stats.p2pSupport = true
-                        engine.on('stats', function (stats) {
+                        p2pEngine.on('stats', function (stats) {
                             // stats.totalHTTPDownloaded: 从HTTP(CDN)下载的数据量（单位KB）
                             // stats.totalP2PDownloaded: 从P2P下载的数据量（单位KB）
                             // stats.totalP2PUploaded: P2P上传的数据量（单位KB）
