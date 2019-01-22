@@ -46,6 +46,10 @@ const template = {
                         <span class="v right connection-speed">-</span>
                     </li>
                     <li>
+                        <span class="name">P2P Info:</span>
+                        <span class="v right p2p-speed">-</span>
+                    </li>
+                    <li>
                         <span class="name">Dropped frames:</span>
                         <span class="v dropped-frames">0</span>
                     </li>

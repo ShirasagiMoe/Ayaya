@@ -9,6 +9,7 @@ class InfoPanel {
         this.events = {}
         this.events.droppedFrames = this.panel.querySelector('.dropped-frames')
         this.events.connectionSpeed = this.panel.querySelector('.connection-speed')
+        this.events.p2pSpeed = this.panel.querySelector('.p2p-speed')
         this.events.viewport = this.panel.querySelector('.viewport')
         this.events.volume = this.panel.querySelector('.volume')
         this.events.videoId = this.panel.querySelector('.vid')
@@ -68,6 +69,10 @@ class InfoPanel {
             this.events.droppedFrames.innerText = `${this.player.stats.droppedFrames}/${this.player.stats.totalFrames}`
             this.events.connectionSpeed.innerText = (this.player.stats.fragLastKbps / 8).toFixed(2) + 'Kb/s'
             this.events.codecs.innerText = this.player.stats.codec
+            if (this.player.stats.p2pSupport) {
+                const text = `Down:${this.player.stats.totalP2PDownloaded + 'KB/s'} / UP:${this.player.stats.totalP2PUploaded + 'KB/s'}`
+                this.events.p2pSpeed.innerText = text
+            }
         }
         this.events.viewport.innerText = this.element.offsetWidth + 'x' + this.element.offsetHeight
     }
