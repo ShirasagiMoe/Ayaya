@@ -178,7 +178,7 @@ class MPlayer {
                     hls.loadSource(source);
                     hls.attachMedia(element);
                     const p2pEngine = hls.p2pEngine;
-
+                    logger.debug('p2pEngine', p2pEngine)
                     that.stats = {};
                     that.stats.droppedFrames = 0
                     that.stats.totalFrames = 0
@@ -193,14 +193,16 @@ class MPlayer {
                     };
 
                     if (p2pEngine !== null && p2pEngine !== undefined) {
-                        that.stats.p2pSupport = true
-                        p2pEngine.on('stats', function (stats) {
+                        logger.debug('p2pEngine loaded')
+                        p2pEngine.on('stats', function (stat) {
+                            that.stats.p2pSupport = true
+                            console.log(`p2pEngine.on('state')`, stat)
                             // stats.totalHTTPDownloaded: 从HTTP(CDN)下载的数据量（单位KB）
                             // stats.totalP2PDownloaded: 从P2P下载的数据量（单位KB）
                             // stats.totalP2PUploaded: P2P上传的数据量（单位KB）
-                            that.stats.totalHTTPDownloaded = stats.totalHTTPDownloaded;
-                            that.stats.totalP2PDownloaded = stats.totalP2PDownloaded;
-                            that.stats.totalP2PUploaded = stats.totalP2PUploaded;
+                            that.stats.totalHTTPDownloaded = stat.totalHTTPDownloaded;
+                            that.stats.totalP2PDownloaded = stat.totalP2PDownloaded;
+                            that.stats.totalP2PUploaded = stat.totalP2PUploaded;
                         })
                     }
 

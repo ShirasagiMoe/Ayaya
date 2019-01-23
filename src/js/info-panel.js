@@ -1,5 +1,3 @@
-import logger from './logger'
-
 class InfoPanel {
 
     constructor(player) {
@@ -69,9 +67,12 @@ class InfoPanel {
             this.events.droppedFrames.innerText = `${this.player.stats.droppedFrames}/${this.player.stats.totalFrames}`
             this.events.connectionSpeed.innerText = (this.player.stats.fragLastKbps / 8).toFixed(2) + 'Kb/s'
             this.events.codecs.innerText = this.player.stats.codec
+            console.log('p2pSupport', this.player.stats.p2pSupport)
             if (this.player.stats.p2pSupport) {
-                const text = `Down:${this.player.stats.totalP2PDownloaded + 'KB/s'} / UP:${this.player.stats.totalP2PUploaded + 'KB/s'}`
-                this.events.p2pSpeed.innerText = text
+
+                const down = this.player.stats.totalP2PDownloaded || 0
+                const up = this.player.stats.totalP2PUploaded || 0
+                this.events.p2pSpeed.innerText = `Down:${down + 'KB/s'} / UP:${up + 'KB/s'}`
             }
         }
         this.events.viewport.innerText = this.element.offsetWidth + 'x' + this.element.offsetHeight
