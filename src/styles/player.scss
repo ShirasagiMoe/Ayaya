@@ -1,7 +1,7 @@
 @import "reset";
 @import "vars";
 
-.player-wrapper {
+.ayaya-wrapper {
     position: relative;
     user-select: none;
     font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -497,14 +497,14 @@
     }
 
     // video
-    .video-box {
+    .video-wrapper {
       font-size: 0;
       width: 100%;
       height: 100%;
       margin: 0 auto;
       background: #000;
 
-      .mplayer-video {
+      .ayaya-video {
         width: 100%;
         height: 100%;
         display: block;
@@ -670,7 +670,7 @@
       color: #fff;
       font-size: 0;
       width: 380px;
-      height: 200px;
+      height: auto;
       background: rgba(0,0,0,0.4);
       box-sizing: border-box;
       border-radius: 3px;

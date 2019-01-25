@@ -1,5 +1,5 @@
-<div class="video-box">
-    <video class="mplayer-video mplayer-video-index{{ index }}" src=""></video>
+<div class="video-wrapper">
+    <video class="ayaya-video ayaya-index{{ index }}" meted="meted" poster="{{ poster }}"></video>
 </div>
 <div class="info-panel">
     <a class="close" title="关闭">[x]</a>
@@ -41,6 +41,10 @@
             <span class="v right connection-speed">-</span>
         </li>
         <li>
+            <span class="name">P2P Speed:</span>
+            <span class="v right p2p-speed">-</span>
+        </li>
+        <li>
             <span class="name">Dropped frames:</span>
             <span class="v dropped-frames">0</span>
         </li>
@@ -53,7 +57,7 @@
     <ul></ul>
 </div>
 <div class="video-play-status-mask">
-    <div class="icon play-status">{{{icons.play}}}</div>
+    <div class="icon play-status">{{{ icons.play }}}</div>
 </div>
 
 <div class="video-notice">
@@ -63,7 +67,7 @@
     {{{ Icons.play }}}
 </div>
 <div class="video-waiting">
-    {{ Icons.loading }}
+    {{{ Icons.loading }}}
 </div>
 
 <div class="control-mask"></div>

@@ -1,80 +1,74 @@
-import logger from './logger'
-
 class InfoPanel {
+  constructor (player) {
+    const { element, options: { type } } = player
+    this.element = element
+    this.panel = element.querySelector('.info-panel')
+    this.events = {}
+    this.events.droppedFrames = this.panel.querySelector('.dropped-frames')
+    this.events.connectionSpeed = this.panel.querySelector('.connection-speed')
+    this.events.viewport = this.panel.querySelector('.viewport')
+    this.events.volume = this.panel.querySelector('.volume')
+    this.events.videoId = this.panel.querySelector('.vid')
+    this.events.host = this.panel.querySelector('.host')
+    this.events.playerMode = this.panel.querySelector('.player-mode')
+    this.events.codecs = this.panel.querySelector('.codecs')
 
-    constructor(player) {
-        this.player = player
-        this.element = player.element
-        this.panel = this.element.querySelector('.info-panel')
-        this.events = {}
-        this.events.droppedFrames = this.panel.querySelector('.dropped-frames')
-        this.events.connectionSpeed = this.panel.querySelector('.connection-speed')
-        this.events.viewport = this.panel.querySelector('.viewport')
-        this.events.volume = this.panel.querySelector('.volume')
-        this.events.videoId = this.panel.querySelector('.vid')
-        this.events.host = this.panel.querySelector('.host')
-        this.events.playerMode = this.panel.querySelector('.player-mode')
-        this.events.codecs = this.panel.querySelector('.codecs')
+    this.isShow = false
 
-        this.isShow = false
+    this.panel.querySelector('.close').addEventListener('click', (e) => {
+      e.preventDefault()
+      this.close()
+    })
 
-        this.panel.querySelector('.close').addEventListener('click', (e) => {
-            e.preventDefault()
-            this.close()
-        })
+    this.events.playerMode.innerText = type
 
-        this.events.playerMode.innerText = this.player.options.type
+    this.dict = [
+      { x: 0, y: 14 },
+      { x: 180, y: 14 }
+    ]
+  }
 
-/*        let cid = 0
-        const resize = () => {
-            clearTimeout(cid)
-            cid = setTimeout( () => {
-                this.trigger()
-            }, 1000)
-        }
+  open () {
+    this.isShow = true
+    this.panel.style.display = 'block'
+  }
 
-        this.element.addEventListener('resize', resize)*/
+  close () {
+    this.isShow = false
+    this.panel.style.display = 'none'
+  }
 
-        this.dict = [
-            {x: 0, y: 14},
-            {x: 180, y: 14},
-        ];
+  setVolumeText (volume) {
+    this.events.volume.innerText = volume
+  }
+
+  setVideoId (val) {
+    this.events.videoId.innerText = val
+  }
+
+  setSourceHost (val) {
+    this.events.host.innerText = val
+  }
+
+  trigger (stats) {
+    const { element, events } = this
+    if (stats) {
+      events.droppedFrames.innerText = `${stats.droppedFrames}/${stats.totalFrames}`
+      events.connectionSpeed.innerText = (stats.fragLastKbps / 8).toFixed(2) + 'Kb/s'
+      events.codecs.innerText = stats.codec
     }
+    events.viewport.innerText = element.offsetWidth + 'x' + element.offsetHeight
+  }
 
-    open() {
-        this.isShow = true
-        this.panel.style.display = 'block'
-    }
+  connectionSpeedLine () {
 
-    close() {
-        this.isShow = false
-        this.panel.style.display = 'none'
-    }
+  }
 
-    setVolumeText(volume) {
-        this.events.volume.innerText = volume;
-    }
-
-    setVideoId(val) {
-        this.events.videoId.innerText = val;
-    }
-
-    setSourceHost(val) {
-        this.events.host.innerText = val;
-    }
-
-    trigger() {
-        if (this.player.stats) {
-            this.events.droppedFrames.innerText = `${this.player.stats.droppedFrames}/${this.player.stats.totalFrames}`
-            this.events.connectionSpeed.innerText = (this.player.stats.fragLastKbps / 8).toFixed(2) + 'Kb/s'
-            this.events.codecs.innerText = this.player.stats.codec
-        }
-        this.events.viewport.innerText = this.element.offsetWidth + 'x' + this.element.offsetHeight
-    }
-
-    connectionSpeedLine() {
-
-    }
+  destroy () {
+    this.events = null
+    this.panel = null
+    this.isShow = null
+  }
 }
 
-export default InfoPanel;
+export default InfoPanel

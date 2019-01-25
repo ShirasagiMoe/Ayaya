@@ -1,17 +1,17 @@
 
-.player-wrapper {
-    
+.ayaya-wrapper {
+
     [hidden], .hidden {
         display: none;
       }
-    
+
       margin: 0;
       padding: 0;
       border: 0;
       font-size: 100%;
       font: inherit;
       vertical-align: baseline;
-    
+
       p {
         display: block;
         -webkit-margin-before: 0 !important;
@@ -19,7 +19,7 @@
         -webkit-margin-start: 0 !important;
         -webkit-margin-end: 0 !important;
       }
-    
+
       ul {
         list-style: none;
         margin: 0;
@@ -33,38 +33,38 @@
         border: 0;
         line-height: 100%;
       }
-    
+
       svg:not(:root) {
         overflow: hidden;
       }
-    
+
       img {
         border-style: none;
       }
-    
+
       audio:not([controls]) {
         display: none;
         height: 0;
       }
-    
+
       audio,
       video {
         display: inline-block;
       }
-    
+
       a {
         background-color: transparent !important; /* 1 */
         -webkit-text-decoration-skip: objects !important; /* 2 */
       }
-    
+
       a:active,
       a:hover {
         outline-width: 0;
       }
-    
-    
+
+
       // icon sett
-    
+
       .icon {
         width: 34px;
         height: 100%;
@@ -79,12 +79,12 @@
         box-sizing: border-box;
         display: inline-block;
         padding: 7px;
-    
+
         &:hover {
           opacity: 1;
         }
       }
-    
+
       .svg {
         width: 100%;
         height: 100%;

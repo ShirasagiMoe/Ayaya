@@ -1,49 +1,44 @@
 
 class Menu {
+  constructor (option) {
+    this.isShow = false
 
-    constructor(option) {
+    let menu = option.element.querySelector('.context-menu')
 
-        this.isShow = false
+    this.ul = menu.querySelector('ul')
 
-        let menu = option.player.element.querySelector('.context-menu')
+    this.ul.innerHTML = ''
 
-        let ul = menu.querySelector('ul')
+    this.init(this.ul, option.menus)
 
-        ul.innerHTML = ''
+    option.element.oncontextmenu = (e) => {
+      e.preventDefault()
 
-        this.init(ul, option.menus)
-
-        option.player.element.oncontextmenu = (e) => {
-            e.preventDefault()
-
-            menu.style.left = e.offsetX + 'px'
-            menu.style.top = e.offsetY + 'px'
-            menu.style.display = 'block'
-            this.isShow = true
-            // e.preventDefault();
-            // e.stopPropagation();
-        }
-
-        option.player.element.onclick = (e) => {
-            menu.style.display = 'none'
-            this.isShow = false
-            // e.preventDefault();
-            // e.stopPropagation();
-        }
+      menu.style.left = e.offsetX + 'px'
+      menu.style.top = e.offsetY + 'px'
+      menu.style.display = 'block'
+      this.isShow = true
     }
 
-    init(ele, menus) {
-
-        for (let menu of menus) {
-            let li = document.createElement('li')
-            li.innerText = menu.name
-            menu.class && li.classList.add(menu.class)
-            li.addEventListener('click', menu.func)
-            ele.appendChild(li)
-        }
-
+    option.element.onclick = (e) => {
+      menu.style.display = 'none'
+      this.isShow = false
     }
+  }
 
+  init (ele, menus) {
+    for (let menu of menus) {
+      const liDom = document.createElement('li')
+      liDom.innerText = menu.name
+      menu.class && liDom.classList.add(menu.class)
+      liDom.addEventListener('click', menu.func)
+      ele.appendChild(liDom)
+    }
+  }
+
+  destroy () {
+    this.ul = null
+  }
 }
 
-export default Menu;
+export default Menu

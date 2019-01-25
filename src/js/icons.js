@@ -1,3 +1,4 @@
+/* eslint-disable */
 import comment from '../assets/icons/comment.svg';
 import full from '../assets/icons/fullscreen.svg';
 import fullWeb from '../assets/icons/fullscreen-web.svg';
