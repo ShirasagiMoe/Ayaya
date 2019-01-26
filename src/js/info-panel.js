@@ -70,8 +70,8 @@ class InfoPanel {
     const { events } = this
     logger.info('p2p stats', stats)
     if (stats.p2pSupport) {
-      const down = this.player.stats.totalP2PDownloaded || 0
-      const up = this.player.stats.totalP2PUploaded || 0
+      const down = stats.totalP2PDownloaded || 0
+      const up = stats.totalP2PUploaded || 0
       events.p2pSpeed.innerText = `Down:${down + 'KB/s'} / UP:${up + 'KB/s'}`
     } else {
       events.p2pSpeed.innerText = `DISABLED`
