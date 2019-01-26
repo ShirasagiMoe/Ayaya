@@ -1,3 +1,7 @@
+import Logger from './logger'
+
+const logger = Logger.getLogger()
+
 class InfoPanel {
   constructor (player) {
     const { element, options: { type } } = player
@@ -6,6 +10,7 @@ class InfoPanel {
     this.events = {}
     this.events.droppedFrames = this.panel.querySelector('.dropped-frames')
     this.events.connectionSpeed = this.panel.querySelector('.connection-speed')
+    this.events.p2pSpeed = this.panel.querySelector('.p2p-speed')
     this.events.viewport = this.panel.querySelector('.viewport')
     this.events.volume = this.panel.querySelector('.volume')
     this.events.videoId = this.panel.querySelector('.vid')
@@ -52,12 +57,25 @@ class InfoPanel {
 
   trigger (stats) {
     const { element, events } = this
+    logger.info('stats', stats)
     if (stats) {
       events.droppedFrames.innerText = `${stats.droppedFrames}/${stats.totalFrames}`
       events.connectionSpeed.innerText = (stats.fragLastKbps / 8).toFixed(2) + 'Kb/s'
       events.codecs.innerText = stats.codec
     }
     events.viewport.innerText = element.offsetWidth + 'x' + element.offsetHeight
+  }
+
+  triggerP2P (stats) {
+    const { events } = this
+    logger.info('p2p stats', stats)
+    if (stats.p2pSupport) {
+      const down = this.player.stats.totalP2PDownloaded || 0
+      const up = this.player.stats.totalP2PUploaded || 0
+      events.p2pSpeed.innerText = `Down:${down + 'KB/s'} / UP:${up + 'KB/s'}`
+    } else {
+      events.p2pSpeed.innerText = `DISABLED`
+    }
   }
 
   connectionSpeedLine () {

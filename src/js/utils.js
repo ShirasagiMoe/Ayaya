@@ -88,7 +88,7 @@ export function seekToSecondsText (last, now) {
   }
 }
 
-export function now () {
+export function performance () {
   if (window.performance && window.performance.now) {
     return window.performance.now()
   }
@@ -101,5 +101,5 @@ export default {
   cancelAnimationFrame,
   formatTime,
   seekToSecondsText,
-  now
+  performance
 }

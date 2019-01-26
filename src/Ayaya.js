@@ -27,36 +27,42 @@ class Ayaya {
     this.video = this.element.getElementsByClassName('ayaya-video')[0]
     this.volume = this.options.volume
 
+    // First: initialize events
+    this.event = new Event()
+
     this.init()
   }
 
   initEvent () {
-    const { event } = this
-    event.register(EVENTS.PLAY, (arg) => {
-      console.log('callback ', arg)
+    const { event, infoPanel } = this
+    event.register(EVENTS.STATS, (stats) => {
+      infoPanel.trigger(stats)
     })
-
-    event.register(EVENTS.SEEK, (arg) => {
+    event.register(EVENTS.P2P_STATS, (stats) => {
+      infoPanel.triggerP2P(stats)
     })
   }
 
   init () {
-    const { video, options } = this
+    const { video, event, options } = this
     const source = options.video.src
     if (options.type && options.type === 'auto') {
       options.type = nativeType(source)
     }
+
     // init media source
-    this.inited = initMediaSource(video, options.type, source)
+    this.inited = initMediaSource(video, options.type, source, event)
     // set default volume
     video.volume = computeVolume(options.volume).fix
 
+    this.infoPanel = new InfoPanel(this)
+
+    this.initEvent()
     // init notice
     this.notice = new Notice(this)
 
     this.screen = new FullScreen(this)
 
-    this.infoPanel = new InfoPanel(this)
     // init controller
     this.controller = new Controller(this)
 
@@ -88,10 +94,6 @@ class Ayaya {
         }
       ]
     })
-
-    // init events
-    this.event = new Event()
-    this.initEvent()
   }
 
   play () {
@@ -103,9 +105,9 @@ class Ayaya {
     video.play()
     this.controller.listener()
 
-    this.panelUpdateIv = setInterval(() => {
-      this.infoPanel.trigger(this.stats || null)
-    })
+    // this.panelUpdateIv = setInterval(() => {
+    //   this.infoPanel.trigger(this.stats || null)
+    // }, 1000)
 
     // trigger event
     event.dispatch(EVENTS.PLAY)

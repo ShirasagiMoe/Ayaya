@@ -12,7 +12,7 @@ const option = {
   loggerType: 0,
   video: {
     poster: '',
-    src: '/build/01/01.m3u8'
+    src: '/build/WakabaGirl.m3u8'
   },
   volume: 60
 }
@@ -23,6 +23,5 @@ const { event } = player
 event.dispatch(EVENTS.PLAY, { message: '播放器触发了开始播放' })
 
 event.register(EVENTS.READY, () => {
-  console.log('oncanplay')
   player.play()
 })

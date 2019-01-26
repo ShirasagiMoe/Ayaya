@@ -30,23 +30,23 @@ class Logger {
   }
 
   debug (...logs) {
-    this.log(Logger.LOGGER_LEVEL.DEBUG, logs)
+    this.log(Logger.LOGGER_LEVEL.DEBUG, ...logs)
   }
 
   info (...logs) {
-    this.log(Logger.LOGGER_LEVEL.INFO, logs)
+    this.log(Logger.LOGGER_LEVEL.INFO, ...logs)
   }
 
   warn (...logs) {
-    this.log(Logger.LOGGER_LEVEL.WARN, logs)
+    this.log(Logger.LOGGER_LEVEL.WARN, ...logs)
   }
 
   error (...logs) {
-    this.log(Logger.LOGGER_LEVEL.ERROR, logs)
+    this.log(Logger.LOGGER_LEVEL.ERROR, ...logs)
   }
 
   fatal (...logs) {
-    this.log(Logger.LOGGER_LEVEL.FATAL, logs)
+    this.log(Logger.LOGGER_LEVEL.FATAL, ...logs)
   }
 
   log (level, ...logs) {
@@ -61,12 +61,8 @@ class Logger {
       this.el.appendChild(document.createElement('br'))
       this.el.scrollTop = this.el.scrollHeight
     } else {
-      let log = '[' + Logger.typeToName(this.level) + '] -> '
-      logs.forEach((v) => {
-        log += v.toString() + ', '
-      })
-      log = log.substring(0, log.length - 2)
-      console.log(log)
+      const format = Logger.getLogFormat(level)
+      console.log(format.text, format.color, ...logs)
     }
   }
 
@@ -76,6 +72,25 @@ class Logger {
 
   setType (type) {
     this.type = type
+  }
+
+  static getLogFormat (level) {
+    const log = '%c[' + Logger.typeToName(level) + ']\t-> '
+    return { text: log, color: Logger.levelGetColor(level) }
+  }
+
+  static levelGetColor (level) {
+    switch (level) {
+      case Logger.LOGGER_LEVEL.DEBUG:
+        return 'color: #000'
+      case Logger.LOGGER_LEVEL.INFO:
+        return 'color: #00FF00'
+      case Logger.LOGGER_LEVEL.WARN:
+        return 'color: #FFA500'
+      case Logger.LOGGER_LEVEL.ERROR:
+      default:
+        return 'color: red'
+    }
   }
 
   static typeToName (type) {

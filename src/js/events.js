@@ -55,7 +55,9 @@ export const EVENTS = {
   PLAYER_FULLSCREEN: 'fullscreen',
   PLAYER_TIMEUPDATE: 'timeupdate',
   PLAYER_VOLUME_UPDATE: 'volumeupdate',
-  PLAYER_SUBTITLE_AVAILABLE: 'subtitleavailable'
+  PLAYER_SUBTITLE_AVAILABLE: 'subtitleavailable',
+  INITED: 'inited',
+  P2P_STATS: 'p2pstats'
 }
 
 export default EventManager
