@@ -31,6 +31,8 @@ class Ayaya {
     this.event = new Event()
 
     this.init()
+    // fix multiple instance - id
+    playerId++
   }
 
   initEvent () {
