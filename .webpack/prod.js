@@ -6,6 +6,11 @@ const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const GitRevision = new GitRevisionPlugin();
 
 module.exports = function (options) {
+
+    const rules = options.module.rules.filter(rule => {
+      return rule.loader !== 'eslint-loader'
+    });
+    options.module.rules = rules;
     delete options.entry.bundle;
     options.devtool = 'cheap-module-source-map';
     options.plugins = [

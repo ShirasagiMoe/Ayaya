@@ -1,3 +1,4 @@
+/* eslint-disable */
 const path = require('path'),
   webpack = require('webpack'),
   htmlWebpackPlugin = require('html-withimg-loader'),
@@ -8,7 +9,7 @@ const GitRevision = new GitRevisionPlugin();
 
 const options = {
   entry: {
-    'MPlayer': './src/index.js',
+    'Ayaya': './src/Ayaya.js',
     'bundle': './src/index.js'
   },
   module: {
@@ -39,7 +40,7 @@ const options = {
             'es2015'
           ]
         }
-      },{
+      }, {
         test: /\.(js|jsx)$/,
         loader: 'eslint-loader',
         exclude: /node_modules/,

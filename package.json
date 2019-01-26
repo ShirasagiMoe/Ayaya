@@ -50,8 +50,8 @@
   },
   "scripts": {
     "start": "webpack-dev-server --env=test --mode=development --colors --hide-modules",
-    "build:dev": "webpack --env=dev --progress --colors --hide-modules",
-    "build": "webpack --env=prod --progress --colors --hide-modules",
+    "build:dev": "webpack --env=dev --mode=development --progress --colors --hide-modules",
+    "build": "webpack --env=prod --mode=production --progress --colors --hide-modules",
     "lint": "eslint --ext .js src/",
     "lint:fix": "eslint --fix --ext .js src/"
   },

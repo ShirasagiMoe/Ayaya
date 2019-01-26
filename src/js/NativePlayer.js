@@ -1,8 +1,8 @@
 import TYPE from './player-type'
 
-import { MediaPlayer, dashjs } from 'dashjs'
-import flv from 'flv.js'
-import Hls from 'hls.js'
+// import { MediaPlayer, dashjs } from 'dashjs'
+// import flv from 'flv.js'
+// import Hls from 'hls.js'
 import { EVENTS } from './events'
 import { performance } from './utils'
 import Logger from './logger'
