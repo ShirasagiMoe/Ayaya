@@ -10,8 +10,11 @@ import Notice from './js/notice'
 import FullScreen from './js/fullscreen'
 import InfoPanel from './js/info-panel'
 import Menu from './js/context-menu'
+import Logger from './js/logger'
 
 let playerId = 0
+
+const logger = Logger.getLogger()
 
 class Ayaya {
   constructor (option) {
@@ -21,7 +24,7 @@ class Ayaya {
     this.options = options(option)
     this.options.ayayaId = ayayaId
     this.inited = false
-
+    logger.setLevel(this.options.logLevel)
     this.element = render(this.options)
 
     this.video = this.element.getElementsByClassName('ayaya-video')[0]
@@ -65,37 +68,48 @@ class Ayaya {
 
     this.screen = new FullScreen(this)
 
-    // init controller
-    this.controller = new Controller(this)
+    const menuList = [
+      {
+        name: '复制视频网址',
+        class: 'copy-el1',
+        func: () => {}
+      },
+      {
+        name: '循环播放',
+        func: () => {
+          this.controller._loop()
+        }
+      },
+      {
+        name: '无法播放反馈',
+        func: function () {
+          window.location.href = 'http://www.srsg.moe/feedback/player/error_reply?backurl=' + window.location.href
+        }
+      },
+      {
+        name: '详细统计信息',
+        func: () => {
+          this.infoPanel.open()
+        }
+      }
+    ]
+    if (options.lightSwitch) {
+      menuList.splice(2, 0, {
+        name: '关灯',
+        class: 'close-light',
+        func: () => {
+          this.controller._light()
+        }
+      })
+    }
 
     this.menu = new Menu({
       element: this.element,
-      menus: [
-        {
-          name: '复制视频网址',
-          class: 'copy-el1',
-          func: () => {}
-        },
-        {
-          name: '循环播放',
-          func: () => {
-            this.controller._loop()
-          }
-        },
-        {
-          name: '无法播放反馈',
-          func: function () {
-            window.location.href = 'http://www.srsg.moe/feedback/player/error_reply?backurl=' + window.location.href
-          }
-        },
-        {
-          name: '详细统计信息',
-          func: () => {
-            this.infoPanel.open()
-          }
-        }
-      ]
+      menus: menuList
     })
+
+    // init controller
+    this.controller = new Controller(this)
   }
 
   play () {
@@ -231,5 +245,8 @@ class Ayaya {
     this.options = null
   }
 }
+
+Ayaya.EVENTS = EVENTS
+Ayaya.logger = logger
 
 export default Ayaya

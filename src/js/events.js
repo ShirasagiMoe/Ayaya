@@ -56,6 +56,7 @@ export const EVENTS = {
   PLAYER_TIMEUPDATE: 'timeupdate',
   PLAYER_VOLUME_UPDATE: 'volumeupdate',
   PLAYER_SUBTITLE_AVAILABLE: 'subtitleavailable',
+  PLAYER_LIGHT: 'turnlight',
   INITED: 'inited',
   P2P_STATS: 'p2pstats'
 }

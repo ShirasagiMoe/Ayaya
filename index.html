@@ -47,6 +47,24 @@ Date: 2017/01/01
     <div id="logger" class="logger hidden" contenteditable="true">
     </div>
 </div>
-<script type="text/javascript" src="/assets/MPlayer.js"></script>
+<script type="text/javascript" src="//unpkg.com/hls.js@0.12.2/dist/hls.js"></script>
+<script type="text/javascript" src="/assets/Ayaya.js"></script>
+<script>
+    var player = new Ayaya({
+        element: document.getElementById('player'),
+        type: 'hls',
+        logLevel: 1,
+        lightSwitch: true,
+        video: {
+            poster: 'poster.png',
+            src: '/build/02/02.m3u8'
+        },
+        volume: 60
+    });
+
+    player.on(Ayaya.EVENTS.PLAYER_LIGHT, function (light) {
+        Ayaya.logger.info('当前开关状态', light)
+    })
+</script>
 </body>
 </html>

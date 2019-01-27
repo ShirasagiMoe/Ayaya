@@ -17,6 +17,7 @@ class Controller {
     this.status = PLAY_STATUS.LOADING
     this.speed = 1
     this.isShow = false
+    this.isLight = false
     this.mirror = false
     this.hotkey = false
 
@@ -40,6 +41,8 @@ class Controller {
       this.autoHide()
     })
 
+    this.lightElement = this.element.getElementsByClassName('close-light')[0]
+
     logger.debug('Controller inited')
   }
 
@@ -60,7 +63,7 @@ class Controller {
     }
 
     this.play = () => {
-      logger.info(`Play Status: ${this.status}`)
+      logger.debug(`Play Status: ${this.status}`)
       if (this.status === PLAY_STATUS.PLAY) {
         this.player.pause()
       } else {
@@ -86,7 +89,7 @@ class Controller {
     }
 
     this.next = () => {
-      logger.info(`Next video: ${this.player.source2}`)
+      logger.debug(`Next video: ${this.player.source2}`)
       if (this.player.source2 !== null) {
         this.player.next()
       }
@@ -407,6 +410,14 @@ class Controller {
     }
   }
 
+  _light () {
+    const { event } = this.player
+    const text = this.isLight ? '关灯' : '开灯'
+    this.lightElement.innerHTML = text
+    this.isLight = !this.isLight
+    event.dispatch(EVENTS.PLAYER_LIGHT, this.isLight)
+  }
+
   _hotKey () {
     const { hotkey, settings, player: { notice } } = this
 
@@ -426,28 +437,38 @@ class Controller {
 
   _bindHotKey (event) {
     console.log('event', event)
-    event.stopPropagation()
-    event.preventDefault()
     switch (event.keyCode) {
       case 123:
+        event.stopPropagation()
+        event.preventDefault()
         console.log('...link start!')
         return false
       case 37: // 键盘左键
       case 74: // J 快退
+        event.stopPropagation()
+        event.preventDefault()
         this.player.seek(this.player.seek() - 5)
         break
       case 39: // 键盘右键
       case 76: // L 快退
+        event.stopPropagation()
+        event.preventDefault()
         this.player.seek(this.player.seek() + 5)
         break
       case 38: // 上键
+        event.stopPropagation()
+        event.preventDefault()
         this.player.setVolume(this.player.volume + 5)
         break
       case 40: // 下键
+        event.stopPropagation()
+        event.preventDefault()
         this.player.setVolume(this.player.volume - 5)
         break
       case 75: // K 键，空格键
       case 32:
+        event.stopPropagation()
+        event.preventDefault()
         this.play()
         break
     }

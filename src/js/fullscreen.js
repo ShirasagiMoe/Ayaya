@@ -1,4 +1,5 @@
 import Logger from './logger'
+import { EVENTS } from './events'
 
 export const FULL_MODE = {
   NONE: 0,
@@ -70,7 +71,7 @@ class FullScreen {
       this.setMode(FULL_MODE.NONE)
     }
     this.player.infoPanel.trigger()
-    this.player.events.trigger('fullscreen', this.getMode())
+    this.player.event.dispatch(EVENTS.PLAYER_FULLSCREEN, this.getMode())
   }
 
   /**
@@ -110,7 +111,7 @@ class FullScreen {
       this.setMode(FULL_MODE.NONE)
       this.exitScreenFull()
     }
-    this.player.events.trigger('fullscreen', this.getMode())
+    this.player.event.dispatch(EVENTS.PLAYER_FULLSCREEN, this.getMode())
   }
 
   exitScreenFull () {
@@ -131,6 +132,7 @@ class FullScreen {
 
     this.player.element.style.width = ''
     this.player.element.style.height = ''
+    document.body.style.overflow = 'auto'
     this.player.element.classList.remove(this.element.name.screen)
 
     logger.debug('Exit ScreenFull Mode')

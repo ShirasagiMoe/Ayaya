@@ -1,3 +1,4 @@
+/* eslint-disable */
 import TYPE from './player-type'
 
 // import { MediaPlayer, dashjs } from 'dashjs'
@@ -48,7 +49,7 @@ const hlsInit = (hls, event) => {
   let sumParsing = 0
 
   if (p2pEngine !== null && p2pEngine !== undefined) {
-    logger.info('p2pEngine loaded')
+    logger.debug('p2pEngine loaded')
     p2pEngine.on('stats', (stat) => {
       stats.p2pSupport = true
       logger.debug('p2pEngine.on(\'stats\')', stat)
@@ -60,7 +61,7 @@ const hlsInit = (hls, event) => {
   }
 
   hls.on(Hls.Events.MANIFEST_PARSED, (e, data) => {
-    logger.info(`manifest loaded, found ${data.levels.length} quality level`)
+    logger.debug(`manifest loaded, found ${data.levels.length} quality level`)
 
     stats.levelNb = data.levels.length
     stats.levelParsed = 0
@@ -171,7 +172,7 @@ const hlsInit = (hls, event) => {
   })
 
   hls.on(Hls.Events.FRAG_PARSED, (e, data) => {
-    logger.info('FRAG_PARSED', data)
+    logger.debug('FRAG_PARSED', data)
     stats.droppedFrames += data.frag.dropped
     stats.totalFrames += parseInt(parseFloat(data.frag.duration) * 24)
     event.dispatch(EVENTS.STATS, stats)
@@ -217,6 +218,6 @@ export const initMediaSource = (element, type, source, events) => {
   // set video timeline to zero
   element.currentTime = 0
 
-  logger.info('init media type', type)
+  logger.debug('init media type', type)
   return true
 }

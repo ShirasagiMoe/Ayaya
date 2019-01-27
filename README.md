@@ -34,10 +34,10 @@ Docs
 #### 初始化播放器 1方式
 
 ```javascript
-var player = new MPlayer({
+var player = new Ayaya({
     element: document.getElementById('player'),
     type: 'hls',
-    loggerType: 1,
+    logLevel: 0,
     video: {
         poster: '//demo.loacg.com/poster.png',
         src: '//demo.loacg.com/mplayer/Puella_Magi_Madoka_Magica/01/01.m3u8'
@@ -50,9 +50,9 @@ var player = new MPlayer({
 
 ```javascript
 // 先初始化播放器
-var player = new MPlayer({
+var player = new Ayaya({
     element: document.getElementById('player'),
-    loggerType: 1,
+    logLevel: 1,
     volume: 10
 });
 
@@ -75,6 +75,7 @@ player.switchSource('//demo.loacg.com/assets/video/WakabaGirl.mp4');
 | blob       | 是否采用 html5 BLOB 包装视频源                         | Boolean    | false       |
 | volume     | 当前播放器声音大小，范围 0-100                         | Number     | 40          |
 | loggerType | 日志类型<br />0 在页面输出<br />1在浏览器 console 输出 | Number     | 1           |
+| logLevel   | 0 DEBUG, 1INFO, 2 WARN, 3 ERROR                        | Number     | 0           |
 
 
 
@@ -98,7 +99,7 @@ player.switchSource('//demo.loacg.com/assets/video/WakabaGirl.mp4');
 ```javascript
 
 // 初始化播放器
-var player = new MPlayer({
+var player = new Ayaya({
     element: document.getElementById('player'),
     type: 'hls',
     loggerType: 1,
@@ -115,10 +116,10 @@ function playEvent() {
 }
 
 // 监听事件
-player.on('play', playEvent);
+player.on(Ayaya.EVENTS.PLAY, playEvent);
 
 // 取消监听事件
-player.off('play', playEvent);
+player.off(Ayaya.EVENTS.PLAY, playEvent);
 
 
 // 2. 有参监听
@@ -137,8 +138,8 @@ player.off('switchSource', sourceChangeEvent); // 取消监听
 #### 日志记录
 
 
-| #           | 值                   | 说明                                                      |
-| ----------- | -------------------- | --------------------------------------------------------- |
-| loggerType  | 0 \| 1               | 0 在页面输出<br />1 在浏览器 console 输出                 |
-| loggerLevel | 0 \| 1 \| 2 \| 3\| 4 | 0 DEBUG<br />1 INFO<br />2 WARN<br />3 ERROR<br />4 FATAL |
+| #          | 值                   | 说明                                                      |
+| ---------- | -------------------- | --------------------------------------------------------- |
+| loggerType | 0 \| 1               | 0 在页面输出<br />1 在浏览器 console 输出                 |
+| logLevel   | 0 \| 1 \| 2 \| 3\| 4 | 0 DEBUG<br />1 INFO<br />2 WARN<br />3 ERROR<br />4 FATAL |
 

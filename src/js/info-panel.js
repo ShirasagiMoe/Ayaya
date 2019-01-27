@@ -17,7 +17,10 @@ class InfoPanel {
     this.events.host = this.panel.querySelector('.host')
     this.events.playerMode = this.panel.querySelector('.player-mode')
     this.events.codecs = this.panel.querySelector('.codecs')
-
+    this.stats = {
+      p2pDown: 0,
+      p2pUp: 0
+    }
     this.isShow = false
 
     this.panel.querySelector('.close').addEventListener('click', (e) => {
@@ -57,7 +60,7 @@ class InfoPanel {
 
   trigger (stats) {
     const { element, events } = this
-    logger.info('stats', stats)
+    logger.debug('stats', stats)
     if (stats) {
       events.droppedFrames.innerText = `${stats.droppedFrames}/${stats.totalFrames}`
       events.connectionSpeed.innerText = (stats.fragLastKbps / 8).toFixed(2) + 'Kb/s'
@@ -66,13 +69,15 @@ class InfoPanel {
     events.viewport.innerText = element.offsetWidth + 'x' + element.offsetHeight
   }
 
-  triggerP2P (stats) {
-    const { events } = this
-    logger.info('p2p stats', stats)
-    if (stats.p2pSupport) {
-      const down = stats.totalP2PDownloaded || 0
-      const up = stats.totalP2PUploaded || 0
-      events.p2pSpeed.innerText = `Down:${down + 'KB/s'} / UP:${up + 'KB/s'}`
+  triggerP2P (stat) {
+    const { events, stats } = this
+    logger.debug('p2p stats', stat)
+    if (stat.p2pSupport) {
+      const down = stat.totalP2PDownloaded || 0
+      const up = stat.totalP2PUploaded || 0
+      stats.p2pDown += down
+      stats.p2pUp += up
+      events.p2pSpeed.innerText = `Down:${stats.p2pDown + 'KB'} / UP:${stats.p2pUp + 'KB'}`
     } else {
       events.p2pSpeed.innerText = `DISABLED`
     }

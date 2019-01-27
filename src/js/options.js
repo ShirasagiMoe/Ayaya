@@ -11,6 +11,8 @@ export default (options) => {
     mobile: false,
     hotkey: false,
     autoplay: false,
+    lightSwitch: false,
+    logLevel: 0,
     loop: false,
     volume: 40
   }
