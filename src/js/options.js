@@ -1,4 +1,7 @@
 import PLAYER_TYPE from './player-type'
+import Logger from './logger'
+
+const logger = Logger.getLogger()
 
 export default (options) => {
   const isMobile = /mobile/i.test(window.navigator.userAgent)
@@ -34,6 +37,8 @@ export default (options) => {
       src: ''
     }
   }
+
+  logger.setLevel(options.logLevel)
 
   return options
 }

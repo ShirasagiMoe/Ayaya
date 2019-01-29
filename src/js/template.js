@@ -19,6 +19,9 @@ export default (options) => {
 
   el.classList.add('ayaya-wrapper')
   el.innerHTML = hbsHtml
+  if (options.mobile) {
+    el.classList.add('mobile')
+  }
 
   return el
 }

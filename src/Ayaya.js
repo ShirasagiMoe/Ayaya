@@ -24,9 +24,7 @@ class Ayaya {
     this.options = options(option)
     this.options.ayayaId = ayayaId
     this.inited = false
-    logger.setLevel(this.options.logLevel)
     this.element = render(this.options)
-
     this.video = this.element.getElementsByClassName('ayaya-video')[0]
     this.volume = this.options.volume
 
@@ -46,6 +44,9 @@ class Ayaya {
     event.register(EVENTS.P2P_STATS, (stats) => {
       infoPanel.triggerP2P(stats)
     })
+    /* event.register(EVENTS.PLAYER_LIGHT, (bool) => {
+      this.controller._light()
+    }) */
   }
 
   init () {
@@ -201,6 +202,10 @@ class Ayaya {
     }
   }
 
+  light (bool) {
+    this.controller._light(bool)
+  }
+
   /**
    * 注册事件监听
    * 必须传递监听事件回调方法
@@ -225,6 +230,17 @@ class Ayaya {
   off (eventName, method = null) {
     const { event } = this
     event.unregister(eventName, method)
+  }
+
+  /**
+   * 触发一个事件
+   *
+   * @param eventName
+   * @param args
+   */
+  trigger (eventName, ...args) {
+    const { event } = this
+    event.dispatch(eventName, args)
   }
 
   /**

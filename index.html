@@ -27,6 +27,7 @@ Date: 2017/01/01
         <button id="log" onclick="log()">Log</button>
 
         <button id="switch" onclick="switchSource()">SwitchSource</button>
+        <button onclick="lightSwitch()">开关灯</button>
     </div>
 
     <div id="player">
@@ -65,6 +66,12 @@ Date: 2017/01/01
     player.on(Ayaya.EVENTS.PLAYER_LIGHT, function (light) {
         Ayaya.logger.info('当前开关状态', light)
     })
+
+    var lastLightStats = false
+    function lightSwitch() {
+        lastLightStats = !lastLightStats
+        player.light(lastLightStats)
+    }
 </script>
 </body>
 </html>

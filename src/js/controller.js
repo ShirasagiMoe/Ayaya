@@ -410,11 +410,11 @@ class Controller {
     }
   }
 
-  _light () {
+  _light (bool = false) {
     const { event } = this.player
-    const text = this.isLight ? '关灯' : '开灯'
+    const text = bool ? '关灯' : '开灯'
     this.lightElement.innerHTML = text
-    this.isLight = !this.isLight
+    this.isLight = bool
     event.dispatch(EVENTS.PLAYER_LIGHT, this.isLight)
   }
 
