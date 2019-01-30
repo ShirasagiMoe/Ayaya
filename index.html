@@ -27,6 +27,7 @@ Date: 2017/01/01
         <button id="log" onclick="log()">Log</button>
 
         <button id="switch" onclick="switchSource()">SwitchSource</button>
+        <button onclick="switchSource2()">SwitchSource2</button>
         <button onclick="lightSwitch()">开关灯</button>
     </div>
 
@@ -54,23 +55,35 @@ Date: 2017/01/01
     var player = new Ayaya({
         element: document.getElementById('player'),
         type: 'hls',
-        logLevel: 1,
+        logLevel: 0,
         lightSwitch: true,
         video: {
             poster: 'poster.png',
             src: '/build/02/02.m3u8'
         },
-        volume: 60
+        volume: 10
     });
 
-    player.on(Ayaya.EVENTS.PLAYER_LIGHT, function (light) {
-        Ayaya.logger.info('当前开关状态', light)
+    player.once(Ayaya.EVENTS.PLAYER_LIGHT, function (light) {
+        Ayaya.logger.info('当前开关状态', light);
+    })
+
+    player.on(Ayaya.EVENTS.READY, function () {
+        Ayaya.logger.info('视频准备完毕，可以开始播放')
+        player.play()
     })
 
     var lastLightStats = false
     function lightSwitch() {
-        lastLightStats = !lastLightStats
-        player.light(lastLightStats)
+        lastLightStats = !lastLightStats;
+        player.light(lastLightStats);
+    }
+
+    function switchSource() {
+        player.switchSource('/build/01/01.m3u8')
+    }
+    function switchSource2() {
+        player.switchSource('/build/02/02.m3u8')
     }
 </script>
 </body>

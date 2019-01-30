@@ -65,11 +65,18 @@ const hlsInit = (hls, event) => {
 
     stats.levelNb = data.levels.length
     stats.levelParsed = 0
+    // trigger event ready
+    event.dispatch(EVENTS.READY)
   })
   // fired when we know about the codecs that we need buffers for to push into
   hls.on(Hls.Events.BUFFER_CODECS, (t, data) => {
     stats.codec = data && data.video.container + ';codecs=' + data.video.codec + '"'
   })
+/*
+  hls.once(Hls.Events.LEVEL_LOADED, (e, data) => {
+
+  })
+*/
 
   hls.on(Hls.Events.LEVEL_LOADED, (e, data) => {
     const info = {
@@ -88,8 +95,6 @@ const hlsInit = (hls, event) => {
     stats.levelParsed++
     stats.levelParsingUs = Math.round(1000 * stats.sumLevelParsingMs / stats.levelParsed)
     hlsEvent.load.push(info)
-    // trigger event ready
-    event.dispatch(EVENTS.READY)
   })
 
   hls.on(Hls.Events.FRAG_BUFFERED, (e, data) => {

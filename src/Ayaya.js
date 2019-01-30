@@ -27,7 +27,7 @@ class Ayaya {
     this.element = render(this.options)
     this.video = this.element.getElementsByClassName('ayaya-video')[0]
     this.volume = this.options.volume
-
+    this.panelUpdateIv = 0
     // First: initialize events
     this.event = new Event()
 
@@ -144,7 +144,7 @@ class Ayaya {
   stop () {
     const { video, event, controller } = this
 
-    video.stop()
+    video.pause()
     controller.removeListener()
     controller.resetLoadBar()
 
@@ -163,6 +163,14 @@ class Ayaya {
     video.currentTime = time
     event.dispatch(EVENTS.SEEK, time)
     return this
+  }
+
+  switchSource (source, type = null) {
+    const { notice, event, options, video } = this
+    this.stop()
+    notice.showAutoHide('正在切换视频源')
+    this.inited = initMediaSource(video, (type !== null ? type : options.type), source, event)
+    video.volume = computeVolume(options.volume).fix
   }
 
   playbackRate (rate) {
@@ -212,14 +220,25 @@ class Ayaya {
    *
    * @param eventName
    * @param method
+   * @param once
    */
-  on (eventName, method) {
+  on (eventName, method, once = false) {
     const { event } = this
     if (typeof method === 'function') {
-      event.register(eventName, method)
+      event.register(eventName, method, once)
     }
   }
 
+  /**
+   * 注册只监听一次的事件监听
+   * 必须传递监听事件回调方法
+   *
+   * @param eventName
+   * @param method
+   */
+  once (eventName, method) {
+    this.on(eventName, method, true)
+  }
   /**
    * 取消事件监听
    * 必须传递被监听事件回调方法

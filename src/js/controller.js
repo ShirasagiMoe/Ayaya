@@ -334,7 +334,6 @@ class Controller {
     }
 
     const loadedFun = () => {
-      this.player.event.dispatch(EVENTS.READY)
       loaded()
     }
 

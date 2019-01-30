@@ -1,13 +1,28 @@
 import { EventNoFoundException, EventMethodNoFoundException } from './exception/EventException'
+import Logger from './logger'
+
+const logger = Logger.getLogger()
 
 class EventManager {
   constructor () {
     this._events = {}
   }
 
-  register (event, method) {
+  register (event, method, once = false) {
+    const _this = this
     if (this._events[event] === undefined) {
       this._events[event] = []
+    }
+    if (once) {
+      let onceMethod
+      const off = () => _this.unregister(event, onceMethod)
+      onceMethod = (args) => {
+        off(event, onceMethod)
+        // method.apply(this, arguments)
+        method(args)
+      }
+      this._events[event].push(onceMethod)
+      return
     }
     this._events[event].push(method)
   }
@@ -30,6 +45,7 @@ class EventManager {
 
   dispatch (event, args = null) {
     if (this._events[event] === undefined) {
+      logger.warn(`dispatch event error, the event named "${event}" is not existed!`)
       // throw new EventDispatchException(`dispatch event error, the event named "${event}" is not existed!`)
       return
     }

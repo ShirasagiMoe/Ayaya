@@ -1,6 +1,6 @@
 {
   "name": "ayaya",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "A simple Media Player.",
   "author": "sendya",
   "license": "MIT",
@@ -12,8 +12,8 @@
     "video",
     "media-player"
   ],
-  "main": "dist/MPlayer.js",
-  "style": "dist/MPlayer.css",
+  "main": "dist/Ayaya.js",
+  "style": "dist/Ayaya.css",
   "devDependencies": {
     "@types/hls.js": "^0.12.0",
     "autoprefixer": "^6.7.2",

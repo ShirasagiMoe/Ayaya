@@ -82,18 +82,19 @@ player.switchSource('//demo.loacg.com/assets/video/WakabaGirl.mp4');
 #### 播放器事件
 
 
-| 事件名       | 回调参数                             | 说明                                                         |
-| ------------ | ------------------------------------ | ------------------------------------------------------------ |
-| play         | function() {}                        | 播放视频时  无参                                             |
-| pause        | function() {}                        | 暂停播放时  无参                                             |
-| played       | function() {}                        | 播放结束时  无参                                             |
-| stop         | function() {}                        | 停止播放时(播放结束)                                         |
-| seek         | function(int) {}                     | 点击播放进度跳转时间轴时<br />跳过时间轴的秒数               |
-| volume       | function(int) {}                     | 修改播放器音量时触发 <br />参数 修改的音量大小               |
-| switchSource | function({type: 'xx', src: 'xx'}) {} | 切换播放源<br />参数 type: 播放器类型(hls, html5, dash, flv)<br />src: 切换前的视频源 |
-| playbackRate | function(rate) {}                    | 播放器当前播放速度<br />参数 rate: int                       |
-| screen       | function(modeType)                   | 播放器屏幕显示模式<br />参数 modeType: <br />0 - 正常<br />1 - web 全屏<br />2 - 屏幕全屏 |
-| destroy      | function() {}                        | 播放器被销毁时  无参                                         |
+| 事件名       | 回调参数           | 说明                                                         |
+| ------------ | ------------------ | ------------------------------------------------------------ |
+| play         | function() {}      | 播放视频时  无参                                             |
+| pause        | function() {}      | 暂停播放时  无参                                             |
+| played       | function() {}      | 播放结束时  无参                                             |
+| ready        | function() {}      | 当视频元信息加载完毕时触发，此时可以开始调用播放             |
+| stop         | function() {}      | 停止播放时(播放结束)                                         |
+| ended        | function() {}      | 当播放结束时                                                 |
+| seek         | function(int) {}   | 点击播放进度跳转时间轴时<br />跳过时间轴的秒数               |
+| volume       | function(int) {}   | 修改播放器音量时触发 <br />参数 修改的音量大小               |
+| playbackRate | function(rate) {}  | 播放器当前播放速度<br />参数 rate: int                       |
+| fullscreen   | function(modeType) | 播放器屏幕显示模式<br />参数 modeType: <br />0 - 正常<br />1 - web 全屏<br />2 - 屏幕全屏 |
+| destroy      | function() {}      | 播放器被销毁时  无参                                         |
 
 #### 事件绑定例子
 ```javascript
@@ -123,23 +124,22 @@ player.off(Ayaya.EVENTS.PLAY, playEvent);
 
 
 // 2. 有参监听
-function sourceChangeEvent(parameter) {
-    console.log(parameter); // {type: 'hls', src: ''}
+function light(parameter) {
+    console.log(parameter); // true / false
 
-    console.log('player type:', parameter.type);
-    console.log('origin video source:', parameter.src)
+    console.log('now turn light:', parameter);
 }
-player.on('switchSource', sourceChangeEvent); // 监听
-player.off('switchSource', sourceChangeEvent); // 取消监听
-
+player.on(Ayaya.EVENTS.PLAYER_LIGHT, light); // 监听
+player.off(Ayaya.EVENTS.PLAYER_LIGHT, light); // 取消监听
+player.once(Ayaya.EVENTS.PLAYER_LIGHT, light); // 只监听一次，之后都不在触发
 ```
 
 
 #### 日志记录
 
 
-| #          | 值                   | 说明                                                      |
-| ---------- | -------------------- | --------------------------------------------------------- |
-| loggerType | 0 \| 1               | 0 在页面输出<br />1 在浏览器 console 输出                 |
-| logLevel   | 0 \| 1 \| 2 \| 3\| 4 | 0 DEBUG<br />1 INFO<br />2 WARN<br />3 ERROR<br />4 FATAL |
+| #          | 值        | 说明                                                      |
+| ---------- | --------- | --------------------------------------------------------- |
+| loggerType | 0, 1      | 0 在页面输出<br />1 在浏览器 console 输出                 |
+| logLevel   | 0,1,2,3,4 | 0 DEBUG<br />1 INFO<br />2 WARN<br />3 ERROR<br />4 FATAL |
 
