@@ -1,0 +1,82 @@
+// video
+.video-wrapper {
+  font-size: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  background: #000;
+
+  .ayaya-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+.video-play-status-mask {
+  display: none;
+  opacity: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 50px;
+  width: 50px;
+  margin: -25px 0 0 -25px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  transform: scale(1.2);
+
+  &.show {
+    animation: play-status-show 1s;
+  }
+
+  .play-status {
+    margin: 10%;
+    width: 80%;
+    height: 80%;
+    padding-left: 5px;
+
+    .svg-font {
+      width: 100%;
+      height: 100%;
+      vertical-align: -0.15em;
+      fill: currentColor;
+      overflow: hidden;
+    }
+  }
+}
+.video-mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  transition: all 0.5s ease;
+
+  &.pause {
+    cursor: pointer;
+  }
+
+  &.play {
+    cursor: default;
+  }
+
+  .icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -50px 0 0 -50px;
+    width: 100px;
+    height: 100px;
+    padding: 0;
+    opacity: 0.33;
+  }
+
+  .svg-font {
+    width: 100px;
+    height: 100px;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+  }
+}

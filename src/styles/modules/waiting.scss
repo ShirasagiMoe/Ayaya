@@ -1,0 +1,29 @@
+// waiting wrap
+&.player-waiting {
+  .video-waiting {
+    opacity: 1;
+    /*animation:circle 1.2s infinite linear;*/
+    color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5rem;
+    height: 5rem;
+    margin-left: -1.5rem;
+    margin-top: -1rem;
+    z-index: 299;
+  }
+}
+
+.video-waiting {
+  opacity: 0;
+  position: absolute;
+  color: rgba(255, 255, 255, 0.7);
+  top: 50%;
+  left: 50%;
+  width: 3rem;
+  height: 3rem;
+  margin-left: -1.5rem;
+  margin-top: -1.5rem;
+  z-index: 1;
+}

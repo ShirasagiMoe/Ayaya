@@ -1,0 +1,15 @@
+// hidden cursor
+&.player-web-full,
+&.player-screen-full {
+  user-select: none;
+}
+
+// fullscreen
+&.player-web-full {
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  position: fixed;
+  z-index: 200;
+}
